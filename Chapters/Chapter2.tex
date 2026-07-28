@@ -1,0 +1,271 @@
+% Chapter 2
+
+\chapter{Methodology} % Write in your own chapter title
+\label{Chapter2}
+\lhead{\emph{Methodology}} % Write in your own chapter title to set the page header
+\fancyfoot[CE,CO]{\hline \\ \small Alshaima Alnaqbi  • Dep. of Applied Physics and Astronomy • UoS • 2026}
+
+This chapter describes the computational methodology that will be used to study nova hydrogen burning through dynamic single-zone nuclear reaction network calculations. The calculations will be performed using prescribed thermodynamic histories and different nuclear network sizes in order to investigate how temperature-density evolution and network completeness affect the final nucleosynthetic outcome. The main focus will be on the production and evolution of CNO isotopes, especially $^{14}\mathrm{N}$, $^{15}\mathrm{N}$, $^{14}\mathrm{O}$, and $^{15}\mathrm{O}$.
+
+The nuclear reaction network calculations in this study will be performed using the NucNet Tools package developed by Bradley S. Meyer and collaborators at Clemson University. NucNet Tools provides a computational framework for constructing nuclear reaction networks, preparing zone input files, evolving nuclear abundances under prescribed thermodynamic conditions, and analysing the resulting nucleosynthesis output. In this work, the package will be used to carry out dynamic single-zone hydrogen-burning calculations for both exponential and trajectory-based thermodynamic histories. The initial nuclear abundances will be adopted from the \cite{bergemann2025chemical} solar abundance data, which provide the starting composition for the nova-like burning calculations. These initial abundances will be used to construct the input zone files.
+
+\section{Single-Zone Nuclear Reaction Network}
+
+The study will be based on single-zone nuclear reaction network calculations. In this approximation, the burning material is represented by one homogeneous zone. The temperature and density of the zone are prescribed as functions of time, while the nuclear abundances are evolved by solving a coupled system of ordinary differential equations. Although this approach does not describe the full hydrodynamic structure of a nova envelope, it is useful for isolating the effects of nuclear reactions, thermodynamic history, and freeze-out on the final abundance pattern.
+
+The abundance of each nuclide will be expressed in terms of the molar abundance,
+
+\begin{equation}
+    Y_i = \frac{X_i}{A_i}
+\end{equation}
+
+where $X_i$ is the mass fraction of nuclide $i$ and $A_i$ is its mass number. The time evolution of the abundance vector will be calculated using a nuclear reaction network that includes the relevant charged-particle reactions, beta decays, and other nuclear processes important for hydrogen burning. The general form of the abundance evolution can be written as
+
+\begin{equation}
+    \frac{dY_i}{dt} = \sum_j N_{ij} r_j 
+\end{equation}
+
+where $r_j$ is the rate of reaction $j$, and $N_{ij}$ describes the net production or destruction of nuclide $i$ by that reaction.
+
+The main diagnostic quantity used in this work will be the abundance ratio
+
+\begin{equation}
+\label{eq:ratio}
+    R_{15/14} =
+\frac{^{15}\mathrm{N}+^{15}\mathrm{O}}
+{^{14}\mathrm{N}+^{14}\mathrm{O}}
+\end{equation}
+
+
+This ratio is useful because it traces the redistribution of material between the $A=14$ and $A=15$ CNO isotopes during hot hydrogen burning. It is sensitive to proton captures, beta decays, and the freeze-out conditions after the thermodynamic evolution becomes too cool for further efficient nuclear processing.
+
+\section{Initial Composition}
+
+The calculations will begin from a solar-like initial composition \cite{bergemann2025chemical}. The initial mass fractions will include hydrogen, helium, CNO isotopes, and heavier nuclei, depending on the chosen network size. Particular attention will be given to the initial abundances of $^{14}\mathrm{N}$, $^{15}\mathrm{N}$, $^{14}\mathrm{O}$, and $^{15}\mathrm{O}$, since these nuclei define the diagnostic ratio $R_{15/14}$.
+
+For each calculation, the initial value of the diagnostic ratio will be computed from the starting abundances. The final ratio will then be compared with the initial value in order to quantify the degree of enhancement caused by nova hydrogen burning. The enhancement factor will be defined as
+
+\begin{equation}
+    f_{\mathrm{enh}} =
+\frac{R_{15/14}^{\mathrm{final}}}
+{R_{15/14}^{\mathrm{initial}}}
+\end{equation}
+
+This quantity will be used to compare the nucleosynthetic effect of different thermodynamic histories and different network sizes.
+
+\section{Thermodynamic Histories}
+
+Two main thermodynamic prescriptions will be used: an exponential model and a trajectory-based model. These two prescriptions represent different levels of physical realism and will allow the study to test how strongly the final abundance pattern depends on the adopted temperature-density history.
+
+\subsection{Exponential Thermodynamic Model}
+
+In the exponential thermodynamic model, the density and temperature are prescribed analytically as functions of time. The density is assumed to decrease according to
+
+\begin{equation}
+    \rho(t)=\rho_0 \exp\left(-\frac{t}{\tau}\right)
+\end{equation}
+
+where $\rho_0$ is the initial density and $\tau$ is the expansion timescale. The temperature is given by
+
+\begin{equation}
+T_9(t)=T_{9,0}\exp\left(-\frac{t}{3\tau}\right)
+\end{equation}
+
+where $T_{9,0}$ is the initial temperature in units of $10^9~\mathrm{K}$.
+
+The reference exponential calculation will use $T_{9,0}=0.20, \rho_0 = 1.5\times10^4~\mathrm{g~cm^{-3}}, \tau = 0.2~\mathrm{s},$ and the calculation will be followed to $ t_{\mathrm{end}} = 100~\mathrm{s}$. This model represents a rapidly expanding and cooling zone. It is expected that most of the nuclear processing will occur at early times, after which the temperature and density will become too low for efficient burning, and the abundances will freeze out.
+Additional exponential calculations may also be performed with different values of the expansion timescale $\tau$, such as $\tau = 0.05,\ 0.10,\ 0.20,\ 0.50,\ 1.00~\mathrm{s}$. These runs will be used to test how the cooling rate affects the final value of $R_{15/14}$ and the freeze-out behaviour.
+
+\subsection{Thermodynamic Trajectory Model}
+
+In the trajectory-based model, the temperature and density will be taken from an external nova thermodynamic trajectory file. During the nuclear network calculation, the values of $T_9$ and $\rho$ will be obtained by interpolation from the trajectory file. This allows the calculation to follow a more realistic nova-like thermodynamic history, including slow early evolution, rapid heating, a delayed temperature peak, and subsequent cooling. The trajectory calculation will be followed for long times, typically $t_{\mathrm{end}} \approx 3.15\times10^7~\mathrm{s}$, in order to include both the active burning phase and the final freeze-out stage. The delayed temperature peak in the trajectory model is expected to produce stronger hot-CNO processing than the simple exponential cooling case. The trajectory-based calculation will be compared directly with the exponential calculation by examining the evolution of $T_9(t)$, $\rho(t)$, key CNO isotopes, and the ratio $R_{15/14}$.
+
+\section{Network-Size Calculations}
+
+To determine whether the final CNO isotopic outcome depends on the size of the nuclear network, several calculations will be performed using different network limits. The purpose of this step is to test whether the diagnostic ratio $R_{15/14}$ is controlled mainly by local CNO cycling or whether leakage into heavier nuclei affects the final result.
+
+The following network cases will be considered:
+
+\begin{table}[h!]
+\centering
+\caption{Planned nuclear network cases.}
+\begin{tabular}{lll}
+\hline
+Network case & Approximate nuclear range & Purpose \\
+\hline
+Small network & $Z \leq 10$ & CNO-limited calculation \\
+Intermediate network & $Z \leq 20$ & Includes extension beyond CNO \\
+Large network & $Z \leq 30$ or $Z \leq 40$ & Extended nova network \\
+\hline
+\end{tabular}
+\label{tab:network_cases}
+\end{table}
+
+For each network size, the same thermodynamic trajectory will be used so that differences in the final abundances can be attributed mainly to the network content. The final value of $R_{15/14}$ will be recorded for each case. The relative difference from the largest network will be calculated as
+
+\begin{equation}
+    \Delta R =
+\frac{
+R_{15/14}^{\mathrm{network}}
+-
+R_{15/14}^{\mathrm{large}}
+}
+{
+R_{15/14}^{\mathrm{large}}
+}.
+\end{equation}
+
+If the final ratio remains nearly unchanged as the network is enlarged, this will indicate that the ratio is mainly controlled by local CNO reactions. If the ratio changes significantly, this will suggest that leakage into heavier reaction cycles, such as the Ne--Na or Mg--Al cycles, affects the CNO isotopic outcome.
+
+\section{Abundance Evolution Analysis}
+
+For each calculation, the time evolution of selected isotopes will be extracted and analysed. The primary isotopes of interest are $^{14}\mathrm{N},\quad ^{15}\mathrm{N},\quad ^{14}\mathrm{O},\quad ^{15}\mathrm{O}$. The abundance ratio $R_{15/14}$ will be computed at every output time using
+
+\begin{equation}
+    R_{15/14}(t) =
+\frac{Y(^{15}\mathrm{N})+Y(^{15}\mathrm{O})}
+{Y(^{14}\mathrm{N})+Y(^{14}\mathrm{O})}
+\end{equation}
+
+The evolution of this ratio will be plotted as a function of time for both the exponential and trajectory-based calculations. The analysis will identify the initial value, the maximum value, the final freeze-out value, and the enhancement factor.
+
+For each model, the following quantities will be reported:
+
+\begin{enumerate}
+    \item Initial value of $R_{15/14}$.
+    \item Final value of $R_{15/14}$.
+    \item Enhancement factor $f_{\mathrm{enh}}$.
+    \item Time of strongest change in $R_{15/14}$.
+    \item Approximate freeze-out time.
+\end{enumerate}
+
+The freeze-out time will be estimated as the time after which the diagnostic ratio changes by less than a chosen tolerance. For example, one may define freeze-out as the time $t_{\mathrm{fo}}$ after which
+
+\[
+\left|
+\frac{R_{15/14}(t_{\mathrm{final}})-R_{15/14}(t)}
+{R_{15/14}(t_{\mathrm{final}})}
+\right|
+< 0.01 .
+\]
+
+This definition corresponds to the time after which the ratio is within one percent of its final value.
+
+\section{Reaction-Flow Analysis}
+
+Reaction-flow analysis will be performed to identify the dominant nuclear pathways responsible for the production and destruction of the key CNO isotopes. For a two-body proton-capture reaction, the reaction flow can be written as
+
+\begin{equation}
+   F_{i(p,\gamma)j}
+=
+\rho N_A \langle \sigma v \rangle_i Y_i Y_p  
+\label{eq:flow}
+\end{equation}
+
+
+where $\rho$ is the density, $N_A \langle \sigma v \rangle_i$ is the thermonuclear reaction rate, $Y_i$ is the abundance of the target nuclide, and $Y_p$ is the proton abundance. For beta decays, the flow is given by
+\begin{equation}
+    F_{\beta,i} = \lambda_i Y_i
+    \label{eq:betaflows}
+\end{equation}
+
+where $\lambda_i$ is the beta-decay constant of nuclide $i$. The main CNO reactions to be examined include $^{12}\mathrm{C}(p,\gamma)^{13}\mathrm{N}, ^{13}\mathrm{N}(p,\gamma)^{14}\mathrm{O}, ^{14}\mathrm{N}(p,\gamma)^{15}\mathrm{O}, ^{14}\mathrm{O}(\beta^+)^{14}\mathrm{N}, ^{15}\mathrm{O}(\beta^+)^{15}\mathrm{N}, ^{15}\mathrm{N}(p,\alpha)^{12}\mathrm{C}, $ and $^{15}\mathrm{N}(p,\gamma)^{16}\mathrm{O}. $
+
+The flows will be plotted as functions of time and, where useful, as functions of temperature. These plots will show which reactions dominate during the early phase, near the temperature maximum, and during freeze-out. The reaction-flow analysis will be used to identify nuclear bottlenecks. In standard CNO burning, the reaction $^{14}\mathrm{N}(p,\gamma)^{15}\mathrm{O}$ is often an important bottleneck. In hot-CNO conditions, beta decays such as $^{14}\mathrm{O}(\beta^+)^{14}\mathrm{N}$ and $^{15}\mathrm{O}(\beta^+)^{15}\mathrm{N}$ may also become important in controlling the abundance flow. This study will examine how these bottlenecks depend on the thermodynamic history.
+
+\section{Timescale Analysis}
+
+Timescale analysis will be carried out to determine when nuclear reactions can keep up with the changing thermodynamic conditions and when the abundance pattern freezes out.
+
+For proton-capture reactions, the nuclear timescale will be estimated as
+
+\begin{equation}
+    \tau_{p\gamma,i} = \frac{1}{\rho Y_p N_A \langle \sigma v \rangle_i}
+\end{equation}
+
+For beta decays, the timescale is $\tau_{\beta,i} = \frac{1}{\lambda_i}$. The thermodynamic timescale associated with temperature evolution will be defined as
+
+\begin{equation}
+    \tau_T =
+\left|
+\frac{T_9}{dT_9/dt}
+\right|
+\end{equation}
+
+
+Similarly, a density timescale may be defined as
+
+\begin{equation}
+\tau_{\rho} =
+\left|
+\frac{\rho}{d\rho/dt}
+\right|.
+\end{equation}
+
+
+The nuclear timescales will be compared with $\tau_T$ and $\tau_\rho$. If a nuclear timescale is shorter than the thermodynamic timescale, the reaction can proceed efficiently under the changing conditions. If the nuclear timescale becomes longer than the thermodynamic timescale, the reaction can no longer keep up, and the abundance pattern begins to freeze out.
+
+This comparison will be used to identify the time and temperature range where the main CNO reactions become ineffective. It will also help explain the difference between the exponential and trajectory-based calculations. In the exponential model, rapid cooling is expected to produce early freeze-out, while in the trajectory model, the delayed temperature peak may allow stronger nuclear processing before freeze-out.
+
+\section{Quasi-Equilibrium and Freeze-Out Diagnostics}
+
+At nova temperatures, the system is not expected to reach full nuclear statistical equilibrium. Instead, parts of the CNO cycle may approach quasi-equilibrium or steady-flow behavior during the active burning phase. This will be tested by comparing the magnitudes of the main reaction flows around the CNO cycle.
+
+A steady-flow condition may be approximately written as
+
+\[
+F_{^{12}\mathrm{C}(p,\gamma)}
+\approx
+F_{^{13}\mathrm{N}(p,\gamma)}
+\approx
+F_{^{14}\mathrm{N}(p,\gamma)}
+\approx
+F_{^{15}\mathrm{N}(p,\alpha)} .
+\]
+
+If these flows are approximately equal over a certain time interval, the CNO cycle may be considered close to quasi-steady flow. If one flow is much smaller than the others, that reaction acts as a bottleneck and prevents full steady cycling.
+
+The breakdown of quasi-equilibrium will be studied by examining when the flow ratios depart significantly from unity. For two reactions $a$ and $b$, a flow ratio can be defined as
+
+\begin{equation}
+    Q_{ab}(t) =
+\frac{F_a(t)}{F_b(t)}
+\end{equation}
+
+Values of $Q_{ab}$ close to unity indicate similar flow strengths, while large deviations indicate that the flow is no longer balanced. The time at which these deviations become large will be interpreted as the onset of freeze-out or the breakdown of steady-flow behaviour.
+
+\section{Comparison Between Exponential and Trajectory Models}
+
+The exponential and trajectory-based calculations will be compared using the same diagnostic quantities. The comparison will include:
+
+\begin{enumerate}
+    \item Temperature evolution $T_9(t)$.
+    \item Density evolution $\rho(t)$.
+    \item Abundance evolution of key CNO isotopes.
+    \item Evolution of $R_{15/14}(t)$.
+    \item Final value of $R_{15/14}$.
+    \item Enhancement factor relative to the initial value.
+    \item Dominant reaction flows.
+    \item Nuclear and thermodynamic timescales.
+    \item Freeze-out time.
+\end{enumerate}
+
+This comparison aims to determine how the thermodynamic history affects the final nucleosynthetic outcome. The exponential model provides a simple monotonic cooling reference case, while the trajectory model provides a more nova-like evolution with a delayed temperature maximum. Differences between the two cases will be interpreted in terms of reaction flows, timescales, and freeze-out behaviour.
+\section{Summary of the Computational Plan}
+
+The complete set of calculations planned for this study is summarised as follows:
+
+\begin{enumerate}
+    \item Perform the reference exponential single-zone calculation.
+    \item Perform the reference trajectory-based single-zone calculation.
+    \item Compare the abundance evolution and final $R_{15/14}$ values for both thermodynamic histories.
+    \item Repeat the trajectory-based calculation for different network sizes.
+    \item Test whether the final CNO ratio converges as the network size increases.
+    \item Extract and analyse the dominant CNO reaction flows.
+    \item Compute proton-capture, beta-decay, and thermodynamic timescales.
+    \item Identify the freeze-out conditions.
+    \item Examine whether the CNO cycle reaches quasi-steady flow during the active burning phase.
+    \item Interpret the final abundance pattern in terms of thermodynamic history, reaction bottlenecks, and freeze-out.
+\end{enumerate}
+
+This methodology will provide a systematic framework for understanding how exponential and trajectory-based thermodynamic histories influence hydrogen burning and CNO isotope production in nova-like environments.

@@ -1,0 +1,81 @@
+% Chapter 1
+
+\chapter{Introduction} % Write in your own chapter title
+\label{Chapter1}
+\lhead{\emph{Introduction}} % Write in your own chapter title to set the page header
+\fancyfoot[CE,CO]{\hline \\ \small Alshaima Alnaqbi  • Dep. of Applied Physics and Astronomy • UoS • 2026}
+
+
+\section{Overview}
+
+Classical nova are explosive stellar events produced in close binary systems when hydrogen-rich material is accreted onto the surface of a white dwarf. As the accreted envelope becomes compressed and heated, thermonuclear burning is triggered under degenerate or partially degenerate conditions, leading to a rapid increase in temperature and energy generation. During this phase, hydrogen burning proceeds mainly through the CNO cycles, and the resulting nucleosynthesis can significantly modify the abundances of light and intermediate-mass nuclei. Isotopes such as $^{14}N, ^{15}N, ^{14}O$, and $^{15}O$ are important tracers of the hot-CNO reaction flow and the freeze-out conditions after the temperature declines.
+
+Single-zone nuclear reaction network calculations provide a useful first step for studying nova nucleosynthesis. Although they do not capture the full hydrodynamic structure of a nova envelope, they allow the nuclear physics and thermodynamic effects to be examined in a controlled way. In such calculations, the abundance evolution is followed under a prescribed temperature and density history. The adopted thermodynamic evolution is therefore a key ingredient: an idealised exponential expansion can describe rapid cooling in a simple analytic form, while a thermodynamic trajectory profile can represent a more realistic nova-like heating and cooling history.
+
+In this work, we perform dynamic single-zone nuclear network calculations of hydrogen burning under nova-like conditions using two thermodynamic prescriptions: an exponential expansion model and a trajectory-based model. We focus on the evolution of the diagnostic abundance ratio $(15N+15O)/(14N+14O)$, which is sensitive to the competition between proton captures, beta decays, and freeze-out in the hot-CNO cycle. We first compare the abundance evolution
+
+\subsection{Previous Studies }
+
+
+Hydrogen burning in classical novae proceeds primarily through the CNO cycles, where oxygen isotopes play a central role in both energy generation and nucleosynthesis. Early foundational studies in nuclear astrophysics established the importance of the CNO cycle in stellar environments, particularly under high-temperature conditions relevant to explosive hydrogen burning \cite{RolfsRodney1988,Adelberger2011}. These works showed that isotopes such as $^{16}\mathrm{O}$, $^{17}\mathrm{O}$, and $^{18}\mathrm{O}$ participate in reaction chains that regulate the overall reaction flow and final isotopic abundances.
+
+Detailed nova simulations have demonstrated that oxygen isotopes are highly sensitive to the underlying white dwarf composition and peak thermodynamic conditions. In particular, \cite{JoseHernanz1998} showed that nucleosynthesis differs significantly between CO and ONe white dwarfs, leading to distinct abundance patterns for oxygen and nearby elements. This highlights the importance of initial composition and thermodynamic evolution in determining oxygen isotope production.
+
+Single-zone nuclear network calculations have been widely used to study hydrogen burning under prescribed thermodynamic trajectories. Reaction rate libraries developed by \cite{Iliadis2002} enable detailed post-processing studies, while \cite{Iliadis2001} specifically investigated the sensitivity of isotopic abundances from oxygen to calcium to variations in thermonuclear reaction rates. These studies demonstrated that uncertainties in key proton-capture reactions can significantly affect the predicted abundances of oxygen isotopes.
+
+The impact of nuclear reaction rate uncertainties has been further explored using statistical approaches. Monte Carlo studies by \cite{Parikh2013,Parikh2014} identified the most critical reactions influencing nova nucleosynthesis, including those involving oxygen isotopes. In particular, reactions such as $^{17}\mathrm{O}(p,\alpha)$ and $^{18}\mathrm{F}(p,\alpha)$ play a crucial role in determining the final abundance distribution within the CNO region.
+
+Thermodynamic trajectories also have a strong influence on hydrogen burning pathways. The work of \cite{Downen2013} demonstrated that variations in temperature and density histories can lead to significant differences in nucleosynthesis outcomes. Similarly, \cite{Denissenkov2014} emphasized the role of mixing processes and accretion history in shaping the thermodynamic evolution, which in turn affects oxygen isotope production during nova outbursts.
+
+Advances in nuclear physics input have improved the reliability of nova models. Updated thermonuclear reaction rate evaluations by \cite{Iliadis2010} and uncertainty analyses by \cite{Champagne2014} provide essential constraints for modeling hydrogen burning processes. These improvements are particularly important for reactions involving oxygen isotopes, where experimental data are still limited.
+
+Recent reviews have summarized progress in the field and highlighted remaining challenges. For example, \cite{Jose2020} emphasized the interplay between nuclear reaction rates, thermodynamic conditions, and mixing processes in shaping nova nucleosynthesis. Their work confirms that oxygen isotopes serve as key tracers of the physical conditions governing explosive hydrogen burning.
+
+Overall, previous studies demonstrate that single-zone nuclear network calculations are powerful tools for investigating hydrogen burning in nova environments. They provide important insights into how thermodynamic trajectories and nuclear reaction rates influence the synthesis and destruction of oxygen isotopes within the CNO cycles.
+
+
+\section{Problem of the Study}
+
+Classical novae are important astrophysical sites for explosive hydrogen burning and the production of light and intermediate-mass isotopes. During a nova outburst, accreted hydrogen-rich material on the surface of a white dwarf undergoes thermonuclear burning under rapidly changing temperature and density conditions. The resulting nucleosynthesis is strongly influenced by the hot-CNO cycle, in which isotopes such as $^{14}\mathrm{N}$, $^{15}\mathrm{N}$, $^{14}\mathrm{O}$, and $^{15}\mathrm{O}$ play a central role.
+
+A major difficulty in modelling nova nucleosynthesis is understanding how the assumed thermodynamic history affects the final abundance pattern. Idealized single-zone calculations often use simple analytic prescriptions, such as exponential expansion and cooling, while more realistic calculations may use thermodynamic trajectory profiles extracted from nova models. These different approaches can lead to different nuclear processing histories and different final isotopic ratios. Therefore, it is necessary to investigate how sensitive the nucleosynthetic outcome is to the adopted temperature-density evolution.
+
+Preliminary calculations show that the diagnostic abundance ratio
+\[
+R_{15/14} =
+\frac{^{15}\mathrm{N}+^{15}\mathrm{O}}
+{^{14}\mathrm{N}+^{14}\mathrm{O}}
+\]
+is strongly affected by the thermodynamic prescription. In the exponential model, rapid cooling leads to early nuclear burning followed by freeze-out, while in the trajectory-based model, a delayed temperature peak produces stronger hot-CNO processing and a larger final enhancement of this ratio. However, further analysis is required to determine whether these results remain robust when larger nuclear networks are used, and to identify the reaction flows, nuclear timescales, and quasi-equilibrium behavior that control the final abundances.
+
+The problem addressed in this study is therefore the need to determine how thermodynamic history and network size influence CNO isotope production during nova hydrogen burning. The study will focus on dynamic single-zone nuclear reaction network calculations and will examine the physical mechanisms responsible for the production and freeze-out of $^{15}\mathrm{N}$-rich material.
+
+\subsection{Goals of the Study}
+
+The main goal of this study is to investigate hydrogen burning in nova-like environments using dynamic single-zone nuclear reaction network calculations. The study aims to compare idealized exponential thermodynamic evolution with trajectory-based thermodynamic evolution and to determine how these different prescriptions affect the final CNO isotopic composition.
+
+The specific goals of the study are:
+
+\begin{enumerate}
+    \item To reproduce and analyse preliminary single-zone nova hydrogen-burning calculations using exponential and thermodynamic trajectory models.
+
+    \item To study the time evolution of key CNO isotopes, especially $^{14}\mathrm{N}$, $^{15}\mathrm{N}$, $^{14}\mathrm{O}$, and $^{15}\mathrm{O}$.
+
+    \item To quantify the evolution of the diagnostic abundance ratio
+    \[
+    R_{15/14} =
+    \frac{^{15}\mathrm{N}+^{15}\mathrm{O}}
+    {^{14}\mathrm{N}+^{14}\mathrm{O}},
+    \]
+    and compare its final value for different thermodynamic histories.
+
+    \item To extend the calculations to larger nuclear networks and examine whether the final CNO isotopic outcome depends on network size.
+
+    \item To identify the dominant reaction flows in the hot-CNO cycle and determine the main nuclear bottlenecks controlling the abundance evolution.
+
+    \item To compute nuclear and thermodynamic timescales in order to determine when active burning occurs and when the abundance pattern freezes out.
+
+    \item To investigate whether parts of the CNO cycle approach quasi-equilibrium or steady-flow behaviour during the active burning phase.
+
+    \item To provide a physical interpretation of how temperature-density evolution controls the production of $^{15}\mathrm{N}$-rich material in nova hydrogen burning.
+\end{enumerate}
