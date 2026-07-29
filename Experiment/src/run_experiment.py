@@ -81,6 +81,16 @@ class Run:
 
 def build_runs() -> List[Run]:
     trajectory = th.nova_trajectory()
+    # The trajectory file sets its own span.  Integrating past its last row
+    # would mean holding the final temperature and density fixed for ever,
+    # which is an extrapolation rather than a result; the composition has
+    # frozen long before then in any case.
+    traj_end = float(trajectory.time[-1])
+    traj_peak = th.peak_time(trajectory)
+    # Extra output points across the burning episode, which lasts of order a
+    # minute and would otherwise fall between two points of a logarithmic grid
+    # spanning five decades.
+    traj_window = (0.5 * traj_peak, 5.0 * traj_peak)
     runs: List[Run] = [
         Run(
             name="exp_ref",
@@ -98,9 +108,9 @@ def build_runs() -> List[Run]:
             description="Reference trajectory model, small network (Z <= 10)",
             thermo=trajectory.thermo,
             t_start=1.0e-5,
-            t_end=th.NOVA_T_END,
+            t_end=traj_end,
             detailed=True,
-            dense_window=(0.5 * th.NOVA_T_PEAK, 5.0 * th.NOVA_T_PEAK),
+            dense_window=traj_window,
         ),
         Run(
             name="traj_z20",
@@ -108,8 +118,8 @@ def build_runs() -> List[Run]:
             description="Trajectory model, intermediate network (Z <= 20)",
             thermo=trajectory.thermo,
             t_start=1.0e-5,
-            t_end=th.NOVA_T_END,
-            dense_window=(0.5 * th.NOVA_T_PEAK, 5.0 * th.NOVA_T_PEAK),
+            t_end=traj_end,
+            dense_window=traj_window,
         ),
         Run(
             name="traj_z30",
@@ -117,8 +127,8 @@ def build_runs() -> List[Run]:
             description="Trajectory model, large network (Z <= 30)",
             thermo=trajectory.thermo,
             t_start=1.0e-5,
-            t_end=th.NOVA_T_END,
-            dense_window=(0.5 * th.NOVA_T_PEAK, 5.0 * th.NOVA_T_PEAK),
+            t_end=traj_end,
+            dense_window=traj_window,
         ),
     ]
 
@@ -256,7 +266,6 @@ def _write_csv(path: Path, columns: Dict[str, np.ndarray]) -> None:
 
 def main(selected: Optional[List[str]] = None) -> None:
     RESULTS.mkdir(parents=True, exist_ok=True)
-    th.write_reference_trajectory()
 
     runs = build_runs()
     if selected:

@@ -17,26 +17,19 @@ here from :meth:`Trajectory.from_columns` instead, to follow the proposal.
 
 Trajectory model
 ----------------
-The nova trajectory is a tabulated temperature-density history read with
-:func:`nucnetpy.read_trajectory`.  If no measured trajectory file is supplied,
-:func:`write_reference_trajectory` generates the reference nova history used in
-this study, which reproduces the behaviour described in the proposal: a long
-quiescent phase near ``T9 = 0.091`` and ``rho = 2.21e4 g/cm^3``, a
-thermonuclear runaway that peaks at ``T9 = 0.447`` about 100 s in, and
-adiabatic expansion and cooling afterwards, followed out to one year.
+The nova trajectory is the tabulated temperature-density history of a zone in a
+typical nova explosion, ``data/trajectories/nova_profile_rescaled.txt``, read
+with :func:`nucnetpy.read_trajectory`.  It starts at ``T9 = 0.09128`` and
+``rho = 2.211e4 g/cm^3``, rises to ``T9 = 0.4481`` at ``t = 103.89 s``, and
+then cools and expands out to ``t = 1.13e5 s``, by which point ``T9`` has
+fallen to ``1.3e-7`` and the density to ``1.4e-12 g/cm^3``.  The temperature
+stays above ``T9 = 0.2`` for 17 s and above ``T9 = 0.1`` for 75 s, so the
+burning episode is a broad peak rather than a spike.
 
-The runaway is modelled as a steep power-law rise in temperature at very nearly
-constant density (the envelope is degenerate, so it cannot expand while it
-heats).  After the peak the envelope expands homologously, its radius growing
-linearly with time on a timescale ``tau_exp``, so that
-
-    rho = rho_peak (1 + (t - t_peak) / tau_exp)^-3
-    T9  = T9_peak  (rho / rho_peak)^(2/3)
-
-the second relation being adiabatic expansion of an ideal monatomic gas.  This
-is a reconstruction, not a hydrodynamic result: the file is deliberately kept
-as a separate, swappable data file so that a trajectory extracted from a real
-nova model can be dropped in without touching any of the analysis.
+If that file is ever missing, :func:`write_reference_trajectory` generates a
+crude analytic stand-in with the same start point, peak and peak time, so the
+rest of the code still runs.  It is not used when the measured profile is
+present, and no result in this study rests on it.
 """
 
 from __future__ import annotations
@@ -49,6 +42,11 @@ from nucnetpy import Trajectory, read_trajectory
 
 ROOT = Path(__file__).resolve().parent.parent
 TRAJECTORY_DIR = ROOT / "data" / "trajectories"
+
+#: The measured nova profile: time (s), T9, density (g/cm^3).
+NOVA_PROFILE = TRAJECTORY_DIR / "nova_profile_rescaled.txt"
+
+#: Analytic stand-in, used only if the measured profile is missing.
 REFERENCE_TRAJECTORY = TRAJECTORY_DIR / "nova_reference.txt"
 
 #: Temperature floor applied to both histories.
@@ -145,11 +143,37 @@ def write_reference_trajectory(path: Path = REFERENCE_TRAJECTORY, n: int = 4000)
     return path
 
 
-def nova_trajectory(path: Path = REFERENCE_TRAJECTORY) -> Trajectory:
-    """Read the nova trajectory, generating the reference file if it is absent."""
-    if not path.exists():
-        write_reference_trajectory(path)
-    return read_trajectory(path)
+def nova_trajectory(path: Path | None = None) -> Trajectory:
+    """Read the nova trajectory, floored so the rate fits stay in range.
+
+    The measured profile is used when it is there.  Only if it is missing does
+    the analytic stand-in get generated and used instead.
+
+    The floor matters for a measured profile: this one cools to ``T9 = 1.3e-7``
+    and ``rho = 1.4e-12``, far below the range the ReacLib fits were made for.
+    Evaluated there, some of them diverge.  Everything nuclear has finished by
+    the time the floor takes effect -- ``T9`` first drops below 0.01 at
+    ``t = 344 s``, and the only reactions still running after that are beta
+    decays, which do not depend on temperature.
+    """
+    if path is not None:
+        trajectory = read_trajectory(path)
+    elif NOVA_PROFILE.exists():
+        trajectory = read_trajectory(NOVA_PROFILE)
+    else:
+        write_reference_trajectory(REFERENCE_TRAJECTORY)
+        trajectory = read_trajectory(REFERENCE_TRAJECTORY)
+
+    return Trajectory(
+        trajectory.time,
+        np.maximum(trajectory.t9, T9_FLOOR),
+        np.maximum(trajectory.rho, RHO_FLOOR),
+    )
+
+
+def peak_time(trajectory: Trajectory) -> float:
+    """Time at which the trajectory is hottest."""
+    return float(trajectory.time[int(np.argmax(trajectory.t9))])
 
 
 def timescales(trajectory: Trajectory) -> tuple[np.ndarray, np.ndarray]:

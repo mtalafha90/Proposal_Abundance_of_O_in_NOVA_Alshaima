@@ -11,8 +11,8 @@ The computational plan of the methodology chapter, in order:
 
 1. the reference exponential single-zone calculation,
    `T9_0 = 0.20`, `rho_0 = 1.5e4 g/cm^3`, `tau = 0.2 s`, followed to 100 s;
-2. the reference trajectory-based single-zone calculation, followed to
-   `3.15e7 s`;
+2. the reference trajectory-based single-zone calculation, following the
+   measured nova profile to the end of its file at `1.13e5 s`;
 3. the comparison of the two histories through the diagnostic ratio
    `R = (Y(15N) + Y(15O)) / (Y(14N) + Y(14O))`;
 4. the trajectory calculation repeated on three networks (`Z<=10`, `Z<=20`,
@@ -83,17 +83,38 @@ This step is not needed to repeat the calculations: the network archives in
 | Masses | AME atomic mass evaluation |
 | Composition | Solar, Bergemann, Lodders & Palme (2025), with solar isotopic splits |
 | Nuclides | `Z <= Z_max` and neutron excess `N - Z <= 3 + Z/4`, a band wide enough to keep every stable isotope of the starting composition; drip-line nuclides without a measured mass, and particle-unbound nuclides, are eliminated |
-| Solver | `nucnetpy.evolve_zone`, SciPy BDF with NucNetPy's analytic Jacobian, `rtol = 1e-8`, `atol = 1e-30` |
+| Solver | `nucnetpy.evolve_zone`, SciPy BDF with NucNetPy's analytic Jacobian, `rtol = 1e-8`, `atol = 1e-25` |
 | Screening | None. At `T9 <= 0.45` and `rho <= 2e4 g/cm^3` the plasma is weakly coupled and screening changes the CNO rates by well under a per cent |
 
-## A note on the trajectory file
+## The trajectory file
 
-The nova temperature-density history is `data/trajectories/nova_reference.txt`.
-It is a **reconstruction**, built to match the behaviour described in the
-proposal (a quiescent phase at `T9 = 0.091` and `rho = 2.21e4 g/cm^3`, a
-runaway peaking at `T9 = 0.447` about 100 s in, then adiabatic expansion), not
-an extract from a hydrodynamic nova model. It is kept as a separate data file
-in a plain three-column `time T9 rho` format, which is what
-`nucnetpy.read_trajectory` reads, so a trajectory from a real nova model can be
-dropped in its place and everything downstream will run unchanged. The
-parameterisation is documented in `src/thermodynamics.py`.
+The nova temperature-density history is
+`data/trajectories/nova_profile_rescaled.txt`, the profile of a zone in a
+typical nova explosion: three columns of time (s), temperature (in units of
+`1e9 K`) and density (g cm^-3), read by `nucnetpy.read_trajectory`.
+
+```
+t = 0          T9 = 0.09128   rho = 2.211e4 g/cm^3
+t = 103.89 s   T9 = 0.4481    rho = 4.07e3         <- hottest point
+t = 1.13e5 s   T9 = 1.3e-7    rho = 1.4e-12        <- last row
+```
+
+The burning episode is a broad peak rather than a spike: the temperature stays
+above `T9 = 0.2` for 17 s and above `T9 = 0.1` for 75 s.
+
+Two things are worth knowing about how it is used.
+
+- **The runs stop where the file stops**, at `t = 1.13e5 s`, rather than at the
+  `3.15e7 s` named in the proposal. Going further would mean holding the last
+  row's temperature and density fixed for two more decades of time, which is an
+  extrapolation rather than a result. Nothing is lost: the diagnostic ratio is
+  within one per cent of its final value by 155 s, and the longest-lived
+  species that matters, `18F`, is gone by `1e5 s`.
+- **The temperature is floored at `T9 = 0.01`**, which the profile reaches at
+  `t = 344 s`. ReacLib's fits are not made for temperatures below that and some
+  of them diverge if pushed there. By then only beta decays are still running,
+  and those do not depend on temperature.
+
+`src/thermodynamics.py` can also generate a crude analytic stand-in with the
+same start point and peak, used only if the measured profile is missing. No
+result here rests on it.
