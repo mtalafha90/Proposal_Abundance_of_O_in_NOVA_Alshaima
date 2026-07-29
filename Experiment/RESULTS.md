@@ -1,0 +1,243 @@
+# Results
+
+Every number below comes from the runs in `results/`, computed with NucNetPy.
+Figures are in `figures/`; the LaTeX versions of the tables are in
+`results/tables/`.
+
+The trajectory model uses the measured nova profile
+`data/trajectories/nova_profile_rescaled.txt`, which starts at
+$T_9 = 0.09128$, $\rho = 2.211\times10^4$ g cm$^{-3}$, peaks at
+$T_9 = 0.4481$ at $t = 103.89$ s, and is followed to the end of the file at
+$t = 1.13\times10^5$ s.
+
+## 1. The two reference calculations
+
+| Model | Thermodynamic behaviour | $R^{\rm initial}$ | $R^{\rm final}$ | $f_{\rm enh}$ | $t_{\rm fo}$ | $T_{9,\max}$ |
+|---|---|---|---|---|---|---|
+| Exponential | immediate cooling | 3.68e-3 | **0.460** | 125 | 0.23 s | 0.200 |
+| Trajectory | delayed temperature peak | 3.68e-3 | **3.230** | 879 | 155 s | 0.448 |
+
+Both agree with the values quoted in the proposal, which gives
+$R^{\rm final} \approx 0.4$–$0.5$ for the exponential model and "of order a
+few" for the trajectory model. The shapes of the curves also match the
+proposal's figures: an early bump, a sharp dip, a long climb, an overshoot, and
+a flat freeze-out plateau (`figures/fig07_ratio_comparison.png`).
+
+The ratio peaks at 3.97 during the burning phase and settles at 3.23, so the
+trajectory model enhances $^{15}$N-rich material by a factor of 879 over the
+solar starting composition, against 125 for the exponential model.
+
+**One point of bookkeeping.** The methodology chapter defines the ratio from
+molar abundances,
+$R = (Y_{15\rm N}+Y_{15\rm O})/(Y_{14\rm N}+Y_{14\rm O})$, which for the solar
+starting composition gives $R^{\rm initial} = 3.68\times10^{-3}$. Chapter 3
+quotes $3.9\times10^{-3}$, which is the same composition evaluated as a ratio of
+*mass fractions*, $X(^{15}{\rm N})/X(^{14}{\rm N})$. The two differ by the
+factor $14/15$. The molar definition is used throughout here, because that is
+the one the methodology chapter gives; the enhancement factor is barely
+affected either way.
+
+## 2. Why the ratio moves when it does
+
+The reaction flows (`fig08`, `fig09`) and the timescales (`fig10`, `fig11`)
+explain the shape of the curves.
+
+**The early dip is real, not numerical.** At the starting temperature the two
+fastest reactions in the whole network are $^{18}{\rm O}({\rm p},\alpha)^{15}{\rm N}$
+and $^{15}{\rm N}({\rm p},\alpha)^{12}{\rm C}$. The second destroys the solar
+$^{15}$N far faster than anything replaces it, so $R$ falls by more than an
+order of magnitude before the CNO cycle has begun to turn. This is also what
+sets the initial nuclear energy generation, about $10^{15}$ erg g$^{-1}$
+s$^{-1}$ (`fig14`, `fig15`).
+
+**The climb is the hot-CNO cycle turning over.** $^{12}{\rm C}({\rm p},\gamma)$
+feeds $^{13}$N, and from there the flow reaches $^{14}$O and $^{15}$O. Because
+$^{14}$O and $^{15}$O are beta-unstable with half-lives of 71 s and 122 s, they
+build up while the material is hot and then decay to $^{14}$N and $^{15}$N once
+it is not. $^{15}$O is made faster than $^{14}$O, so the ratio ends far above
+its starting value.
+
+**Freeze-out is when the proton-capture timescale overtakes the
+thermodynamic timescale.** In the exponential model
+$\tau_T = 3\tau = 0.6$ s throughout, and the proton-capture timescales rise
+through it within the first second; the ratio is within one per cent of its
+final value by $t_{\rm fo} = 0.23$ s. In the trajectory model $\tau_T$ is
+effectively infinite during the quiescent phase, collapses to a few seconds
+across the runaway, and then grows again; freeze-out follows at
+$t_{\rm fo} = 155$ s, once the beta decays of $^{14}$O and $^{15}$O have run to
+completion.
+
+**The trajectory produces more $^{15}$N because it burns hotter, for longer.**
+The peak temperature is 0.448 against 0.200, and the measured profile holds the
+material above $T_9 = 0.2$ for 17 seconds and above $T_9 = 0.1$ for 75 seconds
+rather than cooling away from the peak immediately. That sustained plateau is
+what the exponential model has no counterpart for, and it is the reason the two
+histories differ by a factor of seven in the final ratio.
+
+## 3. What happens to oxygen
+
+The proposal is about oxygen in novae, so it is worth recording the elemental
+outcome as well as the isotopic ratio. Total elemental mass fractions, start to
+finish:
+
+| Element | Initial | Exponential | Trajectory ($Z\leq10$) | Trajectory ($Z\leq30$) |
+|---|---|---|---|---|
+| C | 2.30e-3 | 1.11e-4 (×0.05) | 1.04e-3 (×0.45) | 1.04e-3 (×0.45) |
+| N | 8.00e-4 | 2.27e-3 (×2.8) | 7.77e-3 (×9.7) | 7.74e-3 (×9.7) |
+| O | 5.79e-3 | 6.78e-3 (×1.2) | 4.28e-6 (×0.0007) | 1.24e-6 (×0.0002) |
+
+**The two thermodynamic histories do opposite things to oxygen.** The
+exponential model, which never gets above $T_9 = 0.2$, leaves oxygen slightly
+enhanced: it burns carbon into nitrogen and a little oxygen, and then freezes.
+The trajectory model, which reaches $T_9 = 0.448$, destroys oxygen by a factor
+of 1350 and converts it into nitrogen, which ends up ten times its solar value.
+$^{16}$O falls from a mass fraction of 5.77e-3 to 2.96e-6.
+
+The path is the hot-CNO one:
+$^{16}{\rm O}({\rm p},\gamma)^{17}{\rm F}(\beta^+)^{17}{\rm O}({\rm p},\alpha)^{14}{\rm N}$.
+Once the temperature is high enough for $^{16}$O to capture a proton faster
+than the envelope cools, oxygen is a way station on the road to nitrogen
+rather than an endpoint. This is the well-known signature of nova ejecta:
+nitrogen-rich, carbon- and oxygen-poor relative to solar.
+
+So the same peak temperature that raises $R_{15/14}$ by a factor of seven over
+the exponential case also decides whether oxygen survives at all. Any
+measurement of oxygen in nova ejecta is therefore a strong constraint on the
+peak temperature — arguably a sharper one than the isotopic ratio, because the
+effect is three orders of magnitude rather than a factor of seven.
+
+## 4. Steady flow
+
+The flow ratios $Q_{ab} = F_a / F_{^{14}{\rm N}({\rm p},\gamma)}$ (`fig12`,
+`fig13`) answer the quasi-equilibrium question directly: **the CNO cycle does
+not reach steady flow, except momentarily.**
+
+In the trajectory model the three ratios span more than six orders of magnitude
+during the quiescent phase, converge towards unity only in the few seconds
+around the temperature peak, and separate again immediately afterwards. So
+there is a brief interval near maximum temperature where the cycle approaches
+quasi-steady flow, and nothing resembling it before or after.
+$^{14}{\rm N}({\rm p},\gamma)^{15}{\rm O}$ is the slowest link throughout,
+which is the classical CNO bottleneck.
+
+## 5. Sensitivity to the expansion timescale
+
+| $\tau$ (s) | $R^{\rm final}$ | $f_{\rm enh}$ | $t_{\rm fo}$ (s) |
+|---|---|---|---|
+| 0.05 | 0.584 | 159 | 0.052 |
+| 0.10 | 0.609 | 166 | 0.112 |
+| 0.20 | 0.460 | 125 | 0.226 |
+| 0.50 | 0.330 | 90 | 0.454 |
+| 1.00 | 0.315 | 86 | 0.352 |
+
+The final ratio is not monotonic in $\tau$ (`fig17`). It peaks near
+$\tau \approx 0.1$ s and falls away on both sides. Fast cooling freezes the
+composition before much $^{15}$O can be made; slow cooling leaves enough time
+at moderate temperature for $^{15}{\rm N}({\rm p},\alpha)$ to destroy some of
+what was made. The largest enhancement comes from the intermediate case, and
+the whole range is only a factor of two wide — much smaller than the factor of
+seven between the exponential and trajectory models.
+
+## 6. Network size
+
+| Network | Range | Nuclides | Reactions | $R^{\rm final}$ | $\Delta R$ |
+|---|---|---|---|---|---|
+| Small | $Z\leq10$ | 68 | 535 | 3.2299 | +0.016% |
+| Intermediate | $Z\leq20$ | 201 | 2119 | 3.2297 | +0.008% |
+| Large | $Z\leq30$ | 370 | 4172 | 3.2294 | — |
+
+**The diagnostic ratio is controlled entirely by local CNO cycling.** Going
+from 68 nuclides to 370 changes it by less than two parts in ten thousand.
+This settles the question the proposal poses: leakage into heavier reaction
+cycles does not affect the CNO isotopic outcome, and the small network is
+enough for this diagnostic.
+
+That does not mean the heavier nuclei do nothing. The larger networks show
+real processing above neon during the burning phase — neon down to a tenth of
+its starting value, sodium up fourteenfold, sulphur up threefold, argon up
+sevenfold — which is the Ne-Na and Mg-Al cycling the proposal anticipates. Iron
+is untouched, as it must be at these temperatures. None of it feeds back on the
+$A=14$ and $A=15$ CNO isotopes: the flow runs one way, out of the CNO region and
+upwards, and it is far too small to affect the CNO abundances it leaves behind.
+
+Practically, this means the small network is the one to use for the remaining
+work: it gives the same CNO answer roughly six times faster (1280 s against
+7545 s for one trajectory run). The larger networks are still worth running
+when the question is about Ne-Na or Mg-Al, where they are the whole point.
+
+## 7. Numerical quality
+
+| Check | Result |
+|---|---|
+| Baryon number, every reaction | exact, all three networks |
+| Charge changes | only $\pm1$, i.e. beta decays with the leptons left out of the ReacLib record |
+| Dead-end nuclides | none |
+| Infinite or prompt rates in range | none |
+| Beta-decay rates vs measured half-lives | within 0.2% for $^{13}$N, $^{14}$O, $^{15}$O, $^{17}$F, $^{18}$F |
+| NucNetPy XML export vs the archive | identical counts, rates and masses |
+| $\sum_i A_i Y_i$ at the end of a run | 1 to within 2e-14, every run |
+| All nine runs | solver reported success and reached $t_{\rm end}$ |
+| Network-size convergence | 0.016% between the smallest and largest network |
+| Tolerance convergence | $R^{\rm final}$ stable to six figures between `rtol` 1e-6 and 1e-8 |
+
+Four repairs were needed to the network before it behaved:
+
+1. **Particle-unbound nuclides were dead ends.** ReacLib produces $^{5}$Li,
+   $^{8}$Be and $^{9}$B but gives them no way to decay, so they slowly
+   accumulated material that should have gone back to $\alpha$ particles and
+   protons. Every reaction producing one is now written directly to its
+   break-up products, the way $^{8}$B beta decay is normally written as
+   $^{8}{\rm B} \rightarrow 2\alpha$.
+
+2. **One prompt proton emitter was left in.** $^{18}{\rm Na} \rightarrow
+   {\rm p} + ^{17}{\rm Ne}$ carries a rate of $5\times10^{20}$ s$^{-1}$ in
+   ReacLib. It was eliminated the same way. This is found automatically now,
+   by testing for one-body rates above $10^{12}$ s$^{-1}$.
+
+3. **The ReacLib fits must not be extrapolated below $T_9 = 0.01$.** Below it
+   some neutron-induced rates run away to $10^{24}$ s$^{-1}$ and beyond. Both
+   thermodynamic histories are floored at $T_9 = 0.01$, which costs nothing:
+   charged-particle reactions are already dead there, and the beta decays that
+   still matter during the cooling tail do not depend on temperature.
+
+4. **The neutron-richness cut was throwing away stable isotopes.** A flat
+   $N - Z \leq 3$ band is fine for the CNO region but excludes $^{56}$Fe,
+   $^{44}$Ca and $^{36}$S, because the valley of stability bends away from
+   $N = Z$ as charge rises. Those isotopes are in the starting composition, so
+   their mass was being silently redistributed over the survivors. The cut is
+   now $N - Z \leq 3 + Z/4$, which retains every stable isotope of every
+   element in the composition, and what a network cannot hold is reported
+   explicitly in each run's `composition_truncation` record — 0.32% of the mass
+   for $Z\leq10$, 0.13% for $Z\leq20$, nothing for $Z\leq30$.
+
+None of the four changed the diagnostic ratio. $R^{\rm final}$ for the
+exponential model was 0.46004 before any of them and 0.46004 after all of them.
+That is reassuring rather than surprising: renormalising a composition scales
+every abundance by the same factor, and unbound light nuclei and neutron-rich
+iron do not talk to the CNO cycle. Each was still a defect that would have been
+fair to ask about.
+
+## 8. What is a modelling assumption, not a result
+
+- **The trajectory is measured data; the integration span is a choice.** The
+  profile `data/trajectories/nova_profile_rescaled.txt` is used as given. The
+  runs stop at its last row, $t = 1.13\times10^5$ s, rather than the
+  $3.15\times10^7$ s named in the proposal, because continuing would mean
+  holding the final temperature and density fixed for two further decades of
+  time. That is an extrapolation, not a result, and nothing turns on it: the
+  ratio is within one per cent of its final value by 155 s and the last
+  relevant decay, $^{18}$F, is complete by $10^5$ s.
+- **The temperature is floored at $T_9 = 0.01$**, which the profile reaches at
+  $t = 344$ s, because ReacLib's fits are not made for lower temperatures. Only
+  beta decays are still running by then, and they do not depend on temperature.
+- **Deuterium is set to zero** in the initial composition. Material accreted
+  from the companion has no primordial deuterium left; including the solar
+  value puts a spurious spike on the energy generation in the first
+  microsecond and changes nothing else.
+- **No screening.** At $T_9 \leq 0.45$ and $\rho \leq 2.2\times10^4$ g
+  cm$^{-3}$ the plasma is weakly coupled and screening changes the CNO rates by
+  well under one per cent. NucNetPy's `SkyNetScreening` can be switched on if a
+  quantitative bound is wanted.
+- **Solar starting composition**, as the proposal specifies. Real nova envelopes
+  are mixed with white-dwarf material, which would raise the CNO abundances by
+  a large factor and change the energetics, though not obviously the ratio.

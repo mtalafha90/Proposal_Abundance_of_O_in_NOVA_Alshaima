@@ -1,0 +1,160 @@
+{
+ "composition": {
+  "sum_of_mass_fractions": 0.9999999999999996,
+  "x_n14": 0.0007968611038451478,
+  "x_n15": 3.1388961548522104e-06,
+  "x_n14_in_proposal": 0.000797,
+  "x_n15_in_proposal": 3.14e-06,
+  "r_initial_molar": 0.003676470588235294,
+  "r_initial_by_mass_fraction": 0.003939075630252101
+ },
+ "networks": {
+  "nova_z10": {
+   "species": 68,
+   "reactions": 535,
+   "conservation": {
+    "baryon_violations": [],
+    "charge_changes": {
+     "-1": 24,
+     "1": 33
+    },
+    "charge_changes_are_all_beta": true
+   },
+   "dead_end_nuclides": [],
+   "rate_sanity": {
+    "non_finite": [],
+    "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
+   },
+   "beta_decay_rates": {
+    "n13->c13": {
+     "rate_from_network": 0.001159113256783153,
+     "rate_from_half_life": 0.0011593028609465552,
+     "relative_difference": -0.00016355015569226566
+    },
+    "o14->n14": {
+     "rate_from_network": 0.009817978825996571,
+     "rate_from_half_life": 0.009815168232228055,
+     "relative_difference": 0.00028635207283430426
+    },
+    "o15->n15": {
+     "rate_from_network": 0.005681556796002065,
+     "rate_from_half_life": 0.0056703794221199715,
+     "relative_difference": 0.0019711862381715304
+    },
+    "f17->o17": {
+     "rate_from_network": 0.01074644797435222,
+     "rate_from_half_life": 0.010768171206461787,
+     "relative_difference": -0.0020173557508568855
+    },
+    "f18->o18": {
+     "rate_from_network": 0.00010518182907539113,
+     "rate_from_half_life": 0.0001052455482174226,
+     "relative_difference": -0.0006054331333791131
+    }
+   }
+  },
+  "nova_z20": {
+   "species": 201,
+   "reactions": 2119,
+   "conservation": {
+    "baryon_violations": [],
+    "charge_changes": {
+     "-1": 125,
+     "1": 78
+    },
+    "charge_changes_are_all_beta": true
+   },
+   "dead_end_nuclides": [],
+   "rate_sanity": {
+    "non_finite": [],
+    "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
+   },
+   "beta_decay_rates": {
+    "n13->c13": {
+     "rate_from_network": 0.001159113256783153,
+     "rate_from_half_life": 0.0011593028609465552,
+     "relative_difference": -0.00016355015569226566
+    },
+    "o14->n14": {
+     "rate_from_network": 0.009817978825996571,
+     "rate_from_half_life": 0.009815168232228055,
+     "relative_difference": 0.00028635207283430426
+    },
+    "o15->n15": {
+     "rate_from_network": 0.005681556796002065,
+     "rate_from_half_life": 0.0056703794221199715,
+     "relative_difference": 0.0019711862381715304
+    },
+    "f17->o17": {
+     "rate_from_network": 0.01074644797435222,
+     "rate_from_half_life": 0.010768171206461787,
+     "relative_difference": -0.0020173557508568855
+    },
+    "f18->o18": {
+     "rate_from_network": 0.00010518182907539113,
+     "rate_from_half_life": 0.0001052455482174226,
+     "relative_difference": -0.0006054331333791131
+    }
+   }
+  },
+  "nova_z30": {
+   "species": 370,
+   "reactions": 4172,
+   "conservation": {
+    "baryon_violations": [],
+    "charge_changes": {
+     "-1": 266,
+     "1": 112
+    },
+    "charge_changes_are_all_beta": true
+   },
+   "dead_end_nuclides": [],
+   "rate_sanity": {
+    "non_finite": [],
+    "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
+   },
+   "beta_decay_rates": {
+    "n13->c13": {
+     "rate_from_network": 0.001159113256783153,
+     "rate_from_half_life": 0.0011593028609465552,
+     "relative_difference": -0.00016355015569226566
+    },
+    "o14->n14": {
+     "rate_from_network": 0.009817978825996571,
+     "rate_from_half_life": 0.009815168232228055,
+     "relative_difference": 0.00028635207283430426
+    },
+    "o15->n15": {
+     "rate_from_network": 0.005681556796002065,
+     "rate_from_half_life": 0.0056703794221199715,
+     "relative_difference": 0.0019711862381715304
+    },
+    "f17->o17": {
+     "rate_from_network": 0.01074644797435222,
+     "rate_from_half_life": 0.010768171206461787,
+     "relative_difference": -0.0020173557508568855
+    },
+    "f18->o18": {
+     "rate_from_network": 0.00010518182907539113,
+     "rate_from_half_life": 0.0001052455482174226,
+     "relative_difference": -0.0006054331333791131
+    }
+   }
+  }
+ }
+}
