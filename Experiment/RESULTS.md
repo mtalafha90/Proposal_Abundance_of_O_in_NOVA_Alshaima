@@ -62,7 +62,39 @@ completion.
 The peak temperature is 0.446 against 0.200, and material sits near the peak
 for tens of seconds instead of cooling away from it immediately.
 
-## 3. Steady flow
+## 3. What happens to oxygen
+
+The proposal is about oxygen in novae, so it is worth recording the elemental
+outcome as well as the isotopic ratio. Total elemental mass fractions, start to
+finish:
+
+| Element | Initial | Exponential | Trajectory ($Z\leq10$) | Trajectory ($Z\leq30$) |
+|---|---|---|---|---|
+| C | 2.30e-3 | 1.11e-4 (×0.05) | 7.81e-4 (×0.34) | 7.76e-4 (×0.34) |
+| N | 8.00e-4 | 2.27e-3 (×2.8) | 8.02e-3 (×10.0) | 7.98e-3 (×10.0) |
+| O | 5.79e-3 | 6.78e-3 (×1.2) | 2.76e-5 (×0.005) | 4.67e-7 (×0.0001) |
+
+**The two thermodynamic histories do opposite things to oxygen.** The
+exponential model, which never gets above $T_9 = 0.2$, leaves oxygen slightly
+enhanced: it burns carbon into nitrogen and a little oxygen, and then freezes.
+The trajectory model, which reaches $T_9 = 0.45$, destroys oxygen almost
+completely — by four to five orders of magnitude — and converts it into
+nitrogen, which ends up ten times its solar value.
+
+The path is the hot-CNO one:
+$^{16}{\rm O}({\rm p},\gamma)^{17}{\rm F}(\beta^+)^{17}{\rm O}({\rm p},\alpha)^{14}{\rm N}$.
+Once the temperature is high enough for $^{16}$O to capture a proton faster
+than the envelope cools, oxygen is a way station on the road to nitrogen
+rather than an endpoint. This is the well-known signature of nova ejecta:
+nitrogen-rich, carbon- and oxygen-poor relative to solar.
+
+So the same peak temperature that raises $R_{15/14}$ by a factor of five over
+the exponential case also decides whether oxygen survives at all. Any
+measurement of oxygen in nova ejecta is therefore a strong constraint on the
+peak temperature — arguably a sharper one than the isotopic ratio, because the
+effect is four orders of magnitude rather than a factor of five.
+
+## 4. Steady flow
 
 The flow ratios $Q_{ab} = F_a / F_{^{14}{\rm N}({\rm p},\gamma)}$ (`fig12`,
 `fig13`) answer the quasi-equilibrium question directly: **the CNO cycle does
@@ -76,7 +108,7 @@ quasi-steady flow, and nothing resembling it before or after.
 $^{14}{\rm N}({\rm p},\gamma)^{15}{\rm O}$ is the slowest link throughout,
 which is the classical CNO bottleneck.
 
-## 4. Sensitivity to the expansion timescale
+## 5. Sensitivity to the expansion timescale
 
 | $\tau$ (s) | $R^{\rm final}$ | $f_{\rm enh}$ | $t_{\rm fo}$ (s) |
 |---|---|---|---|
@@ -94,12 +126,33 @@ what was made. The largest enhancement comes from the intermediate case, and
 the whole range is only a factor of two wide — much smaller than the factor of
 five between the exponential and trajectory models.
 
-## 5. Network size
+## 6. Network size
 
-See `results/summary.json` and `results/tables/tab_network_size.tex` for the
-recorded values, and `figures/fig16_network_size.png` for the curves.
+| Network | Range | Nuclides | Reactions | $R^{\rm final}$ | $\Delta R$ |
+|---|---|---|---|---|---|
+| Small | $Z\leq10$ | 68 | 535 | 2.4032 | +0.197% |
+| Intermediate | $Z\leq20$ | 201 | 2119 | 2.3987 | +0.007% |
+| Large | $Z\leq30$ | 370 | 4172 | 2.3985 | — |
 
-## 6. Numerical quality
+**The diagnostic ratio is controlled entirely by local CNO cycling.** Going
+from 68 nuclides to 370 changes it by two parts in a thousand, and the last
+step — from $Z\leq20$ to $Z\leq30$, which nearly doubles the network — changes
+it by seven parts in a hundred thousand. This settles the question the
+proposal poses: leakage into heavier reaction cycles does not affect the CNO
+isotopic outcome, and the small network is enough for this diagnostic.
+
+That does not mean the heavier nuclei do nothing. At the temperature peak the
+larger networks do process silicon and sulphur upwards, ending with roughly
+fifty times the starting calcium. It simply does not feed back on the $A=14$
+and $A=15$ CNO isotopes, because the flow runs one way, out of the CNO region
+and upwards, and is far too small to affect the CNO abundances it leaves
+behind.
+
+Practically, this also means the small network is the one to use for the
+remaining work: it gives the same answer roughly six times faster (1132 s
+against 6712 s for one trajectory run).
+
+## 7. Numerical quality
 
 | Check | Result |
 |---|---|
@@ -108,10 +161,12 @@ recorded values, and `figures/fig16_network_size.png` for the curves.
 | Dead-end nuclides | none |
 | Infinite or prompt rates in range | none |
 | Beta-decay rates vs measured half-lives | within 0.2% for $^{13}$N, $^{14}$O, $^{15}$O, $^{17}$F, $^{18}$F |
-| $\sum_i A_i Y_i$ at the end of a run | 1 to within 1e-15 (exponential), 1e-15 (trajectory) |
+| NucNetPy XML export vs the archive | identical counts, rates and masses |
+| $\sum_i A_i Y_i$ at the end of a run | 1 to within 2e-14, every run |
+| All nine runs | solver reported success and reached $t_{\rm end}$ |
 | Tolerance convergence | $R^{\rm final}$ stable to six figures between `rtol` 1e-6 and 1e-8 |
 
-Three repairs were needed to the network before it behaved:
+Four repairs were needed to the network before it behaved:
 
 1. **Particle-unbound nuclides were dead ends.** ReacLib produces $^{5}$Li,
    $^{8}$Be and $^{9}$B but gives them no way to decay, so they slowly
@@ -131,11 +186,24 @@ Three repairs were needed to the network before it behaved:
    charged-particle reactions are already dead there, and the beta decays that
    still matter during the cooling tail do not depend on temperature.
 
-None of the three changed the diagnostic ratio — $R^{\rm final}$ for the
-exponential model was 0.46004 before and after — but each was a defect that
-would have been fair to ask about.
+4. **The neutron-richness cut was throwing away stable isotopes.** A flat
+   $N - Z \leq 3$ band is fine for the CNO region but excludes $^{56}$Fe,
+   $^{44}$Ca and $^{36}$S, because the valley of stability bends away from
+   $N = Z$ as charge rises. Those isotopes are in the starting composition, so
+   their mass was being silently redistributed over the survivors. The cut is
+   now $N - Z \leq 3 + Z/4$, which retains every stable isotope of every
+   element in the composition, and what a network cannot hold is reported
+   explicitly in each run's `composition_truncation` record — 0.32% of the mass
+   for $Z\leq10$, 0.13% for $Z\leq20$, nothing for $Z\leq30$.
 
-## 7. What is a modelling assumption, not a result
+None of the four changed the diagnostic ratio. $R^{\rm final}$ for the
+exponential model was 0.46004 before any of them and 0.46004 after all of them,
+and the trajectory model gave 2.4032 both times. That is reassuring rather than
+surprising: renormalising a composition scales every abundance by the same
+factor, and unbound light nuclei and neutron-rich iron do not talk to the CNO
+cycle. Each was still a defect that would have been fair to ask about.
+
+## 8. What is a modelling assumption, not a result
 
 - **The nova trajectory is a reconstruction.** No hydrodynamic trajectory file
   was available, so `data/trajectories/nova_reference.txt` was built to match

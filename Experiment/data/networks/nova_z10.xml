@@ -107,6 +107,13 @@
       <spin>0.5</spin>
     </nuclide>
     <nuclide>
+      <z>4</z>
+      <a>12</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>25.0778</mass_excess>
+      <spin>0</spin>
+    </nuclide>
+    <nuclide>
       <z>5</z>
       <a>8</a>
       <source>AME atomic mass evaluation (via pynucastro)</source>
@@ -140,6 +147,13 @@
       <source>AME atomic mass evaluation (via pynucastro)</source>
       <mass_excess>16.561900000000001</mass_excess>
       <spin>1.5</spin>
+    </nuclide>
+    <nuclide>
+      <z>5</z>
+      <a>14</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>23.664000000000001</mass_excess>
+      <spin>2</spin>
     </nuclide>
     <nuclide>
       <z>6</z>
@@ -191,6 +205,13 @@
       <spin>0.5</spin>
     </nuclide>
     <nuclide>
+      <z>6</z>
+      <a>16</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>13.694000000000001</mass_excess>
+      <spin>0</spin>
+    </nuclide>
+    <nuclide>
       <z>7</z>
       <a>11</a>
       <source>AME atomic mass evaluation (via pynucastro)</source>
@@ -238,6 +259,13 @@
       <source>AME atomic mass evaluation (via pynucastro)</source>
       <mass_excess>7.8700000000000001</mass_excess>
       <spin>0.5</spin>
+    </nuclide>
+    <nuclide>
+      <z>7</z>
+      <a>18</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>13.113</mass_excess>
+      <spin>1</spin>
     </nuclide>
     <nuclide>
       <z>8</z>
@@ -293,6 +321,20 @@
       <a>19</a>
       <source>AME atomic mass evaluation (via pynucastro)</source>
       <mass_excess>3.3329</mass_excess>
+      <spin>2.5</spin>
+    </nuclide>
+    <nuclide>
+      <z>8</z>
+      <a>20</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>3.7961999999999998</mass_excess>
+      <spin>0</spin>
+    </nuclide>
+    <nuclide>
+      <z>8</z>
+      <a>21</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>8.0619999999999994</mass_excess>
       <spin>2.5</spin>
     </nuclide>
     <nuclide>
@@ -352,6 +394,20 @@
       <spin>2.5</spin>
     </nuclide>
     <nuclide>
+      <z>9</z>
+      <a>22</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>2.7930000000000001</mass_excess>
+      <spin>4</spin>
+    </nuclide>
+    <nuclide>
+      <z>9</z>
+      <a>23</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>3.29</mass_excess>
+      <spin>2.5</spin>
+    </nuclide>
+    <nuclide>
       <z>10</z>
       <a>16</a>
       <source>AME atomic mass evaluation (via pynucastro)</source>
@@ -406,6 +462,20 @@
       <source>AME atomic mass evaluation (via pynucastro)</source>
       <mass_excess>-5.1540499999999998</mass_excess>
       <spin>2.5</spin>
+    </nuclide>
+    <nuclide>
+      <z>10</z>
+      <a>24</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>-5.9516</mass_excess>
+      <spin>0</spin>
+    </nuclide>
+    <nuclide>
+      <z>10</z>
+      <a>25</a>
+      <source>AME atomic mass evaluation (via pynucastro)</source>
+      <mass_excess>-2.036</mass_excess>
+      <spin>0.5</spin>
     </nuclide>
   </nuclear_data>
   <reaction_data>
@@ -1103,6 +1173,68 @@
     </reaction>
     <reaction>
       <source>reaclib</source>
+      <reactant>b13</reactant>
+      <reactant>n</reactant>
+      <product>b14</product>
+      <non_smoker_fit source="reaclib">
+        <a1>3.9019699999999999</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>10.807700000000001</a1>
+        <a2>-4.7599999999999998</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>-1.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>b14</reactant>
+      <product>b13</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>34.179200000000002</a1>
+        <a2>-16.009</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>27.273399999999999</a1>
+        <a2>-11.249000000000001</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>b14</reactant>
+      <product>c14</product>
+      <non_smoker_fit source="reaclib">
+        <a1>4.0155099999999999</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
       <reactant>b8</reactant>
       <product>be7</product>
       <product>h1</product>
@@ -1390,6 +1522,21 @@
     <reaction>
       <source>reaclib</source>
       <reactant>be11</reactant>
+      <reactant>n</reactant>
+      <product>be12</product>
+      <non_smoker_fit source="reaclib">
+        <a1>5.87493</a1>
+        <a2>-8.6141299999999998e-13</a2>
+        <a3>1.14538e-10</a3>
+        <a4>-3.8394899999999999e-10</a4>
+        <a5>3.8976899999999998e-11</a5>
+        <a6>-3.2895899999999999e-12</a6>
+        <a7>1.2998799999999999e-10</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>be11</reactant>
       <reactant>h1</reactant>
       <product>he4</product>
       <product>li8</product>
@@ -1401,6 +1548,50 @@
         <a5>1.2102900000000001e-10</a5>
         <a6>-1.08657e-11</a6>
         <a7>-0.66666700000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>be12</reactant>
+      <product>b11</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-1.13198</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>be12</reactant>
+      <product>b12</product>
+      <non_smoker_fit source="reaclib">
+        <a1>3.4631400000000001</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>be12</reactant>
+      <product>be11</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>30.1432</a1>
+        <a2>-36.768900000000002</a2>
+        <a3>1.14538e-10</a3>
+        <a4>-3.8394899999999999e-10</a4>
+        <a5>3.8976899999999998e-11</a5>
+        <a6>-3.2895899999999999e-12</a6>
+        <a7>1.5</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -3007,6 +3198,21 @@
     <reaction>
       <source>reaclib</source>
       <reactant>c15</reactant>
+      <reactant>n</reactant>
+      <product>c16</product>
+      <non_smoker_fit source="reaclib">
+        <a1>6.5540700000000003</a1>
+        <a2>-0.00069004600000000004</a2>
+        <a3>0.106378</a3>
+        <a4>-0.44501600000000002</a4>
+        <a5>0.056356000000000003</a5>
+        <a6>-0.0048839199999999999</a6>
+        <a7>1.13388</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>c15</reactant>
       <reactant>h1</reactant>
       <product>n</product>
       <product>n15</product>
@@ -3018,6 +3224,50 @@
         <a5>2.2243799999999999e-10</a5>
         <a6>-2.0197699999999999e-11</a6>
         <a7>-0.66666700000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>c16</reactant>
+      <product>c15</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>30.856100000000001</a1>
+        <a2>-49.3262</a2>
+        <a3>0.106378</a3>
+        <a4>-0.44501600000000002</a4>
+        <a5>0.056356000000000003</a5>
+        <a6>-0.0048839199999999999</a6>
+        <a7>2.63388</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>c16</reactant>
+      <product>n</product>
+      <product>n15</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-0.084873199999999996</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>c16</reactant>
+      <product>n16</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-4.6799900000000001</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -4609,6 +4859,22 @@
     <reaction>
       <source>reaclib</source>
       <reactant>f20</reactant>
+      <reactant>n</reactant>
+      <product>h1</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>56.195700000000002</a1>
+        <a2>-37.048200000000001</a2>
+        <a3>62.397199999999998</a3>
+        <a4>-112.053</a4>
+        <a5>6.1839899999999997</a5>
+        <a6>-0.34577799999999997</a6>
+        <a7>55.526899999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f20</reactant>
       <reactant>h1</reactant>
       <product>he4</product>
       <product>o17</product>
@@ -4685,6 +4951,68 @@
     <reaction>
       <source>reaclib</source>
       <reactant>f21</reactant>
+      <product>h1</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>70.927199999999999</a1>
+        <a2>-131.07300000000001</a2>
+        <a3>62.8872</a3>
+        <a4>-113.054</a4>
+        <a5>6.1684400000000004</a5>
+        <a6>-0.34282699999999999</a6>
+        <a7>57.473100000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f21</reactant>
+      <reactant>he4</reactant>
+      <product>h1</product>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>36.673200000000001</a1>
+        <a2>-1.9340200000000001</a2>
+        <a3>18.435099999999998</a3>
+        <a4>-61.923299999999998</a4>
+        <a5>1.8456699999999999</a5>
+        <a6>-0.061004299999999997</a6>
+        <a7>37.153100000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f21</reactant>
+      <reactant>n</reactant>
+      <product>f22</product>
+      <non_smoker_fit source="reaclib">
+        <a1>4.9558299999999997</a1>
+        <a2>-1.19407e-13</a2>
+        <a3>1.5461999999999999e-11</a3>
+        <a4>-5.0461899999999998e-11</a4>
+        <a5>5.0568499999999998e-12</a5>
+        <a6>-4.25539e-13</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f21</reactant>
+      <reactant>n</reactant>
+      <product>h1</product>
+      <product>o21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>54.593600000000002</a1>
+        <a2>-86.923100000000005</a2>
+        <a3>62.210299999999997</a3>
+        <a4>-108.31100000000001</a4>
+        <a5>5.8299300000000001</a5>
+        <a6>-0.32096599999999997</a6>
+        <a7>54.588200000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f21</reactant>
       <reactant>h1</reactant>
       <product>he4</product>
       <product>o18</product>
@@ -4727,6 +5055,204 @@
         <a5>6.5751999999999997</a5>
         <a6>-0.36895499999999998</a6>
         <a7>60.423099999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <product>f21</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>28.186299999999999</a1>
+        <a2>-60.269100000000002</a2>
+        <a3>1.5461999999999999e-11</a3>
+        <a4>-5.0461899999999998e-11</a4>
+        <a5>5.0568499999999998e-12</a5>
+        <a6>-4.25539e-13</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <product>ne22</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-1.80871</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <product>h1</product>
+      <product>o21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>66.695800000000006</a1>
+        <a2>-147.61500000000001</a2>
+        <a3>61.953299999999999</a3>
+        <a4>-107.36499999999999</a4>
+        <a5>5.7759299999999998</a5>
+        <a6>-0.31472499999999998</a6>
+        <a7>55.801600000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <reactant>he4</reactant>
+      <product>h1</product>
+      <product>ne25</product>
+      <non_smoker_fit source="reaclib">
+        <a1>15.286099999999999</a1>
+        <a2>-0.43994299999999997</a2>
+        <a3>-48.068399999999997</a3>
+        <a4>23.498999999999999</a4>
+        <a5>-3.2844000000000002</a5>
+        <a6>0.237953</a6>
+        <a7>-4.5177300000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <reactant>n</reactant>
+      <product>f23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>5.2781099999999999</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <reactant>h1</reactant>
+      <product>he4</product>
+      <product>o19</product>
+      <non_smoker_fit source="reaclib">
+        <a1>55.058500000000002</a1>
+        <a2>-2.0980599999999998</a2>
+        <a3>69.556600000000003</a3>
+        <a4>-119.907</a4>
+        <a5>6.5503799999999996</a5>
+        <a6>-0.36620799999999998</a6>
+        <a7>60.721200000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <reactant>h1</reactant>
+      <product>n</product>
+      <product>ne22</product>
+      <non_smoker_fit source="reaclib">
+        <a1>59.073799999999999</a1>
+        <a2>-2.1066099999999999</a2>
+        <a3>70.458399999999997</a3>
+        <a4>-122.313</a4>
+        <a5>6.6159600000000003</a5>
+        <a6>-0.36913299999999999</a6>
+        <a7>61.619500000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f22</reactant>
+      <reactant>h1</reactant>
+      <product>ne23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>48.328699999999998</a1>
+        <a2>-2.1038700000000001</a2>
+        <a3>70.122100000000003</a3>
+        <a4>-121.10299999999999</a4>
+        <a5>6.5425500000000003</a5>
+        <a6>-0.355294</a6>
+        <a7>61.234099999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f23</reactant>
+      <product>f22</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>29.322600000000001</a1>
+        <a2>-87.633700000000005</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f23</reactant>
+      <product>ne23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-1.1685099999999999</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f23</reactant>
+      <reactant>h1</reactant>
+      <product>he4</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>56.859299999999998</a1>
+        <a2>-2.1680700000000002</a2>
+        <a3>73.881100000000004</a3>
+        <a4>-127.554</a4>
+        <a5>6.8493700000000004</a5>
+        <a6>-0.36938300000000002</a6>
+        <a7>64.302899999999994</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f23</reactant>
+      <reactant>h1</reactant>
+      <product>n</product>
+      <product>ne23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>60.023600000000002</a1>
+        <a2>-2.1576599999999999</a2>
+        <a3>72.750699999999995</a3>
+        <a4>-125.48</a4>
+        <a5>6.7817400000000001</a5>
+        <a6>-0.37780599999999998</a6>
+        <a7>63.265300000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>f23</reactant>
+      <reactant>h1</reactant>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>48.076000000000001</a1>
+        <a2>-2.1469100000000001</a2>
+        <a3>71.603700000000003</a3>
+        <a4>-122.175</a4>
+        <a5>6.4957200000000004</a5>
+        <a6>-0.35448499999999999</a6>
+        <a7>62.099299999999999</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -6000,6 +6526,22 @@
     <reaction>
       <source>reaclib</source>
       <reactant>he4</reactant>
+      <reactant>n17</reactant>
+      <product>h1</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>48.298900000000003</a1>
+        <a2>-11.175599999999999</a2>
+        <a3>76.863299999999995</a3>
+        <a4>-125.55500000000001</a4>
+        <a5>5.8040200000000004</a5>
+        <a6>-0.267067</a6>
+        <a7>67.444000000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
       <reactant>ne20</reactant>
       <product>c12</product>
       <product>c12</product>
@@ -6562,6 +7104,22 @@
       <source>reaclib</source>
       <reactant>he4</reactant>
       <reactant>o19</reactant>
+      <product>f22</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>54.297600000000003</a1>
+        <a2>-52.2759</a2>
+        <a3>69.556600000000003</a3>
+        <a4>-119.907</a4>
+        <a5>6.5503799999999996</a5>
+        <a6>-0.36620799999999998</a6>
+        <a7>60.721200000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o19</reactant>
       <product>n</product>
       <product>ne22</product>
       <non_smoker_fit source="reaclib">
@@ -6587,6 +7145,84 @@
         <a5>2.8761100000000002</a5>
         <a6>-0.12232899999999999</a6>
         <a7>39.918199999999999</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o20</reactant>
+      <product>f23</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>57.474400000000003</a1>
+        <a2>-53.195300000000003</a2>
+        <a3>73.881100000000004</a3>
+        <a4>-127.554</a4>
+        <a5>6.8493700000000004</a5>
+        <a6>-0.36938300000000002</a6>
+        <a7>64.302899999999994</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o20</reactant>
+      <product>n</product>
+      <product>ne23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>53.190199999999997</a1>
+        <a2>-1.84694</a2>
+        <a3>25.928100000000001</a3>
+        <a4>-79.948300000000003</a4>
+        <a5>3.29894</a5>
+        <a6>-0.14854600000000001</a6>
+        <a7>42.727600000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o20</reactant>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>37.099899999999998</a1>
+        <a2>-1.78935</a2>
+        <a3>19.898700000000002</a3>
+        <a4>-67.252200000000002</a4>
+        <a5>2.5552800000000002</a5>
+        <a6>-0.114106</a6>
+        <a7>37.116599999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o21</reactant>
+      <product>n</product>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>53.913499999999999</a1>
+        <a2>-1.9125000000000001</a2>
+        <a3>28.361699999999999</a3>
+        <a4>-83.129300000000001</a4>
+        <a5>3.4491700000000001</a5>
+        <a6>-0.155723</a6>
+        <a7>44.425400000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>he4</reactant>
+      <reactant>o21</reactant>
+      <product>ne25</product>
+      <non_smoker_fit source="reaclib">
+        <a1>41.759300000000003</a1>
+        <a2>-1.9018999999999999</a2>
+        <a3>27.2088</a3>
+        <a4>-79.9315</a4>
+        <a5>3.1871100000000001</a5>
+        <a6>-0.138465</a6>
+        <a7>43.258200000000002</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -7467,6 +8103,21 @@
     <reaction>
       <source>reaclib</source>
       <reactant>n</reactant>
+      <reactant>n17</reactant>
+      <product>n18</product>
+      <non_smoker_fit source="reaclib">
+        <a1>5.6733200000000004</a1>
+        <a2>-9.1020900000000004e-13</a2>
+        <a3>1.1983599999999999e-10</a3>
+        <a4>-3.9733799999999998e-10</a4>
+        <a5>4.00366e-11</a5>
+        <a6>-3.3650599999999998e-12</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
       <reactant>ne16</reactant>
       <product>f16</product>
       <product>h1</product>
@@ -7804,6 +8455,22 @@
       <source>reaclib</source>
       <reactant>n</reactant>
       <reactant>ne22</reactant>
+      <product>f22</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>61.271000000000001</a1>
+        <a2>-118.55800000000001</a2>
+        <a3>70.458399999999997</a3>
+        <a4>-122.313</a4>
+        <a5>6.6159600000000003</a5>
+        <a6>-0.36913299999999999</a6>
+        <a7>61.619500000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne22</reactant>
       <product>he4</product>
       <product>o19</product>
       <non_smoker_fit source="reaclib">
@@ -7829,6 +8496,93 @@
         <a5>-1.71949</a5>
         <a6>0.17416799999999999</a6>
         <a7>2.0222500000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne23</reactant>
+      <product>f23</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>60.023600000000002</a1>
+        <a2>-91.527799999999999</a2>
+        <a3>72.750699999999995</a3>
+        <a4>-125.48</a4>
+        <a5>6.7817400000000001</a5>
+        <a6>-0.37780599999999998</a6>
+        <a7>63.265300000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne23</reactant>
+      <product>he4</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>52.575099999999999</a1>
+        <a2>-40.188200000000002</a2>
+        <a3>25.928100000000001</a3>
+        <a4>-79.948300000000003</a4>
+        <a5>3.29894</a5>
+        <a6>-0.14854600000000001</a6>
+        <a7>42.727600000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne23</reactant>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>6.1505999999999998</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>6.85961</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne24</reactant>
+      <product>he4</product>
+      <product>o21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>56.891300000000001</a1>
+        <a2>-98.953500000000005</a2>
+        <a3>28.361699999999999</a3>
+        <a4>-83.129300000000001</a4>
+        <a5>3.4491700000000001</a5>
+        <a6>-0.155723</a6>
+        <a7>44.425400000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>ne24</reactant>
+      <product>ne25</product>
+      <non_smoker_fit source="reaclib">
+        <a1>8.5030900000000003</a1>
+        <a2>-1.6606799999999999e-12</a2>
+        <a3>2.1894200000000001e-10</a3>
+        <a4>-7.2637900000000002e-10</a4>
+        <a5>7.3131600000000003e-11</a5>
+        <a6>-6.1392500000000001e-12</a6>
+        <a7>1</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -8162,6 +8916,45 @@
         <a5>-1.62022</a5>
         <a6>0.113592</a6>
         <a7>-3.2616700000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>o19</reactant>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-11.4948</a1>
+        <a2>-0.174902</a2>
+        <a3>-6.2513800000000002</a3>
+        <a4>30.697399999999998</a4>
+        <a5>-3.2858299999999998</a5>
+        <a6>0.26090200000000002</a6>
+        <a7>-10.120699999999999</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>6.5957800000000004</a1>
+        <a2>-1.14557e-13</a2>
+        <a3>1.4372000000000001e-11</a3>
+        <a4>-4.4818799999999999e-11</a4>
+        <a5>4.2927800000000002e-12</a5>
+        <a6>-3.4900499999999999e-13</a6>
+        <a7>1</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n</reactant>
+      <reactant>o20</reactant>
+      <product>o21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>7.1066099999999999</a1>
+        <a2>-1.1500999999999999e-12</a2>
+        <a3>1.5118299999999999e-10</a3>
+        <a4>-4.9998900000000004e-10</a4>
+        <a5>5.02412e-11</a5>
+        <a6>-4.2135600000000001e-12</a6>
+        <a7>1</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -8835,6 +9628,65 @@
     </reaction>
     <reaction>
       <source>reaclib</source>
+      <reactant>n18</reactant>
+      <product>c14</product>
+      <product>he4</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-1.99221</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n18</reactant>
+      <product>n</product>
+      <product>n17</product>
+      <non_smoker_fit source="reaclib">
+        <a1>28.887799999999999</a1>
+        <a2>-32.788400000000003</a2>
+        <a3>1.1983599999999999e-10</a3>
+        <a4>-3.9733799999999998e-10</a4>
+        <a5>4.00366e-11</a5>
+        <a6>-3.3650599999999998e-12</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n18</reactant>
+      <product>n</product>
+      <product>o17</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-2.5477400000000001</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>n18</reactant>
+      <product>o18</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-0.10167</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
       <reactant>ne17</reactant>
       <product>f17</product>
       <non_smoker_fit source="reaclib">
@@ -9393,6 +10245,21 @@
     <reaction>
       <source>reaclib</source>
       <reactant>ne23</reactant>
+      <product>f22</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>72.3733</a1>
+        <a2>-178.91</a2>
+        <a3>70.122100000000003</a3>
+        <a4>-121.10299999999999</a4>
+        <a5>6.5425500000000003</a5>
+        <a6>-0.355294</a6>
+        <a7>62.734099999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne23</reactant>
       <product>he4</product>
       <product>o19</product>
       <non_smoker_fit source="reaclib">
@@ -9434,6 +10301,122 @@
         <a5>6.3855500000000003</a5>
         <a6>-0.31998100000000002</a6>
         <a7>67.600300000000004</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne24</reactant>
+      <product>f23</product>
+      <product>h1</product>
+      <non_smoker_fit source="reaclib">
+        <a1>73.509600000000006</a1>
+        <a2>-194.39500000000001</a2>
+        <a3>71.603700000000003</a3>
+        <a4>-122.175</a4>
+        <a5>6.4957200000000004</a5>
+        <a6>-0.35448499999999999</a6>
+        <a7>63.599299999999999</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne24</reactant>
+      <product>he4</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>61.918500000000002</a1>
+        <a2>-143.005</a2>
+        <a3>19.898700000000002</a3>
+        <a4>-67.252200000000002</a4>
+        <a5>2.5552800000000002</a5>
+        <a6>-0.114106</a6>
+        <a7>38.616599999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne24</reactant>
+      <product>n</product>
+      <product>ne23</product>
+      <non_smoker_fit source="reaclib">
+        <a1>32.293300000000002</a1>
+        <a2>-102.89</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>1.5</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>31.584299999999999</a1>
+        <a2>-102.89</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>ne24</reactant>
+      <product>f21</product>
+      <product>he4</product>
+      <non_smoker_fit source="reaclib">
+        <a1>39.6509</a1>
+        <a2>-13.956300000000001</a2>
+        <a3>18.435099999999998</a3>
+        <a4>-61.923299999999998</a4>
+        <a5>1.8456699999999999</a5>
+        <a6>-0.061004299999999997</a6>
+        <a7>37.153100000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne25</reactant>
+      <product>he4</product>
+      <product>o21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>67.688400000000001</a1>
+        <a2>-147.48699999999999</a2>
+        <a3>27.2088</a3>
+        <a4>-79.9315</a4>
+        <a5>3.1871100000000001</a5>
+        <a6>-0.138465</a6>
+        <a7>44.758200000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>ne25</reactant>
+      <product>n</product>
+      <product>ne24</product>
+      <non_smoker_fit source="reaclib">
+        <a1>31.4544</a1>
+        <a2>-49.685299999999998</a2>
+        <a3>2.1894200000000001e-10</a3>
+        <a4>-7.2637900000000002e-10</a4>
+        <a5>7.3131600000000003e-11</a5>
+        <a6>-6.1392500000000001e-12</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>ne25</reactant>
+      <product>f22</product>
+      <product>he4</product>
+      <non_smoker_fit source="reaclib">
+        <a1>17.9847</a1>
+        <a2>-0.30068899999999998</a2>
+        <a3>-48.068399999999997</a3>
+        <a4>23.498999999999999</a4>
+        <a5>-3.2844000000000002</a5>
+        <a6>0.237953</a6>
+        <a7>-4.5177300000000002</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>
@@ -10199,6 +11182,151 @@
         <a5>1.89875e-10</a5>
         <a6>-1.7397099999999999e-11</a6>
         <a7>-0.66666700000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>o20</reactant>
+      <product>f20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-2.9691999999999998</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>o20</reactant>
+      <product>n</product>
+      <product>o19</product>
+      <non_smoker_fit source="reaclib">
+        <a1>13.925700000000001</a1>
+        <a2>-88.458399999999997</a2>
+        <a3>-6.2513800000000002</a3>
+        <a4>30.697399999999998</a4>
+        <a5>-3.2858299999999998</a5>
+        <a6>0.26090200000000002</a6>
+        <a7>-8.6206999999999994</a7>
+      </non_smoker_fit>
+      <non_smoker_fit source="reaclib">
+        <a1>32.016300000000001</a1>
+        <a2>-88.283500000000004</a2>
+        <a3>1.4372000000000001e-11</a3>
+        <a4>-4.4818799999999999e-11</a4>
+        <a5>4.2927800000000002e-12</a5>
+        <a6>-3.4900499999999999e-13</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>o20</reactant>
+      <product>f20</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>57.805100000000003</a1>
+        <a2>-1.8633999999999999</a2>
+        <a3>62.397199999999998</a3>
+        <a4>-112.053</a4>
+        <a5>6.1839899999999997</a5>
+        <a6>-0.34577799999999997</a6>
+        <a7>55.526899999999998</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>o20</reactant>
+      <product>f21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>49.086300000000001</a1>
+        <a2>-1.8682799999999999</a2>
+        <a3>62.8872</a3>
+        <a4>-113.054</a4>
+        <a5>6.1684400000000004</a5>
+        <a6>-0.34282699999999999</a6>
+        <a7>55.973100000000002</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>o20</reactant>
+      <product>he4</product>
+      <product>n17</product>
+      <non_smoker_fit source="reaclib">
+        <a1>50.134599999999999</a1>
+        <a2>-1.99648</a2>
+        <a3>76.863299999999995</a3>
+        <a4>-125.55500000000001</a4>
+        <a5>5.8040200000000004</a5>
+        <a6>-0.267067</a6>
+        <a7>67.444000000000003</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>o21</reactant>
+      <product>f21</product>
+      <non_smoker_fit source="reaclib">
+        <a1>-1.59615</a1>
+        <a2>0</a2>
+        <a3>0</a3>
+        <a4>0</a4>
+        <a5>0</a5>
+        <a6>0</a6>
+        <a7>0</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>o21</reactant>
+      <product>n</product>
+      <product>o20</product>
+      <non_smoker_fit source="reaclib">
+        <a1>28.947299999999998</a1>
+        <a2>-43.372199999999999</a2>
+        <a3>1.5118299999999999e-10</a3>
+        <a4>-4.9998900000000004e-10</a4>
+        <a5>5.02412e-11</a5>
+        <a6>-4.2135600000000001e-12</a6>
+        <a7>2.5</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>o21</reactant>
+      <product>f21</product>
+      <product>n</product>
+      <non_smoker_fit source="reaclib">
+        <a1>54.593600000000002</a1>
+        <a2>-1.89323</a2>
+        <a3>62.210299999999997</a3>
+        <a4>-108.31100000000001</a4>
+        <a5>5.8299300000000001</a5>
+        <a6>-0.32096599999999997</a6>
+        <a7>54.588200000000001</a7>
+      </non_smoker_fit>
+    </reaction>
+    <reaction>
+      <source>reaclib</source>
+      <reactant>h1</reactant>
+      <reactant>o21</reactant>
+      <product>f22</product>
+      <non_smoker_fit source="reaclib">
+        <a1>43.465400000000002</a1>
+        <a2>-1.8908700000000001</a2>
+        <a3>61.953299999999999</a3>
+        <a4>-107.36499999999999</a4>
+        <a5>5.7759299999999998</a5>
+        <a6>-0.31472499999999998</a6>
+        <a7>54.301600000000001</a7>
       </non_smoker_fit>
     </reaction>
     <reaction>

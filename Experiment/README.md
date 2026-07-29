@@ -31,6 +31,7 @@ src/
   composition.py      solar initial composition -> molar abundances
   thermodynamics.py   the exponential and trajectory temperature-density histories
   diagnostics.py      R_15/14, freeze-out, flows, timescales, steady-flow ratios
+  validate_networks.py checks on the networks and the composition, before any run
   run_experiment.py   the driver: every run, every output file
   make_figures.py     figures and LaTeX tables from the stored results
 data/
@@ -40,6 +41,7 @@ results/
   *_evolution.csv     T9, rho, R_15/14 and the tracked isotopes for every run
   *_flows.csv         reaction flows, timescales and energy generation
   summary.json        every diagnostic number, per run
+  network_validation.json  the checks, recorded
   tables/*.tex        LaTeX tables ready to be included in the proposal
 figures/              the figures
 RESULTS.md            what the calculations show
@@ -49,6 +51,7 @@ RESULTS.md            what the calculations show
 
 ```bash
 python -m pip install nucnetpy matplotlib      # numpy and scipy come with nucnetpy
+python src/validate_networks.py                # check the networks first
 python src/run_experiment.py                   # all runs; a few hours on one core
 python src/make_figures.py                     # figures and tables
 ```
@@ -79,7 +82,7 @@ This step is not needed to repeat the calculations: the network archives in
 | Rates | JINA ReacLib snapshot `20180319default2`, seven-parameter fits, forward and reverse |
 | Masses | AME atomic mass evaluation |
 | Composition | Solar, Bergemann, Lodders & Palme (2025), with solar isotopic splits |
-| Nuclides | `Z <= Z_max` and neutron excess `N - Z <= 3`; drip-line nuclides without a measured mass are dropped |
+| Nuclides | `Z <= Z_max` and neutron excess `N - Z <= 3 + Z/4`, a band wide enough to keep every stable isotope of the starting composition; drip-line nuclides without a measured mass, and particle-unbound nuclides, are eliminated |
 | Solver | `nucnetpy.evolve_zone`, SciPy BDF with NucNetPy's analytic Jacobian, `rtol = 1e-8`, `atol = 1e-30` |
 | Screening | None. At `T9 <= 0.45` and `rho <= 2e4 g/cm^3` the plasma is weakly coupled and screening changes the CNO rates by well under a per cent |
 

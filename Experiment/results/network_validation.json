@@ -10,13 +10,13 @@
  },
  "networks": {
   "nova_z10": {
-   "species": 58,
-   "reactions": 469,
+   "species": 68,
+   "reactions": 535,
    "conservation": {
     "baryon_violations": [],
     "charge_changes": {
      "-1": 24,
-     "1": 21
+     "1": 33
     },
     "charge_changes_are_all_beta": true
    },
@@ -24,6 +24,11 @@
    "rate_sanity": {
     "non_finite": [],
     "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
    },
    "beta_decay_rates": {
     "n13->c13": {
@@ -54,13 +59,13 @@
    }
   },
   "nova_z20": {
-   "species": 156,
-   "reactions": 1631,
+   "species": 201,
+   "reactions": 2119,
    "conservation": {
     "baryon_violations": [],
     "charge_changes": {
-     "-1": 123,
-     "1": 34
+     "-1": 125,
+     "1": 78
     },
     "charge_changes_are_all_beta": true
    },
@@ -68,6 +73,11 @@
    "rate_sanity": {
     "non_finite": [],
     "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
    },
    "beta_decay_rates": {
     "n13->c13": {
@@ -98,13 +108,13 @@
    }
   },
   "nova_z30": {
-   "species": 265,
-   "reactions": 2938,
+   "species": 370,
+   "reactions": 4172,
    "conservation": {
     "baryon_violations": [],
     "charge_changes": {
-     "-1": 244,
-     "1": 34
+     "-1": 266,
+     "1": 112
     },
     "charge_changes_are_all_beta": true
    },
@@ -112,6 +122,11 @@
    "rate_sanity": {
     "non_finite": [],
     "prompt_one_body_decays": []
+   },
+   "xml_export": {
+    "same_counts": true,
+    "largest_rate_difference": 0.0,
+    "largest_mass_difference": 0.0
    },
    "beta_decay_rates": {
     "n13->c13": {

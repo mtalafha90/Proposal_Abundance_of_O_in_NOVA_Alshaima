@@ -189,6 +189,7 @@ def execute(run: Run) -> dict:
         "strongest_change_time_s": diagnostics.time_of_strongest_change(result.time, ratio),
         "xsum_initial": float(sum(net.species[s].a * history[s][0] for s in index)),
         "xsum_final": float(sum(net.species[s].a * history[s][-1] for s in index)),
+        "composition_truncation": composition.truncation_report(set(net.species)),
         **run.extra,
     }
 

@@ -92,7 +92,13 @@ def solar_abundances(species_names=None) -> Dict[str, float]:
     """Return the solar composition as molar abundances ``Y = X / A``.
 
     If ``species_names`` is given, species outside that set are dropped and the
-    composition is renormalised so that ``sum(A_i Y_i) = 1`` is preserved.
+    composition is renormalised so that ``sum(A_i Y_i) = 1`` is preserved.  A
+    small network cannot hold the whole solar composition -- a ``Z <= 10``
+    network has nowhere to put iron -- so this is expected rather than an
+    error, but how much was dropped should always be reported alongside the
+    result.  Use :func:`truncation_report` for that.  Note that renormalising
+    scales every surviving abundance by the same factor, so it cannot change
+    the diagnostic ratio, which is a ratio of abundances.
     """
     mass_fractions = solar_mass_fractions()
     if species_names is not None:
@@ -101,3 +107,14 @@ def solar_abundances(species_names=None) -> Dict[str, float]:
         total = sum(mass_fractions.values())
         mass_fractions = {k: v / total for k, v in mass_fractions.items()}
     return {name: x / Species.parse(name).a for name, x in mass_fractions.items()}
+
+
+def truncation_report(species_names) -> Dict[str, object]:
+    """What the starting composition loses when restricted to a network."""
+    allowed = set(species_names)
+    dropped = {k: v for k, v in solar_mass_fractions().items() if k not in allowed}
+    return {
+        "dropped_species": sorted(dropped),
+        "dropped_mass_fraction": sum(dropped.values()),
+        "renormalisation_factor": 1.0 / (1.0 - sum(dropped.values())),
+    }

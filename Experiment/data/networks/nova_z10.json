@@ -122,6 +122,13 @@
    "spin": 0.5
   },
   {
+   "name": "be12",
+   "z": 4,
+   "a": 12,
+   "mass_excess": 25.0778,
+   "spin": 0.0
+  },
+  {
    "name": "b8",
    "z": 5,
    "a": 8,
@@ -155,6 +162,13 @@
    "a": 13,
    "mass_excess": 16.5619,
    "spin": 1.5
+  },
+  {
+   "name": "b14",
+   "z": 5,
+   "a": 14,
+   "mass_excess": 23.664,
+   "spin": 2.0
   },
   {
    "name": "c9",
@@ -206,6 +220,13 @@
    "spin": 0.5
   },
   {
+   "name": "c16",
+   "z": 6,
+   "a": 16,
+   "mass_excess": 13.694,
+   "spin": 0.0
+  },
+  {
    "name": "n11",
    "z": 7,
    "a": 11,
@@ -253,6 +274,13 @@
    "a": 17,
    "mass_excess": 7.87,
    "spin": 0.5
+  },
+  {
+   "name": "n18",
+   "z": 7,
+   "a": 18,
+   "mass_excess": 13.113,
+   "spin": 1.0
   },
   {
    "name": "o12",
@@ -308,6 +336,20 @@
    "z": 8,
    "a": 19,
    "mass_excess": 3.3329,
+   "spin": 2.5
+  },
+  {
+   "name": "o20",
+   "z": 8,
+   "a": 20,
+   "mass_excess": 3.7962,
+   "spin": 0.0
+  },
+  {
+   "name": "o21",
+   "z": 8,
+   "a": 21,
+   "mass_excess": 8.062,
    "spin": 2.5
   },
   {
@@ -367,6 +409,20 @@
    "spin": 2.5
   },
   {
+   "name": "f22",
+   "z": 9,
+   "a": 22,
+   "mass_excess": 2.793,
+   "spin": 4.0
+  },
+  {
+   "name": "f23",
+   "z": 9,
+   "a": 23,
+   "mass_excess": 3.29,
+   "spin": 2.5
+  },
+  {
    "name": "ne16",
    "z": 10,
    "a": 16,
@@ -421,6 +477,20 @@
    "a": 23,
    "mass_excess": -5.15405,
    "spin": 2.5
+  },
+  {
+   "name": "ne24",
+   "z": 10,
+   "a": 24,
+   "mass_excess": -5.9516,
+   "spin": 0.0
+  },
+  {
+   "name": "ne25",
+   "z": 10,
+   "a": 25,
+   "mass_excess": -2.036,
+   "spin": 0.5
   }
  ],
  "reactions": [
@@ -1438,6 +1508,98 @@
   },
   {
    "reactants": [
+    "n",
+    "b13"
+   ],
+   "products": [
+    "b14"
+   ],
+   "q_value": 0.969369,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     3.90197,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     10.8077,
+     -4.76,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "b14"
+   ],
+   "products": [
+    "n",
+    "b13"
+   ],
+   "q_value": -0.969369,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     34.1792,
+     -16.009,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     27.2734,
+     -11.249,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "b14"
+   ],
+   "products": [
+    "c14"
+   ],
+   "q_value": 20.6431,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     4.01551,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "b8"
    ],
    "products": [
@@ -1894,6 +2056,31 @@
   },
   {
    "reactants": [
+    "n",
+    "be11"
+   ],
+   "products": [
+    "be12"
+   ],
+   "q_value": 3.16837,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     5.87493,
+     -8.61413e-13,
+     1.14538e-10,
+     -3.83949e-10,
+     3.89769e-11,
+     -3.28959e-12,
+     1.29988e-10
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "p",
     "be11"
    ],
@@ -1915,6 +2102,80 @@
      1.21029e-10,
      -1.08657e-11,
      -0.666667
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "be12"
+   ],
+   "products": [
+    "n",
+    "b11"
+   ],
+   "q_value": 8.3377,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -1.13198,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "be12"
+   ],
+   "products": [
+    "b12"
+   ],
+   "q_value": 11.708,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     3.46314,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "be12"
+   ],
+   "products": [
+    "n",
+    "be11"
+   ],
+   "q_value": -3.16837,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     30.1432,
+     -36.7689,
+     1.14538e-10,
+     -3.83949e-10,
+     3.89769e-11,
+     -3.28959e-12,
+     1.5
     ]
    ]
   },
@@ -4211,6 +4472,31 @@
   },
   {
    "reactants": [
+    "n",
+    "c15"
+   ],
+   "products": [
+    "c16"
+   ],
+   "q_value": 4.25037,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     6.55407,
+     -0.000690046,
+     0.106378,
+     -0.445016,
+     0.056356,
+     -0.00488392,
+     1.13388
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "p",
     "c15"
    ],
@@ -4232,6 +4518,80 @@
      2.22438e-10,
      -2.01977e-11,
      -0.666667
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "c16"
+   ],
+   "products": [
+    "n",
+    "c15"
+   ],
+   "q_value": -4.25037,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     30.8561,
+     -49.3262,
+     0.106378,
+     -0.445016,
+     0.056356,
+     -0.00488392,
+     2.63388
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "c16"
+   ],
+   "products": [
+    "n",
+    "n15"
+   ],
+   "q_value": 5.5213,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -0.0848732,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "c16"
+   ],
+   "products": [
+    "n16"
+   ],
+   "q_value": 8.011,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -4.67999,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
     ]
    ]
   },
@@ -6593,6 +6953,32 @@
   },
   {
    "reactants": [
+    "n",
+    "f20"
+   ],
+   "products": [
+    "p",
+    "o20"
+   ],
+   "q_value": -3.032,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     56.1957,
+     -37.0482,
+     62.3972,
+     -112.053,
+     6.18399,
+     -0.345778,
+     55.5269
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "p",
     "f20"
    ],
@@ -6719,6 +7105,108 @@
   },
   {
    "reactants": [
+    "f21"
+   ],
+   "products": [
+    "p",
+    "o20"
+   ],
+   "q_value": -11.134,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     70.9272,
+     -131.073,
+     62.8872,
+     -113.054,
+     6.16844,
+     -0.342827,
+     57.4731
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "f21"
+   ],
+   "products": [
+    "p",
+    "ne24"
+   ],
+   "q_value": 1.036,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     36.6732,
+     -1.93402,
+     18.4351,
+     -61.9233,
+     1.84567,
+     -0.0610043,
+     37.1531
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "f21"
+   ],
+   "products": [
+    "f22"
+   ],
+   "q_value": 5.19337,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     4.95583,
+     -1.19407e-13,
+     1.5462e-11,
+     -5.04619e-11,
+     5.05685e-12,
+     -4.25539e-13,
+     1.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "f21"
+   ],
+   "products": [
+    "p",
+    "o21"
+   ],
+   "q_value": -7.327,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     54.5936,
+     -86.9231,
+     62.2103,
+     -108.311,
+     5.82993,
+     -0.320966,
+     54.5882
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "p",
     "f21"
    ],
@@ -6791,6 +7279,334 @@
      6.5752,
      -0.368955,
      60.4231
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "f22"
+   ],
+   "products": [
+    "n",
+    "f21"
+   ],
+   "q_value": -5.19337,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     28.1863,
+     -60.2691,
+     1.5462e-11,
+     -5.04619e-11,
+     5.05685e-12,
+     -4.25539e-13,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "f22"
+   ],
+   "products": [
+    "ne22"
+   ],
+   "q_value": 10.818,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -1.80871,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "f22"
+   ],
+   "products": [
+    "p",
+    "o21"
+   ],
+   "q_value": -12.557,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     66.6958,
+     -147.615,
+     61.9533,
+     -107.365,
+     5.77593,
+     -0.314725,
+     55.8016
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "f22"
+   ],
+   "products": [
+    "p",
+    "ne25"
+   ],
+   "q_value": -0.012,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     15.2861,
+     -0.439943,
+     -48.0684,
+     23.499,
+     -3.2844,
+     0.237953,
+     -4.51773
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "f22"
+   ],
+   "products": [
+    "f23"
+   ],
+   "q_value": 7.55137,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     5.27811,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f22"
+   ],
+   "products": [
+    "he4",
+    "o19"
+   ],
+   "q_value": 4.324,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     55.0585,
+     -2.09806,
+     69.5566,
+     -119.907,
+     6.55038,
+     -0.366208,
+     60.7212
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f22"
+   ],
+   "products": [
+    "n",
+    "ne22"
+   ],
+   "q_value": 10.035,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     59.0738,
+     -2.10661,
+     70.4584,
+     -122.313,
+     6.61596,
+     -0.369133,
+     61.6195
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f22"
+   ],
+   "products": [
+    "ne23"
+   ],
+   "q_value": 15.236,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     48.3287,
+     -2.10387,
+     70.1221,
+     -121.103,
+     6.54255,
+     -0.355294,
+     61.2341
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "f23"
+   ],
+   "products": [
+    "n",
+    "f22"
+   ],
+   "q_value": -7.55137,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     29.3226,
+     -87.6337,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "f23"
+   ],
+   "products": [
+    "ne23"
+   ],
+   "q_value": 8.463,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -1.16851,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f23"
+   ],
+   "products": [
+    "he4",
+    "o20"
+   ],
+   "q_value": 4.397,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     56.8593,
+     -2.16807,
+     73.8811,
+     -127.554,
+     6.84937,
+     -0.369383,
+     64.3029
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f23"
+   ],
+   "products": [
+    "n",
+    "ne23"
+   ],
+   "q_value": 7.701,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     60.0236,
+     -2.15766,
+     72.7507,
+     -125.48,
+     6.78174,
+     -0.377806,
+     63.2653
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "f23"
+   ],
+   "products": [
+    "ne24"
+   ],
+   "q_value": 16.566,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     48.076,
+     -2.14691,
+     71.6037,
+     -122.175,
+     6.49572,
+     -0.354485,
+     62.0993
     ]
    ]
   },
@@ -8645,6 +9461,32 @@
   {
    "reactants": [
     "he4",
+    "n17"
+   ],
+   "products": [
+    "p",
+    "o20"
+   ],
+   "q_value": -0.791,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     48.2989,
+     -11.1756,
+     76.8633,
+     -125.555,
+     5.80402,
+     -0.267067,
+     67.444
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
     "ne20"
    ],
    "products": [
@@ -9399,6 +10241,32 @@
     "o19"
    ],
    "products": [
+    "p",
+    "f22"
+   ],
+   "q_value": -4.324,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     54.2976,
+     -52.2759,
+     69.5566,
+     -119.907,
+     6.55038,
+     -0.366208,
+     60.7212
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o19"
+   ],
+   "products": [
     "n",
     "ne22"
    ],
@@ -9441,6 +10309,134 @@
      2.87611,
      -0.122329,
      39.9182
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o20"
+   ],
+   "products": [
+    "p",
+    "f23"
+   ],
+   "q_value": -4.397,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     57.4744,
+     -53.1953,
+     73.8811,
+     -127.554,
+     6.84937,
+     -0.369383,
+     64.3029
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o20"
+   ],
+   "products": [
+    "n",
+    "ne23"
+   ],
+   "q_value": 3.304,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     53.1902,
+     -1.84694,
+     25.9281,
+     -79.9483,
+     3.29894,
+     -0.148546,
+     42.7276
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o20"
+   ],
+   "products": [
+    "ne24"
+   ],
+   "q_value": 12.169,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     37.0999,
+     -1.78935,
+     19.8987,
+     -67.2522,
+     2.55528,
+     -0.114106,
+     37.1166
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o21"
+   ],
+   "products": [
+    "n",
+    "ne24"
+   ],
+   "q_value": 8.362,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     53.9135,
+     -1.9125,
+     28.3617,
+     -83.1293,
+     3.44917,
+     -0.155723,
+     44.4254
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "he4",
+    "o21"
+   ],
+   "products": [
+    "ne25"
+   ],
+   "q_value": 12.545,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     41.7593,
+     -1.9019,
+     27.2088,
+     -79.9315,
+     3.18711,
+     -0.138465,
+     43.2582
     ]
    ]
   },
@@ -10762,6 +11758,31 @@
   {
    "reactants": [
     "n",
+    "n17"
+   ],
+   "products": [
+    "n18"
+   ],
+   "q_value": 2.82537,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     5.67332,
+     -9.10209e-13,
+     1.19836e-10,
+     -3.97338e-10,
+     4.00366e-11,
+     -3.36506e-12,
+     1.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
     "ne16"
    ],
    "products": [
@@ -11281,6 +12302,32 @@
     "ne22"
    ],
    "products": [
+    "p",
+    "f22"
+   ],
+   "q_value": -10.035,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     61.271,
+     -118.558,
+     70.4584,
+     -122.313,
+     6.61596,
+     -0.369133,
+     61.6195
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne22"
+   ],
+   "products": [
     "he4",
     "o19"
    ],
@@ -11323,6 +12370,143 @@
      -1.71949,
      0.174168,
      2.02225
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne23"
+   ],
+   "products": [
+    "p",
+    "f23"
+   ],
+   "q_value": -7.701,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     60.0236,
+     -91.5278,
+     72.7507,
+     -125.48,
+     6.78174,
+     -0.377806,
+     63.2653
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne23"
+   ],
+   "products": [
+    "he4",
+    "o20"
+   ],
+   "q_value": -3.304,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     52.5751,
+     -40.1882,
+     25.9281,
+     -79.9483,
+     3.29894,
+     -0.148546,
+     42.7276
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne23"
+   ],
+   "products": [
+    "ne24"
+   ],
+   "q_value": 8.86637,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     6.1506,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     6.85961,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne24"
+   ],
+   "products": [
+    "he4",
+    "o21"
+   ],
+   "q_value": -8.362,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     56.8913,
+     -98.9535,
+     28.3617,
+     -83.1293,
+     3.44917,
+     -0.155723,
+     44.4254
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "ne24"
+   ],
+   "products": [
+    "ne25"
+   ],
+   "q_value": 4.28137,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     8.50309,
+     -1.66068e-12,
+     2.18942e-10,
+     -7.26379e-10,
+     7.31316e-11,
+     -6.13925e-12,
+     1.0
     ]
    ]
   },
@@ -11846,6 +13030,65 @@
      -1.62022,
      0.113592,
      -3.26167
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "o19"
+   ],
+   "products": [
+    "o20"
+   ],
+   "q_value": 7.60737,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     -11.4948,
+     -0.174902,
+     -6.25138,
+     30.6974,
+     -3.28583,
+     0.260902,
+     -10.1207
+    ],
+    [
+     6.59578,
+     -1.14557e-13,
+     1.4372e-11,
+     -4.48188e-11,
+     4.29278e-12,
+     -3.49005e-13,
+     1.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n",
+    "o20"
+   ],
+   "products": [
+    "o21"
+   ],
+   "q_value": 3.73737,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     7.10661,
+     -1.1501e-12,
+     1.51183e-10,
+     -4.99989e-10,
+     5.02412e-11,
+     -4.21356e-12,
+     1.0
     ]
    ]
   },
@@ -12830,6 +14073,105 @@
   },
   {
    "reactants": [
+    "n18"
+   ],
+   "products": [
+    "he4",
+    "c14"
+   ],
+   "q_value": 7.6682,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -1.99221,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n18"
+   ],
+   "products": [
+    "n",
+    "n17"
+   ],
+   "q_value": -2.82537,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     28.8878,
+     -32.7884,
+     1.19836e-10,
+     -3.97338e-10,
+     4.00366e-11,
+     -3.36506e-12,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n18"
+   ],
+   "products": [
+    "n",
+    "o17"
+   ],
+   "q_value": 5.8505,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -2.54774,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "n18"
+   ],
+   "products": [
+    "o18"
+   ],
+   "q_value": 13.8958,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -0.10167,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
     "ne17"
    ],
    "products": [
@@ -13640,6 +14982,31 @@
     "ne23"
    ],
    "products": [
+    "p",
+    "f22"
+   ],
+   "q_value": -15.236,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     72.3733,
+     -178.91,
+     70.1221,
+     -121.103,
+     6.54255,
+     -0.355294,
+     62.7341
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne23"
+   ],
+   "products": [
     "he4",
     "o19"
    ],
@@ -13708,6 +15075,192 @@
      6.38555,
      -0.319981,
      67.6003
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne24"
+   ],
+   "products": [
+    "p",
+    "f23"
+   ],
+   "q_value": -16.566,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     73.5096,
+     -194.395,
+     71.6037,
+     -122.175,
+     6.49572,
+     -0.354485,
+     63.5993
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne24"
+   ],
+   "products": [
+    "he4",
+    "o20"
+   ],
+   "q_value": -12.169,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     61.9185,
+     -143.005,
+     19.8987,
+     -67.2522,
+     2.55528,
+     -0.114106,
+     38.6166
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne24"
+   ],
+   "products": [
+    "n",
+    "ne23"
+   ],
+   "q_value": -8.86637,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     32.2933,
+     -102.89,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.5
+    ],
+    [
+     31.5843,
+     -102.89,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "ne24"
+   ],
+   "products": [
+    "he4",
+    "f21"
+   ],
+   "q_value": -1.036,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     39.6509,
+     -13.9563,
+     18.4351,
+     -61.9233,
+     1.84567,
+     -0.0610043,
+     37.1531
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne25"
+   ],
+   "products": [
+    "he4",
+    "o21"
+   ],
+   "q_value": -12.545,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     67.6884,
+     -147.487,
+     27.2088,
+     -79.9315,
+     3.18711,
+     -0.138465,
+     44.7582
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "ne25"
+   ],
+   "products": [
+    "n",
+    "ne24"
+   ],
+   "q_value": -4.28137,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     31.4544,
+     -49.6853,
+     2.18942e-10,
+     -7.26379e-10,
+     7.31316e-11,
+     -6.13925e-12,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "ne25"
+   ],
+   "products": [
+    "he4",
+    "f22"
+   ],
+   "q_value": 0.012,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     17.9847,
+     -0.300689,
+     -48.0684,
+     23.499,
+     -3.2844,
+     0.237953,
+     -4.51773
     ]
    ]
   },
@@ -14833,6 +16386,241 @@
      1.89875e-10,
      -1.73971e-11,
      -0.666667
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "o20"
+   ],
+   "products": [
+    "f20"
+   ],
+   "q_value": 3.813,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -2.9692,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "o20"
+   ],
+   "products": [
+    "n",
+    "o19"
+   ],
+   "q_value": -7.60737,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     13.9257,
+     -88.4584,
+     -6.25138,
+     30.6974,
+     -3.28583,
+     0.260902,
+     -8.6207
+    ],
+    [
+     32.0163,
+     -88.2835,
+     1.4372e-11,
+     -4.48188e-11,
+     4.29278e-12,
+     -3.49005e-13,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "o20"
+   ],
+   "products": [
+    "n",
+    "f20"
+   ],
+   "q_value": 3.032,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     57.8051,
+     -1.8634,
+     62.3972,
+     -112.053,
+     6.18399,
+     -0.345778,
+     55.5269
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "o20"
+   ],
+   "products": [
+    "f21"
+   ],
+   "q_value": 11.134,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     49.0863,
+     -1.86828,
+     62.8872,
+     -113.054,
+     6.16844,
+     -0.342827,
+     55.9731
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "o20"
+   ],
+   "products": [
+    "he4",
+    "n17"
+   ],
+   "q_value": 0.791,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     50.1346,
+     -1.99648,
+     76.8633,
+     -125.555,
+     5.80402,
+     -0.267067,
+     67.444
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "o21"
+   ],
+   "products": [
+    "f21"
+   ],
+   "q_value": 8.108,
+   "label": "reaclib",
+   "chapter": 1,
+   "weak": true,
+   "reverse": false,
+   "sets": [
+    [
+     -1.59615,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "o21"
+   ],
+   "products": [
+    "n",
+    "o20"
+   ],
+   "q_value": -3.73737,
+   "label": "reaclib",
+   "chapter": 2,
+   "weak": false,
+   "reverse": true,
+   "sets": [
+    [
+     28.9473,
+     -43.3722,
+     1.51183e-10,
+     -4.99989e-10,
+     5.02412e-11,
+     -4.21356e-12,
+     2.5
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "o21"
+   ],
+   "products": [
+    "n",
+    "f21"
+   ],
+   "q_value": 7.327,
+   "label": "reaclib",
+   "chapter": 5,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     54.5936,
+     -1.89323,
+     62.2103,
+     -108.311,
+     5.82993,
+     -0.320966,
+     54.5882
+    ]
+   ]
+  },
+  {
+   "reactants": [
+    "p",
+    "o21"
+   ],
+   "products": [
+    "f22"
+   ],
+   "q_value": 12.557,
+   "label": "reaclib",
+   "chapter": 4,
+   "weak": false,
+   "reverse": false,
+   "sets": [
+    [
+     43.4654,
+     -1.89087,
+     61.9533,
+     -107.365,
+     5.77593,
+     -0.314725,
+     54.3016
     ]
    ]
   },

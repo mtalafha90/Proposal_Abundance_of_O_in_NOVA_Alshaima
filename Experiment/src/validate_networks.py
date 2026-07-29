@@ -4,7 +4,7 @@ Run it with::
 
     python src/validate_networks.py
 
-It writes ``results/network_validation.json`` and prints a summary.  Four things
+It writes ``results/network_validation.json`` and prints a summary.  Six things
 are checked for each network case:
 
 1.  **Baryon number.**  Every reaction must have ``sum(A)`` equal on both sides.
@@ -21,11 +21,15 @@ are checked for each network case:
     ``1e12 per second``: a nuclide that decays that fast is not one a network
     can carry, and it makes the system stiff for no physics.
 
-4.  **Known rates.**  The rates of the reactions that control the diagnostic
+4.  **The XML export.**  The NucNetPy XML written beside each archive must
+    describe the same network: the same nuclide and reaction counts, the same
+    mass excesses, and the same rates.
+
+5.  **Known rates.**  The rates of the reactions that control the diagnostic
     ratio are compared against their measured half-lives, which is an
     end-to-end test of the fitting function, the coefficients and the units.
 
-5.  **The composition.**  The initial mass fractions must sum to one, and the
+6.  **The composition.**  The initial mass fractions must sum to one, and the
     two isotopes that define the diagnostic ratio must match the values quoted
     in the proposal.
 """
@@ -120,6 +124,29 @@ def check_rates(net) -> dict:
     return out
 
 
+def check_xml_export(case: str, net) -> dict:
+    """The NucNetPy XML export must describe the same network as the archive."""
+    from nucnetpy import read_xml
+    from network_io import NETWORK_DIR
+
+    other = read_xml(NETWORK_DIR / f"{case}.xml")
+    rates_json = sorted(r.rate(0.2) for r in net.reactions.reactions)
+    rates_xml = sorted(r.rate(0.2) for r in other.reactions.reactions)
+    masses_json = sorted(s.mass_excess for s in net.species.values())
+    masses_xml = sorted(s.mass_excess for s in other.species.values())
+    same_size = (len(rates_json) == len(rates_xml)
+                 and len(masses_json) == len(masses_xml))
+    return {
+        "same_counts": same_size,
+        "largest_rate_difference": (
+            max(abs(a - b) for a, b in zip(rates_json, rates_xml)) if same_size else None
+        ),
+        "largest_mass_difference": (
+            max(abs(a - b) for a, b in zip(masses_json, masses_xml)) if same_size else None
+        ),
+    }
+
+
 def check_composition() -> dict:
     mass_fractions = composition.solar_mass_fractions()
     abundances = composition.solar_abundances()
@@ -145,6 +172,7 @@ def main() -> None:
             "conservation": check_conservation(net),
             "dead_end_nuclides": check_dead_ends(net),
             "rate_sanity": check_rate_sanity(net),
+            "xml_export": check_xml_export(case, net),
             "beta_decay_rates": check_rates(net),
         }
 
@@ -166,6 +194,10 @@ def main() -> None:
               f"{len(record['rate_sanity']['non_finite'])} infinite rates, "
               f"{len(record['rate_sanity']['prompt_one_body_decays'])} prompt decays, "
               f"charge changes all beta: {conservation['charge_changes_are_all_beta']}")
+        export = record["xml_export"]
+        print(f"    XML export matches the archive: counts {export['same_counts']}, "
+              f"largest rate difference {export['largest_rate_difference']}, "
+              f"largest mass difference {export['largest_mass_difference']}")
         for name, values in record["beta_decay_rates"].items():
             print(f"    {name:12s} rate {values['rate_from_network']:.6e} s^-1 "
                   f"vs {values['rate_from_half_life']:.6e} from the half-life "

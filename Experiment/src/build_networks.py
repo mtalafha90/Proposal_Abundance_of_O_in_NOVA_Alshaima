@@ -24,12 +24,14 @@ Run it once::
 Nuclide selection
 -----------------
 For every network case we keep the nuclides that ReacLib knows about with
-``Z <= Z_max`` and a neutron excess ``N <= Z + 3``.  Nova hydrogen burning runs
-along the proton-rich side of the valley of stability, so nuclides further out
-on the neutron-rich side never acquire an abundance; excluding them keeps the
-integration cheap without changing the result.  Neutrons, protons, deuterons,
-tritons, :sup:`3`\\ He and :sup:`4`\\ He are always kept.  A few nuclides beyond
-the proton drip line have no measured mass excess and are dropped as well.
+``Z <= Z_max`` whose neutron excess satisfies ``N - Z <= 3 + Z/4``.  Nova
+hydrogen burning runs along the proton-rich side of the valley of stability, so
+nuclides beyond that band never acquire an abundance; leaving them out keeps
+the integration affordable without changing the result, and the cut is wide
+enough to retain every stable isotope of every element in the starting
+composition.  Neutrons, protons, deuterons, tritons, :sup:`3`\\ He and
+:sup:`4`\\ He are always kept.  A few nuclides beyond the proton drip line have
+no measured mass excess and are dropped as well.
 """
 
 from __future__ import annotations
@@ -48,8 +50,17 @@ NETWORK_CASES = {
     "nova_z30": (30, "Large network, Z <= 30: extended nova network"),
 }
 
-#: Maximum neutron excess kept, as N - Z.
-MAX_NEUTRON_EXCESS = 3
+#: Neutron-richness cut, as a limit on ``N - Z``.
+#:
+#: The limit has to widen with charge, because the valley of stability does:
+#: 40Ca sits at ``N = Z`` but 56Fe sits four neutrons beyond it and 58Fe six.
+#: A flat cut would throw away the most abundant iron isotope in the starting
+#: composition.  ``N - Z <= 3 + Z/4`` keeps every stable isotope of every
+#: element in the solar composition, with room to spare on the neutron-rich
+#: side, while still leaving out the far side of the chart, which a
+#: proton-rich nova envelope can never populate.
+def max_neutron_excess(z: int) -> float:
+    return 3.0 + z / 4.0
 
 #: Light nuclides that are always part of the network.
 ALWAYS_KEEP = {"n", "p", "d", "t", "he3", "he4"}
@@ -87,7 +98,7 @@ TEST_T9 = 0.01
 def _keep_nucleus(z: int, a: int, raw: str) -> bool:
     if raw in ALWAYS_KEEP:
         return True
-    return (a - z) <= z + MAX_NEUTRON_EXCESS
+    return (a - 2 * z) <= max_neutron_excess(z)
 
 
 def _reaclib_rate(sets: list[list[float]], t9: float) -> float:

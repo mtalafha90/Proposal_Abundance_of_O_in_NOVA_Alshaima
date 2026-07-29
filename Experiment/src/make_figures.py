@@ -156,8 +156,9 @@ def figure_ratio(runs: list[tuple[str, str]], name: str, title: str) -> None:
     ax.set_yscale("log")
     # Placed in axis coordinates along x, so the label stays inside the panel
     # whatever the time range turns out to be.
-    ax.text(0.015, initial, f"initial (solar) = {initial:.2e}", color=MUTED, fontsize=8,
-            va="bottom", ha="left", transform=ax.get_yaxis_transform())
+    ax.annotate(f"initial (solar) = {initial:.2e}", (0.015, initial),
+                xycoords=ax.get_yaxis_transform(), textcoords="offset points",
+                xytext=(0, 5), color=MUTED, fontsize=8, va="bottom", ha="left")
     ax.set_xlabel("time (s)")
     ax.set_ylabel(RATIO_LABEL)
     ax.set_title(title, loc="left", color=INK)
@@ -263,8 +264,9 @@ def figure_steady_flow(run: str, name: str, title: str) -> None:
     ax.axhline(1.0, color=MUTED, linewidth=0.9, linestyle=(0, (4, 3)))
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.text(0.015, 1.0, "steady flow", color=MUTED, fontsize=8,
-            va="bottom", ha="left", transform=ax.get_yaxis_transform())
+    ax.annotate("steady flow", (0.015, 1.0),
+                xycoords=ax.get_yaxis_transform(), textcoords="offset points",
+                xytext=(0, 5), color=MUTED, fontsize=8, va="bottom", ha="left")
     ax.set_xlabel("time (s)")
     ax.set_ylabel(r"flow ratio $Q_{ab}$")
     ax.set_title(title, loc="left", color=INK)
@@ -283,7 +285,7 @@ def figure_network_size(summary: dict, name: str) -> None:
         mask = positive(data["time"])
         final = summary["runs"][run]["r_final"]
         ax.plot(data["time"][mask], data["R15_14"][mask], color=PALETTE[index],
-                label=f"{label}  ($R_{{\\rm final}}={final:.2f}$)")
+                label=f"{label}  ($R_{{\\rm final}}={final:.4f}$)")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlabel("time (s)")
@@ -381,12 +383,14 @@ def table_network_size(summary: dict) -> None:
             continue
         if reference:
             delta = (record["r_final"] - reference["r_final"]) / reference["r_final"]
-            delta_text = f"{delta:+.3f}"
+            # As a percentage: the differences between network sizes are far
+            # too small to read off three decimal places of a bare fraction.
+            delta_text = f"{100.0 * delta:+.3f}\\%"
         else:
             delta_text = "--"
         rows.append(
             f"{name} & {limit} & {record['species']} & {record['reactions']} & "
-            f"{record['r_final']:.3f} & {delta_text} \\\\"
+            f"{record['r_final']:.4f} & {delta_text} \\\\"
         )
     _table(
         TABLES / "tab_network_size.tex",
