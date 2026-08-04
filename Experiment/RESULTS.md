@@ -215,7 +215,8 @@ trajectory's conditions **at its temperature maximum** (`T9_0 = 0.4481`,
 Plus one further single-variable run, `exp_peakT_only`, which raises the peak
 temperature to 0.4481 while keeping the reference density and τ.
 
-**The decomposition** (each row changes exactly one thing):
+**A sequential factorisation** — each row changes exactly one thing, *in the
+order listed*:
 
 | Change | R before | R after | Factor |
 |---|---|---|---|
@@ -225,7 +226,23 @@ temperature to 0.4481 while keeping the reference density and τ.
 | Heating phase + T–ρ path | 1.951 | 3.230 | ×1.66 |
 | **Combined** | **0.460** | **3.230** | **×7.02** |
 
-Three things follow.
+**The individual factors are order-dependent, and severely so.** The network is
+non-linear, so the temperature and density steps interact. Running them the
+other way round (`exp_rho_only`: density first, at the reference temperature):
+
+| Order | temperature step | density step |
+|---|---|---|
+| T first, then ρ | ×1.52 | ×0.77 |
+| ρ first, then T | ×0.89 | ×1.31 |
+
+Both paths share their endpoints and their combined ×1.166 — they must. But the
+individual factors don't merely differ in size, they **reverse direction**:
+lowering the density *raises* R at T₉ = 0.20 and *lowers* it at T₉ = 0.448.
+So these are not independent contributions and cannot be recombined in another
+order. The exposure term is the largest either way, which is why the headline
+conclusion survives.
+
+Three further things follow.
 
 **Exposure time is the largest single contribution** (×3.64), ahead of peak
 temperature (×1.52). The paper's thesis survives — but it needed this to be

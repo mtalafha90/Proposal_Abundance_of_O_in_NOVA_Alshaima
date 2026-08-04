@@ -559,12 +559,24 @@ def table_matched_control(summary: dict) -> None:
         f"Combined & {runs['exp_ref']['r_final']:.3f} & "
         f"{runs['traj_ref']['r_final']:.3f} & {product:.2f} \\\\"
     )
+    reversed_note = ""
+    if "exp_rho_only" in runs:
+        first = runs["exp_rho_only"]["r_final"] / runs["exp_ref"]["r_final"]
+        second = runs["exp_matched_tau0p2"]["r_final"] / runs["exp_rho_only"]["r_final"]
+        reversed_note = (
+            f" Taking the first two steps in the opposite order gives "
+            f"${first:.2f}$ and ${second:.2f}$ in place of the values shown."
+        )
     _table(
         TABLES / "tab_decomposition.tex",
-        "Decomposition of the difference between the reference exponential "
-        "model and the nova trajectory into single-variable steps. Each row "
-        "changes one property of the thermodynamic history; the last row is "
-        "the residual that the exponential family cannot reproduce.",
+        "Sequential, order-dependent factorisation of the difference between "
+        "the reference exponential model and the nova trajectory. Each row "
+        "changes one property of the thermodynamic history, in the order "
+        "listed; because the network is non-linear the individual factors "
+        "belong to that sequence and are not a unique causal decomposition."
+        + reversed_note +
+        " The last row is the residual that the exponential family cannot "
+        "reproduce.",
         "tab:nucnetpy_decomposition",
         "Change & $R$ before & $R$ after & Factor",
         rows,

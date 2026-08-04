@@ -204,6 +204,28 @@ def build_runs() -> List[Run]:
             extra={"t9_0": peak_t9, "rho_0": 1.5e4, "tau": 0.2},
         )
     )
+
+    # The mirror image of the run above: change the density first, holding the
+    # reference temperature.  Together the two give both orderings of the same
+    # pair of single-variable steps, which is what makes it possible to say how
+    # much the factorisation depends on the order in which they are taken.  The
+    # network is non-linear, so the individual factors need not agree even
+    # though the two paths share their endpoints.
+    runs.append(
+        Run(
+            name="exp_rho_only",
+            network="nova_z10",
+            description=(
+                f"Exponential model at the trajectory's density at maximum "
+                f"temperature (rho_0={peak_rho:.3g}) but the reference "
+                f"temperature (T9_0=0.20) and tau = 0.2 s"
+            ),
+            thermo=th.exponential_thermo(t9_0=0.20, rho_0=peak_rho, tau=0.2),
+            t_start=1.0e-9,
+            t_end=1.0e4,
+            extra={"t9_0": 0.20, "rho_0": peak_rho, "tau": 0.2},
+        )
+    )
     return runs
 
 
