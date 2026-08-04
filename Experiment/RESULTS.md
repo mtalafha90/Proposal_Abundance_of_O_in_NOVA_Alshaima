@@ -69,10 +69,10 @@ completion.
 
 **The trajectory produces more $^{15}$N because it burns hotter, for longer.**
 The peak temperature is 0.448 against 0.200, and the measured profile holds the
-material above $T_9 = 0.2$ for 17 seconds and above $T_9 = 0.1$ for 75 seconds
-rather than cooling away from the peak immediately. That sustained plateau is
-what the exponential model has no counterpart for, and it is the reason the two
-histories differ by a factor of seven in the final ratio.
+material above $T_9 = 0.2$ for 17.7 seconds and above $T_9 = 0.1$ for 75 seconds
+rather than cooling away from the peak immediately. Those are two of the five
+things that differ between the histories; section 6 separates them with matched
+controls and finds the exposure time to be the largest single contribution.
 
 ## 3. What happens to oxygen
 
@@ -100,11 +100,12 @@ than the envelope cools, oxygen is a way station on the road to nitrogen
 rather than an endpoint. This is the well-known signature of nova ejecta:
 nitrogen-rich, carbon- and oxygen-poor relative to solar.
 
-So the same peak temperature that raises $R_{15/14}$ by a factor of seven over
+So the hot, prolonged history that raises $R_{15/14}$ by a factor of seven over
 the exponential case also decides whether oxygen survives at all. Any
 measurement of oxygen in nova ejecta is therefore a strong constraint on the
-peak temperature — arguably a sharper one than the isotopic ratio, because the
-effect is three orders of magnitude rather than a factor of seven.
+peak thermodynamic conditions — the effect on it is three orders of magnitude
+against a factor of seven for the isotopic ratio. Note the caveat in section 7:
+elemental oxygen is less network-converged than $R_{15/14}$.
 
 ## 4. Steady flow
 
@@ -138,7 +139,59 @@ what was made. The largest enhancement comes from the intermediate case, and
 the whole range is only a factor of two wide — much smaller than the factor of
 seven between the exponential and trajectory models.
 
-## 6. Network size
+## 6. Matched controls: what actually causes the factor of seven
+
+The two reference histories differ in **five** ways at once — peak temperature,
+peak density, presence of a heating phase, time spent hot, and the
+temperature–density relation. The τ-series in section 5 varies only the cooling
+rate inside the `T9_0 = 0.20` family, so it cannot say which of the five
+matters. A second series was run for that: exponential models pinned to the
+trajectory's conditions **at its temperature maximum** (`T9_0 = 0.4481`,
+`rho_0 = 4.07e3`), with the expansion timescale as the only free variable.
+
+| τ (s) | t above T₉=0.2 (s) | R final | f_enh |
+|---|---|---|---|
+| 0.2 | 0.48 | 0.537 | 146 |
+| 0.7 | 1.69 | 1.343 | 365 |
+| 2.0 | 4.84 | 2.009 | 547 |
+| 7.0 | 16.94 | 1.951 | 531 |
+| 20.0 | 48.40 | 1.524 | 415 |
+| **trajectory** | **17.68** | **3.230** | **879** |
+
+Plus one further single-variable run, `exp_peakT_only`, which raises the peak
+temperature to 0.4481 while keeping the reference density and τ.
+
+**The decomposition** (each row changes exactly one thing):
+
+| Change | R before | R after | Factor |
+|---|---|---|---|
+| Peak temperature, 0.200 → 0.448 | 0.460 | 0.697 | ×1.52 |
+| Peak density, 1.5e4 → 4.07e3 | 0.697 | 0.537 | ×0.77 |
+| Exposure, 0.48 → 16.9 s | 0.537 | 1.951 | ×3.64 |
+| Heating phase + T–ρ path | 1.951 | 3.230 | ×1.66 |
+| **Combined** | **0.460** | **3.230** | **×7.02** |
+
+Three things follow.
+
+**Exposure time is the largest single contribution** (×3.64), ahead of peak
+temperature (×1.52). The paper's thesis survives — but it needed this to be
+shown rather than asserted.
+
+**Exposure alone does not explain it.** An exponential model matching the
+trajectory in peak temperature, peak density *and* exposure time reaches only
+1.951 against the trajectory's 3.230. The residual ×1.66 belongs to the two
+things an exponential prescription cannot reproduce: the heating phase, during
+which the composition is already partly processed before maximum temperature,
+and the trajectory's own T–ρ path, which is not the `T ∝ ρ^(1/3)` of the
+analytic law.
+
+**The exposure dependence is non-monotonic here too**, peaking near 5 s. Past
+that, `15N(p,α)12C` keeps destroying A=15 material after production has
+stopped — the same mechanism as in the cooler τ-series, at a different scale.
+
+See `figures/fig18_matched_control.png`.
+
+## 7. Network size
 
 | Network | Range | Nuclides | Reactions | $R^{\rm final}$ | $\Delta R$ |
 |---|---|---|---|---|---|
@@ -165,7 +218,7 @@ work: it gives the same CNO answer roughly six times faster (1280 s against
 7545 s for one trajectory run). The larger networks are still worth running
 when the question is about Ne-Na or Mg-Al, where they are the whole point.
 
-## 7. Numerical quality
+## 8. Numerical quality
 
 | Check | Result |
 |---|---|
@@ -217,7 +270,7 @@ every abundance by the same factor, and unbound light nuclei and neutron-rich
 iron do not talk to the CNO cycle. Each was still a defect that would have been
 fair to ask about.
 
-## 8. What is a modelling assumption, not a result
+## 9. What is a modelling assumption, not a result
 
 - **The trajectory is measured data; the integration span is a choice.** The
   profile `data/trajectories/nova_profile_rescaled.txt` is used as given. The
