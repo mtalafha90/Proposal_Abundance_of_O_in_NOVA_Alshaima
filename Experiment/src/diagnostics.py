@@ -36,6 +36,13 @@ CNO_REACTIONS: List[tuple] = [
     ("o16_pg_f17", ["o16", "h1"], ["f17"]),
     ("o17_pa_n14", ["o17", "h1"], ["n14", "he4"]),
     ("f17_bd_o17", ["f17"], ["o17"]),
+    # The CNO-II/III path.  It turns out to dominate the supply of 15O near the
+    # temperature maximum, so its three links are followed alongside the cycle
+    # proper: 16O(p,g)17F is already in the list above.
+    ("f17_pg_ne18", ["f17", "h1"], ["ne18"]),
+    ("ne18_bd_f18", ["ne18"], ["f18"]),
+    ("f18_pa_o15", ["f18", "h1"], ["o15", "he4"]),
+    ("o17_pg_f18", ["o17", "h1"], ["f18"]),
 ]
 
 #: Every link of the closed hot CNO cycle,
@@ -54,7 +61,7 @@ STEADY_FLOW_CHAIN = [
 #: Isotopes whose evolution is written out for every run.
 TRACKED_SPECIES = [
     "h1", "he4", "c12", "c13", "n13", "n14", "n15",
-    "o14", "o15", "o16", "o17", "o18", "f17", "f18", "ne20",
+    "o14", "o15", "o16", "o17", "o18", "f17", "f18", "ne18", "ne20",
 ]
 
 

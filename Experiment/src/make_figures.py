@@ -64,7 +64,16 @@ REACTION_LABEL = {
     "o16_pg_f17": r"$^{16}$O(p,$\gamma$)",
     "o17_pa_n14": r"$^{17}$O(p,$\alpha$)",
     "f17_bd_o17": r"$^{17}$F($\beta^+$)",
+    "f17_pg_ne18": r"$^{17}$F(p,$\gamma$)",
+    "ne18_bd_f18": r"$^{18}$Ne($\beta^+$)",
+    "f18_pa_o15": r"$^{18}$F(p,$\alpha$)",
+    "o17_pg_f18": r"$^{17}$O(p,$\gamma$)",
 }
+
+#: The CNO-II/III path, which turns out to supply most of the 15O near the
+#: temperature maximum.  Drawn against 14N(p,gamma)15O so that the size of the
+#: side feeding can be read straight off the figure.
+SIDE_PATH = ["o16_pg_f17", "f17_pg_ne18", "ne18_bd_f18", "f18_pa_o15"]
 
 RATIO_LABEL = r"$R_{15/14} = (^{15}$N$+^{15}$O$)/(^{14}$N$+^{14}$O$)$"
 
@@ -200,24 +209,75 @@ def figure_abundances(run: str, name: str, title: str) -> None:
 
 
 def figure_flows(run: str, name: str, title: str) -> None:
+    """Principal cycle links above, the CNO-II/III side path below.
+
+    The upper panel keeps the logarithmic time axis, which is the only way to
+    show ten decades of evolution at once.  The lower panel is deliberately
+    different: it is linear in time and restricted to the burning episode, so
+    that the size of the side feeding of 15O relative to 14N(p,gamma)15O can be
+    read straight off the figure.  On the logarithmic axis the whole episode is
+    a single spike and the comparison is invisible.
+    """
     data = read_csv(f"{run}_flows.csv")
     mask = positive(data["time"])
     shown = ["c12_pg_n13", "n14_pg_o15", "n15_pa_c12",
              "o14_bd_n14", "o15_bd_n15", "n13_pg_o14"]
-    fig, ax = plt.subplots(figsize=(5.4, 3.6))
+    side = [r for r in SIDE_PATH if f"F_{r}" in data]
+
+    if not side:
+        # Older result files predate the CNO-II/III columns; fall back to the
+        # single-panel form rather than drawing an empty axis.
+        fig, axes = plt.subplots(figsize=(5.4, 3.6))
+        axes = [axes]
+    else:
+        fig, axes = plt.subplots(2, 1, figsize=(5.4, 5.8))
+        axes = list(axes)
+
     for index, reaction in enumerate(shown):
         key = f"F_{reaction}"
         if key not in data:
             continue
-        ax.plot(data["time"][mask], np.clip(data[key][mask], 1e-30, None),
-                color=PALETTE[index], label=REACTION_LABEL[reaction])
-    ax.set_xscale("log")
-    ax.set_yscale("log")
-    ax.set_ylim(1e-22, None)
-    ax.set_xlabel("time (s)")
-    ax.set_ylabel(r"flow $F$ (mol g$^{-1}$ s$^{-1}$)")
-    ax.set_title(title, loc="left", color=INK)
-    ax.legend(ncol=2, loc="lower left")
+        axes[0].plot(data["time"][mask], np.clip(data[key][mask], 1e-30, None),
+                     color=PALETTE[index], label=REACTION_LABEL[reaction])
+    axes[0].set_xscale("log")
+    axes[0].set_xlabel("time (s)")
+    axes[0].set_ylim(1e-22, None)
+    axes[0].legend(ncol=2, loc="lower left", title="closed cycle")
+
+    if side:
+        reference = data["F_n14_pg_o15"]
+        # The hot phase, taken as the times at which the temperature is within a
+        # factor of two of its maximum.  This is a plotting window only, chosen
+        # so that the crossing of the side path over the reference flow is not
+        # squeezed into a few pixels.
+        inside = data["t9"] > 0.5 * data["t9"].max()
+        t_lo, t_hi = data["time"][inside].min(), data["time"][inside].max()
+
+        axes[1].plot(data["time"][inside], np.clip(reference[inside], 1e-30, None),
+                     color=INK, lw=1.4,
+                     label=REACTION_LABEL["n14_pg_o15"] + " (ref.)")
+        for index, reaction in enumerate(side):
+            axes[1].plot(data["time"][inside],
+                         np.clip(data[f"F_{reaction}"][inside], 1e-30, None),
+                         color=PALETTE[index], ls="--",
+                         label=REACTION_LABEL[reaction])
+        hottest = data["time"][int(np.argmax(data["t9"]))]
+        axes[1].axvline(hottest, color=MUTED, lw=0.9, ls=(0, (2, 3)))
+        axes[1].annotate(r"$T_{9,\max}$", (hottest, 1.0), xycoords=("data", "axes fraction"),
+                         textcoords="offset points", xytext=(3, -10),
+                         color=MUTED, fontsize=8)
+        axes[1].set_xlim(t_lo, t_hi)
+        axes[1].set_xlabel("time (s)")
+        largest = max(reference[inside].max(),
+                      max(data[f"F_{r}"][inside].max() for r in side))
+        axes[1].set_ylim(1.0e-6 * largest, 5.0 * largest)
+        axes[1].legend(ncol=2, loc="lower left", title="CNO-II/III side path")
+
+    for ax in axes:
+        ax.set_yscale("log")
+        ax.set_ylabel(r"flow $F$ (mol g$^{-1}$ s$^{-1}$)")
+    axes[0].set_title(title, loc="left", color=INK)
+    fig.tight_layout()
     save(fig, name)
 
 
@@ -690,13 +750,13 @@ def main() -> None:
         figure_timescales("traj_ref", "fig11_traj_timescales.png",
                           "Trajectory model: nuclear and thermodynamic timescales")
         figure_steady_flow("traj_ref", "fig13_traj_steady_flow.png",
-                           "Trajectory model: test for steady flow")
+                           "Trajectory model: the six principal cycle flows")
         figure_energy("traj_ref", "fig15_traj_energy.png",
                       "Trajectory model: nuclear energy generation")
     figure_timescales("exp_ref", "fig10_exp_timescales.png",
                       "Exponential model: nuclear and thermodynamic timescales")
     figure_steady_flow("exp_ref", "fig12_exp_steady_flow.png",
-                       "Exponential model: test for steady flow")
+                       "Exponential model: the six principal cycle flows")
     figure_energy("exp_ref", "fig14_exp_energy.png",
                   "Exponential model: nuclear energy generation")
 

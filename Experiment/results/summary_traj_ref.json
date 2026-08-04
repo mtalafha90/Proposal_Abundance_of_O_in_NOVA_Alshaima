@@ -6,7 +6,7 @@
  "reactions": 535,
  "solver_success": true,
  "solver_message": "The solver successfully reached the end of the integration interval.",
- "wall_time_s": 1284.4,
+ "wall_time_s": 1290.9,
  "t_end": 112967.67247604189,
  "reached_t_end": true,
  "t9_initial": 0.09128,
@@ -84,5 +84,5 @@
   "interval_within_factor_3_s": 13.647466777693282
  },
  "peak_energy_generation_erg_g_s": 8762759803179645.0,
- "dominant_flow_at_peak": "o16_pg_f17"
+ "dominant_flow_at_peak": "f17_pg_ne18"
 }

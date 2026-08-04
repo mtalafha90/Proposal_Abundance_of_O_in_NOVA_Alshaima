@@ -483,12 +483,14 @@
    "reactions": 535,
    "solver_success": true,
    "solver_message": "The solver successfully reached the end of the integration interval.",
-   "wall_time_s": 109.5,
+   "wall_time_s": 117.5,
    "t_end": 100.0,
    "reached_t_end": true,
    "t9_initial": 0.2,
    "t9_peak": 0.2,
    "t9_peak_on_output_grid": 0.2,
+   "time_above_t9_0p2_s": 0.0,
+   "time_above_t9_0p1_s": 0.41588575725492377,
    "rho_initial": 15000.0,
    "r_initial": 0.003676470588235294,
    "r_final": 0.4600374406280284,
@@ -554,10 +556,6 @@
     "ne21": 3.5996386239453297e-06,
     "ne22": 0.00011615513428236175
    },
-   "peak_energy_generation_erg_g_s": 3.518616484947303e+18,
-   "dominant_flow_at_peak": "n15_pa_c12",
-   "time_above_t9_0p2_s": 0.0,
-   "time_above_t9_0p1_s": 0.41588575725492377,
    "steady_flow": {
     "window_criterion": "cycle throughput > 0.1 of its maximum",
     "window_start_s": 0.00440666743,
@@ -570,7 +568,9 @@
     "interval_within_factor_1p5_s": 0.0,
     "interval_within_factor_2_s": 0.0,
     "interval_within_factor_3_s": 0.0
-   }
+   },
+   "peak_energy_generation_erg_g_s": 3.518616484947303e+18,
+   "dominant_flow_at_peak": "n15_pa_c12"
   },
   "exp_rho_only": {
    "name": "exp_rho_only",
@@ -1065,7 +1065,7 @@
    "reactions": 535,
    "solver_success": true,
    "solver_message": "The solver successfully reached the end of the integration interval.",
-   "wall_time_s": 1284.4,
+   "wall_time_s": 1290.9,
    "t_end": 112967.67247604189,
    "reached_t_end": true,
    "t9_initial": 0.09128,
@@ -1143,7 +1143,7 @@
     "interval_within_factor_3_s": 13.647467000000006
    },
    "peak_energy_generation_erg_g_s": 8762759803179645.0,
-   "dominant_flow_at_peak": "o16_pg_f17"
+   "dominant_flow_at_peak": "f17_pg_ne18"
   },
   "traj_z20": {
    "name": "traj_z20",

@@ -184,7 +184,10 @@ over the 2.73 s interval t = 103.86–106.59 s in which D < log10(2).
 | **¹⁵O** | **9.6e-01** | **9.8e-01** |
 | ¹⁵N | 5.0e-05 | 5.2e-05 |
 
-Five of the six carry essentially no traffic outside the cycle. **¹⁵O does.**
+For five of the six, side flows are generally small over the interval, though
+¹⁴N reaches 0.21 near its edge; their medians lie between 1.5e-05 and 1.1e-03,
+so for most of the interval they are fed and drained by the cycle alone.
+**¹⁵O is different.**
 At t = 104.12 s (T₉ = 0.3954, ρ = 1987 g/cc):
 
 | reaction | flow | share of ¹⁵O turnover |
@@ -208,6 +211,20 @@ Consequently ¹⁵O is **not in balance**: production exceeds destruction by
 cent. The closed cycle is therefore not closed at ¹⁵O, and the agreement of the
 six links is **not** by itself evidence of a circulating steady state.
 
+The three side-path flows are now written by the solver itself
+(`F_f17_pg_ne18`, `F_ne18_bd_f18`, `F_f18_pa_o15`, `F_o17_pg_f18` in the flows
+CSV), so none of the above rests on post-processing. ¹⁸F(p,α) exceeds
+14N(p,γ) from just after the temperature maximum until t = 115.6 s, and
+¹⁸Ne(β⁺) tracks ¹⁸F(p,α) to within 1% across the hot phase — ¹⁸F is destroyed
+as fast as it is made.
+
+**This is a property of the trajectory, not of the network.** In the
+exponential model (T₉ peak 0.200) the dispersion never falls below 1.35 dex, so
+the factor-2 condition is never met at all; at its closest approach
+f_side(¹⁵O) = 1.2e-03, three orders of magnitude smaller. Building the ¹⁸Ne
+reservoir via ¹⁶O(p,γ)¹⁷F(p,γ)¹⁸Ne needs the higher temperature the trajectory
+reaches.
+
 **The limiting step changes with temperature**, so the classical CNO
 bottleneck does not hold throughout. The proton-capture timescale of
 $^{14}$N is 244 s at the starting conditions, longer than the beta lifetimes
@@ -218,9 +235,11 @@ temperature maximum — six orders of magnitude faster. Through the whole burnin
 episode the cycle is therefore **beta-limited**.
 
 **There are three waiting points, and ¹⁵O is not the largest.** At the
-temperature maximum (t = 103.907 s, T₉ = 0.4467), 96% of the circulating
-material — C, N, O and F isotopes plus ¹⁸Ne and ¹⁹Ne — sits on three
-beta-unstable nuclei:
+temperature maximum (t = 103.907 s, T₉ = 0.4467), 96% of the total abundance in
+the hot-CNO species pool sits on three beta-unstable nuclei. The pool is all 40
+C, N, O and F isotopes of the network (⁹⁻¹⁶C, ¹¹⁻¹⁸N, ¹²⁻²¹O, ¹⁴⁻²³F) plus the
+proton-rich ¹⁶⁻¹⁹Ne; ²⁰⁻²⁵Ne are excluded because ²⁰Ne comes from the initial
+composition and takes no part in the burning. The pool holds X = 1.00e-02:
 
 | nuclide | X | share |
 |---|---|---|
