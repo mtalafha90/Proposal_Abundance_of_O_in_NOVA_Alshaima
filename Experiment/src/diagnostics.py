@@ -38,8 +38,18 @@ CNO_REACTIONS: List[tuple] = [
     ("f17_bd_o17", ["f17"], ["o17"]),
 ]
 
-#: The four flows whose equality defines steady flow around the cold CNO cycle.
-STEADY_FLOW_CHAIN = ["c12_pg_n13", "n13_pg_o14", "n14_pg_o15", "n15_pa_c12"]
+#: Every link of the closed hot CNO cycle,
+#:
+#:   12C(p,g)13N(p,g)14O(b+)14N(p,g)15O(b+)15N(p,a)12C
+#:
+#: in cycle order.  A steady-flow test has to include all of them: in the
+#: beta-limited regime the two decays are the slow links, so a test built only
+#: from the proton captures cannot show whether the cycle is circulating at a
+#: uniform rate.
+STEADY_FLOW_CHAIN = [
+    "c12_pg_n13", "n13_pg_o14", "o14_bd_n14",
+    "n14_pg_o15", "o15_bd_n15", "n15_pa_c12",
+]
 
 #: Isotopes whose evolution is written out for every run.
 TRACKED_SPECIES = [
@@ -139,11 +149,12 @@ def flow_history(
 
 
 def steady_flow_ratios(history: FlowHistory) -> Dict[str, np.ndarray]:
-    """Flow ratios ``Q_ab = F_a / F_b`` along the cold-CNO chain.
+    """Flow ratios ``Q_j = F_j / F_ref`` for every link of the closed cycle.
 
-    Each flow is divided by the flow of :sup:`14`\\ N(p,gamma):sup:`15`\\ O, the
-    classical bottleneck of the cycle.  Values near one mean the cycle is close
-    to steady flow.
+    The reference is :sup:`14`\\ N(p,gamma):sup:`15`\\ O, which is the limiting
+    step of the cold cycle; the ratios test whether it stays so.  Values near
+    one for *all* links at the *same* time mean the cycle is circulating at a
+    uniform rate.
     """
     reference = history.flows.get("n14_pg_o15")
     if reference is None:
@@ -154,3 +165,79 @@ def steady_flow_ratios(history: FlowHistory) -> Dict[str, np.ndarray]:
             with np.errstate(divide="ignore", invalid="ignore"):
                 out[name] = np.where(reference > 0.0, history.flows[name] / reference, np.nan)
     return out
+
+
+def steady_flow_dispersion(history: FlowHistory) -> np.ndarray:
+    """``D = max_j |log10 Q_j|`` over the closed cycle: one number per time.
+
+    ``D = 0`` is exact steady flow; ``D = log10(2)`` means every link is within
+    a factor of two of the reference.  Taking the maximum over links, rather
+    than an average, is what makes this a test of the whole cycle: it cannot be
+    made small by a subset of the flows agreeing among themselves.
+    """
+    ratios = steady_flow_ratios(history)
+    if not ratios:
+        return np.full(len(history.time), np.nan)
+    stack = np.vstack([ratios[name] for name in STEADY_FLOW_CHAIN if name in ratios])
+    with np.errstate(divide="ignore", invalid="ignore"):
+        return np.nanmax(np.abs(np.log10(stack)), axis=0)
+
+
+def cycle_throughput(history: FlowHistory) -> np.ndarray:
+    """The rate at which the closed cycle actually circulates.
+
+    A cycle turns over no faster than its slowest link, so the minimum flow
+    around the loop is the throughput.  This is the quantity that says whether
+    the cycle is running, and it is a better window criterion than the
+    reference flow alone: ``14N(p,gamma)`` spikes before the temperature
+    maximum while its target is being consumed, which is a transient rather
+    than circulation.
+    """
+    stack = np.vstack([history.flows[name] for name in STEADY_FLOW_CHAIN
+                       if name in history.flows])
+    return np.min(stack, axis=0)
+
+
+def steady_flow_report(history: FlowHistory, t9: np.ndarray,
+                       floor: float = 0.1) -> Dict[str, object]:
+    """Summarise how closely, and for how long, the cycle approaches steady flow.
+
+    The analysis is restricted to times at which the cycle throughput exceeds
+    ``floor`` times its own maximum.  Outside that window the flow ratios are
+    dominated by a collapsing denominator and say nothing about circulation.
+    """
+    if "n14_pg_o15" not in history.flows:
+        return {}
+    throughput = cycle_throughput(history)
+    if not np.any(throughput > 0):
+        return {}
+    dispersion = steady_flow_dispersion(history)
+    window = throughput > floor * np.nanmax(throughput)
+    time = history.time
+    best = int(np.nanargmin(np.where(window, dispersion, np.inf)))
+    out = {
+        "window_criterion": f"cycle throughput > {floor:g} of its maximum",
+        "window_start_s": float(time[window][0]),
+        "window_end_s": float(time[window][-1]),
+        "min_dispersion_dex": float(dispersion[best]),
+        "min_dispersion_as_factor": float(10.0 ** dispersion[best]),
+        "time_of_min_dispersion_s": float(time[best]),
+        "t9_at_min_dispersion": float(t9[best]),
+    }
+    for factor in (1.2, 1.5, 2.0, 3.0):
+        inside = window & (dispersion < np.log10(factor))
+        key = f"interval_within_factor_{factor:g}_s".replace(".", "p")
+        out[key] = float(time[inside][-1] - time[inside][0]) if inside.any() else 0.0
+    return out
+
+
+def flow_history_from_columns(columns: Dict[str, np.ndarray]) -> FlowHistory:
+    """Rebuild a :class:`FlowHistory` from a stored ``*_flows.csv``.
+
+    The steady-flow diagnostics are pure post-processing of the flows, so they
+    can be recomputed from stored output without repeating an integration.
+    """
+    flows = {key[2:]: values for key, values in columns.items() if key.startswith("F_")}
+    timescales = {key[4:]: values for key, values in columns.items() if key.startswith("tau_")}
+    return FlowHistory(columns["time"], flows, timescales,
+                       columns.get("eps_nuc_erg_g_s", np.zeros(len(columns["time"]))))

@@ -109,15 +109,40 @@ elemental oxygen is less network-converged than $R_{15/14}$.
 
 ## 4. Steady flow
 
-The flow ratios $Q_{ab} = F_a / F_{^{14}{\rm N}({\rm p},\gamma)}$ (`fig12`,
-`fig13`) answer the quasi-equilibrium question directly: **the CNO cycle does
-not reach steady flow, except momentarily.**
+Testing for steady flow needs **every link of the closed cycle**, not a
+selection of proton captures: in the beta-limited regime the two decays are the
+slow steps, so a test built only from the captures cannot show whether the cycle
+circulates uniformly. All six links of
 
-In the trajectory model the three ratios span more than six orders of magnitude
-during the quiescent phase, converge towards unity only in the few seconds
-around the temperature peak, and separate again immediately afterwards. So
-there is a brief interval near maximum temperature where the cycle approaches
-quasi-steady flow, and nothing resembling it before or after.
+    12C(p,g)13N(p,g)14O(b+)14N(p,g)15O(b+)15N(p,a)12C
+
+are compared, summarised by `D = max_j |log10 Q_j|` — the largest deviation of
+any link from the reference flow. Taking the maximum, not an average, is what
+makes it a whole-cycle test.
+
+The window matters too. Ratios are meaningless where the denominator is
+collapsing, so the analysis is restricted to where the **cycle throughput** (the
+smallest flow around the loop) exceeds a tenth of its maximum: t = 59.0–126.0 s,
+T₉ = 0.098–0.447. Using the reference flow alone would be worse — 14N(p,γ)
+spikes sharply just before the peak while its target is being consumed, which is
+the 14N reservoir emptying, not circulation.
+
+**Result: the cycle does reach steady flow, briefly and genuinely.**
+
+| Criterion | Value |
+|---|---|
+| closest approach | D = 0.013 dex — all six links within **3%** |
+| when | t = 104.12 s, 0.23 s after the T₉ maximum |
+| all six within factor 1.2 | 0.43 s |
+| all six within factor 2 | 2.73 s |
+| all six within factor 3 | 13.6 s |
+
+Resolved at 0.04 s output spacing across the burning episode. Before the peak
+D ≈ 0.7–0.8 dex, rising to 2.2 dex during the 14N(p,γ) transient; afterwards it
+grows back to 1.3 dex. So the cycle enters steady flow abruptly, as the proton
+captures overtake the decays, and leaves it gradually as the material cools —
+a few seconds of steady flow out of a burning episode lasting tens of seconds.
+
 **The limiting step changes with temperature**, so the classical CNO
 bottleneck does not hold throughout. The proton-capture timescale of
 $^{14}$N is 244 s at the starting conditions, longer than the beta lifetimes

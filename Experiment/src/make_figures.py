@@ -68,6 +68,16 @@ REACTION_LABEL = {
 
 RATIO_LABEL = r"$R_{15/14} = (^{15}$N$+^{15}$O$)/(^{14}$N$+^{14}$O$)$"
 
+#: Every link of the closed hot CNO cycle, in cycle order.
+STEADY_FLOW_CHAIN = ["c12_pg_n13", "n13_pg_o14", "o14_bd_n14",
+                     "n14_pg_o15", "o15_bd_n15", "n15_pa_c12"]
+
+#: The steady-flow plot is restricted to times at which the cycle throughput --
+#: the smallest flow around the closed loop -- exceeds this fraction of its own
+#: maximum.  Using the throughput rather than the reference flow alone excludes
+#: the transient spike in 14N(p,gamma) that precedes the temperature maximum.
+FLOW_FLOOR = 0.1
+
 
 def style() -> None:
     plt.rcParams.update({
@@ -250,27 +260,75 @@ def figure_timescales(run: str, name: str, title: str) -> None:
 
 
 def figure_steady_flow(run: str, name: str, title: str) -> None:
+    """Flow ratios for every link of the closed cycle, plus their dispersion.
+
+    Five things this figure has to do, none of which a plot of selected
+    proton-capture ratios over the whole run can do: show every link of the
+    closed cycle including the two beta decays, restrict the time axis to the
+    interval where the reference flow is actually large enough for the ratios
+    to mean anything, mark the temperature maximum, quantify the convergence
+    with a single number, and make it possible to see whether all the links are
+    close to unity *at the same time*.
+    """
     data = read_csv(f"{run}_flows.csv")
-    mask = positive(data["time"])
-    chain = ["c12_pg_n13", "n13_pg_o14", "n15_pa_c12"]
-    fig, ax = plt.subplots(figsize=(5.4, 3.6))
-    for index, reaction in enumerate(chain):
+    time = data["time"]
+    links = [f"F_{name}" for name in STEADY_FLOW_CHAIN if f"F_{name}" in data]
+    if len(links) < len(STEADY_FLOW_CHAIN):
+        return
+    throughput = np.vstack([data[k] for k in links]).min(axis=0)
+    if not np.any(throughput > 0):
+        return
+    # The ratios say something about circulation only while the cycle is
+    # actually circulating; outside that the denominator is collapsing.
+    window = throughput > FLOW_FLOOR * np.nanmax(throughput)
+    if window.sum() < 3:
+        return
+    lo, hi = time[window][0], time[window][-1]
+    span = time >= lo
+    span &= time <= hi
+
+    fig, axes = plt.subplots(2, 1, figsize=(5.4, 5.2), sharex=True,
+                             gridspec_kw={"height_ratios": [2, 1]})
+    for index, reaction in enumerate(STEADY_FLOW_CHAIN):
         key = f"Q_{reaction}"
         if key not in data:
             continue
-        ax.plot(data["time"][mask], np.clip(data[key][mask], 1e-8, 1e8),
-                color=PALETTE[index],
-                label=f"{REACTION_LABEL[reaction]} / {REACTION_LABEL['n14_pg_o15']}")
-    ax.axhline(1.0, color=MUTED, linewidth=0.9, linestyle=(0, (4, 3)))
-    ax.set_xscale("log")
-    ax.set_yscale("log")
-    ax.annotate("steady flow", (0.015, 1.0),
-                xycoords=ax.get_yaxis_transform(), textcoords="offset points",
-                xytext=(0, 5), color=MUTED, fontsize=8, va="bottom", ha="left")
-    ax.set_xlabel("time (s)")
-    ax.set_ylabel(r"flow ratio $Q_{ab}$")
-    ax.set_title(title, loc="left", color=INK)
-    ax.legend(loc="best")
+        # The last link overlies the one before it almost exactly -- 15O decays
+        # to 15N, which is consumed immediately -- so it is drawn dashed to let
+        # the curve underneath show through.
+        axes[0].plot(time[span], data[key][span], color=PALETTE[index],
+                     linestyle=(0, (5, 2)) if index == len(STEADY_FLOW_CHAIN) - 1 else "-",
+                     label=REACTION_LABEL[reaction])
+    axes[0].axhline(1.0, color=MUTED, linewidth=0.9, linestyle=(0, (4, 3)))
+    axes[0].set_yscale("log")
+    axes[0].set_ylabel(r"$Q_j = F_j / F_{^{14}\mathrm{N}(\mathrm{p},\gamma)}$")
+    axes[0].set_title(title, loc="left", color=INK)
+    axes[0].legend(ncol=2, loc="lower left", fontsize=7)
+
+    dispersion = data.get("steady_flow_dispersion_dex")
+    if dispersion is not None:
+        axes[1].plot(time[span], dispersion[span], color=INK)
+        for factor, style in ((2.0, (0, (4, 3))), (3.0, (0, (1, 2)))):
+            axes[1].axhline(np.log10(factor), color=MUTED, linewidth=0.9, linestyle=style)
+            # Right-aligned and offset apart, so the two labels do not collide.
+            axes[1].annotate(f"factor {factor:.0f}", (0.995, np.log10(factor)),
+                             xycoords=axes[1].get_yaxis_transform(),
+                             textcoords="offset points", xytext=(0, 2),
+                             fontsize=7, color=MUTED, va="bottom", ha="right")
+        best = int(np.nanargmin(np.where(span, dispersion, np.inf)))
+        axes[1].annotate(f"min $D$ = {dispersion[best]:.2f} dex",
+                         (time[best], dispersion[best]), textcoords="offset points",
+                         xytext=(6, 6), fontsize=8, color=INK)
+    axes[1].set_ylabel(r"$D = \max_j |\log_{10} Q_j|$")
+    axes[1].set_xlabel("time (s)")
+    axes[1].set_ylim(0, None)
+
+    hottest = time[int(np.argmax(data["t9"]))]
+    for ax in axes:
+        ax.axvline(hottest, color=PALETTE[7], linewidth=0.9, linestyle=(0, (2, 2)))
+    axes[0].annotate("$T_9$ max", (hottest, 1.0), xycoords=("data", "axes fraction"),
+                     textcoords="offset points", xytext=(3, -10),
+                     fontsize=8, color=PALETTE[7], va="top")
     save(fig, name)
 
 

@@ -68,6 +68,11 @@ class Run:
     #: points, so that a short burning episode is resolved in the output as well
     #: as in the integration.
     dense_window: Optional[tuple] = None
+    #: Optional second, finer window.  The steady-flow diagnostic compares
+    #: reaction flows against each other over an interval of a few seconds, so
+    #: it needs output spacing well below that; the coarser window above only
+    #: has to resolve the burning episode itself.
+    fine_window: Optional[tuple] = None
 
     def times(self) -> np.ndarray:
         grid = np.concatenate(
@@ -76,6 +81,9 @@ class Run:
         if self.dense_window is not None:
             first, last = self.dense_window
             grid = np.concatenate((grid, np.linspace(first, last, 200)))
+        if self.fine_window is not None:
+            first, last = self.fine_window
+            grid = np.concatenate((grid, np.linspace(first, last, 1200)))
         return np.unique(grid)
 
 
@@ -111,6 +119,8 @@ def build_runs() -> List[Run]:
             t_end=traj_end,
             detailed=True,
             dense_window=traj_window,
+            # 0.05 s spacing across the burning episode, for the flow ratios.
+            fine_window=(0.85 * traj_peak, 1.35 * traj_peak),
         ),
         Run(
             name="traj_z20",
@@ -295,7 +305,10 @@ def execute(run: Run) -> dict:
         flow_columns["tau_rho"] = tau_rho
         for name, values in diagnostics.steady_flow_ratios(flow).items():
             flow_columns[f"Q_{name}"] = values
+        flow_columns["steady_flow_dispersion_dex"] = diagnostics.steady_flow_dispersion(flow)
         _write_csv(RESULTS / f"{run.name}_flows.csv", flow_columns)
+
+        summary["steady_flow"] = diagnostics.steady_flow_report(flow, t9)
 
         summary["peak_energy_generation_erg_g_s"] = float(np.nanmax(flow.energy_generation))
         summary["dominant_flow_at_peak"] = _dominant_flow(flow, t9)
@@ -318,6 +331,13 @@ def _dominant_flow(flow: diagnostics.FlowHistory, t9: np.ndarray) -> str:
     hottest = int(np.argmax(t9))
     ranked = sorted(flow.flows.items(), key=lambda item: item[1][hottest], reverse=True)
     return ranked[0][0] if ranked else ""
+
+
+def _read_csv(path: Path) -> Dict[str, np.ndarray]:
+    with path.open() as handle:
+        header = handle.readline().strip().split(",")
+    data = np.loadtxt(path, delimiter=",", skiprows=1)
+    return {key: data[:, i] for i, key in enumerate(header)}
 
 
 def _write_csv(path: Path, columns: Dict[str, np.ndarray]) -> None:
@@ -371,6 +391,13 @@ def merge_summaries() -> Path:
             for threshold, key in ((0.2, "time_above_t9_0p2_s"),
                                    (0.1, "time_above_t9_0p1_s")):
                 summary[key] = time_above(run.thermo, summary["t_end"], threshold)
+        # The steady-flow diagnostics are post-processing of the stored flows,
+        # so they are recomputed here rather than requiring a fresh integration.
+        flows_path = RESULTS / f"{summary['name']}_flows.csv"
+        if flows_path.exists():
+            columns = _read_csv(flows_path)
+            history = diagnostics.flow_history_from_columns(columns)
+            summary["steady_flow"] = diagnostics.steady_flow_report(history, columns["t9"])
         runs[summary["name"]] = summary
     summary_path = RESULTS / "summary.json"
     summary_path.write_text(

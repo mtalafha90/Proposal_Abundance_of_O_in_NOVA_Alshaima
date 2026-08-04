@@ -554,7 +554,20 @@
    "peak_energy_generation_erg_g_s": 3.518616484947303e+18,
    "dominant_flow_at_peak": "n15_pa_c12",
    "time_above_t9_0p2_s": 0.0,
-   "time_above_t9_0p1_s": 0.41588575725492377
+   "time_above_t9_0p1_s": 0.41588575725492377,
+   "steady_flow": {
+    "window_criterion": "cycle throughput > 0.1 of its maximum",
+    "window_start_s": 0.00440666743,
+    "window_end_s": 0.309904634,
+    "min_dispersion_dex": 1.345577930400903,
+    "min_dispersion_as_factor": 22.16041710218912,
+    "time_of_min_dispersion_s": 0.127427499,
+    "t9_at_min_dispersion": 0.161731605,
+    "interval_within_factor_1p2_s": 0.0,
+    "interval_within_factor_1p5_s": 0.0,
+    "interval_within_factor_2_s": 0.0,
+    "interval_within_factor_3_s": 0.0
+   }
   },
   "exp_tau0p05": {
    "name": "exp_tau0p05",
@@ -971,19 +984,21 @@
    "reactions": 535,
    "solver_success": true,
    "solver_message": "The solver successfully reached the end of the integration interval.",
-   "wall_time_s": 1280.3,
+   "wall_time_s": 1264.3,
    "t_end": 112967.67247604189,
    "reached_t_end": true,
    "t9_initial": 0.09128,
    "t9_peak": 0.4480840303984878,
-   "t9_peak_on_output_grid": 0.4060354541658861,
+   "t9_peak_on_output_grid": 0.4467485748040819,
+   "time_above_t9_0p2_s": 17.67826882154357,
+   "time_above_t9_0p1_s": 76.55770157817885,
    "rho_initial": 22110.0,
    "r_initial": 0.003676470588235294,
    "r_final": 3.2299124509824915,
-   "r_max": 3.9724164738472423,
+   "r_max": 3.9748082365914623,
    "enhancement": 878.5361866672376,
    "freeze_out_time_s": 155.31899236723743,
-   "strongest_change_time_s": 103.63300835259372,
+   "strongest_change_time_s": 102.82391397936341,
    "xsum_initial": 1.0,
    "xsum_final": 1.0000000000000184,
    "composition_truncation": {
@@ -1033,10 +1048,21 @@
     "ne21": 3.5996392697916093e-06,
     "ne22": 0.00011615513428236175
    },
-   "peak_energy_generation_erg_g_s": 1169386398265718.0,
-   "dominant_flow_at_peak": "o15_bd_n15",
-   "time_above_t9_0p2_s": 17.67826882154357,
-   "time_above_t9_0p1_s": 76.55770157817885
+   "steady_flow": {
+    "window_criterion": "cycle throughput > 0.1 of its maximum",
+    "window_start_s": 58.9951131,
+    "window_end_s": 126.04627,
+    "min_dispersion_dex": 0.01265780803959821,
+    "min_dispersion_as_factor": 1.029574572079124,
+    "time_of_min_dispersion_s": 104.123673,
+    "t9_at_min_dispersion": 0.395440098,
+    "interval_within_factor_1p2_s": 0.433251999999996,
+    "interval_within_factor_1p5_s": 1.0398070000000104,
+    "interval_within_factor_2_s": 2.729493000000005,
+    "interval_within_factor_3_s": 13.647467000000006
+   },
+   "peak_energy_generation_erg_g_s": 8762759803179645.0,
+   "dominant_flow_at_peak": "o16_pg_f17"
   },
   "traj_z20": {
    "name": "traj_z20",
