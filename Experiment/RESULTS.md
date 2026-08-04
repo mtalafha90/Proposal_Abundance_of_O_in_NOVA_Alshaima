@@ -57,15 +57,35 @@ build up while the material is hot and then decay to $^{14}$N and $^{15}$N once
 it is not. $^{15}$O is made faster than $^{14}$O, so the ratio ends far above
 its starting value.
 
-**Freeze-out is when the proton-capture timescale overtakes the
-thermodynamic timescale.** In the exponential model
-$\tau_T = 3\tau = 0.6$ s throughout, and the proton-capture timescales rise
-through it within the first second; the ratio is within one per cent of its
-final value by $t_{\rm fo} = 0.23$ s. In the trajectory model $\tau_T$ is
-effectively infinite during the quiescent phase, collapses to a few seconds
-across the runaway, and then grows again; freeze-out follows at
-$t_{\rm fo} = 155$ s, once the beta decays of $^{14}$O and $^{15}$O have run to
-completion.
+**Freeze-out: two criteria, and they are not the same one.** $t_{\rm fo}$ is
+measured numerically — the first time after which $R$ stays within 1% of its
+final value. The timescale crossing is a *separate* criterion that explains it.
+They agree, but not as a single number, because the reactions that can still
+move $R$ do not stop together:
+
+| Reaction | crosses $\tau_T$ (trajectory) | (exponential) |
+|---|---|---|
+| $^{14}$N(p,γ) — feeds A=15 | 125.0 s (T₉ 0.178) | 0.14 s |
+| $^{12}$C(p,γ) — feeds the cycle | 128.6 s (T₉ 0.162) | 0.23 s |
+| $^{15}$N(p,α) — drains A=15 | 160.0 s (T₉ 0.083) | 0.59 s |
+| **numerical $t_{\rm fo}$** | **155.3 s** | **0.23 s** |
+
+In both models $t_{\rm fo}$ falls inside the interval the crossings span, close
+to the last one — the reaction that keeps changing the ratio longest. That is
+the honest relationship: the crossing interprets $t_{\rm fo}$, it does not
+define it.
+
+**How the thermodynamic timescales are computed.** $T_9$ and $\rho$ come from
+the same thermo callable the solver uses, sampled at the output times; for the
+trajectory that is linear interpolation between table rows. No smoothing,
+anywhere. Derivatives are `numpy.gradient` — second-order central differences on
+the non-uniform grid, second-order one-sided at the ends. The table is finer
+than the output grid through the burning episode (0.018 s vs 0.043 s), so
+differentiating the interpolant is well-posed. $\tau_T$ diverges where
+d$T_9$/d$t$ = 0 (at the peak and at minor stationary points); it is not
+regularised, is drawn with a ceiling in the figures, and the nuclear-versus-
+thermodynamic comparison is only used on the cooling branch where d$T_9$/d$t$ is
+large — which is where freeze-out happens anyway.
 
 **The trajectory produces more $^{15}$N because it burns hotter, for longer.**
 The peak temperature is 0.448 against 0.200, and the measured profile holds the
