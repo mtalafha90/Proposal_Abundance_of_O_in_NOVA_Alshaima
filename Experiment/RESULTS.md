@@ -118,8 +118,17 @@ during the quiescent phase, converge towards unity only in the few seconds
 around the temperature peak, and separate again immediately afterwards. So
 there is a brief interval near maximum temperature where the cycle approaches
 quasi-steady flow, and nothing resembling it before or after.
-$^{14}{\rm N}({\rm p},\gamma)^{15}{\rm O}$ is the slowest link throughout,
-which is the classical CNO bottleneck.
+**The limiting step changes with temperature**, so the classical CNO
+bottleneck does not hold throughout. The proton-capture timescale of
+$^{14}$N is 244 s at the starting conditions, longer than the beta lifetimes
+of $^{14}$O (101.9 s) and $^{15}$O (176.0 s), so $^{14}$N(p,$\gamma$) limits the
+flow during the quiescent phase. It drops below the $^{15}$O lifetime at
+$T_9 \simeq 0.10$ (t $\simeq$ 74 s) and reaches $3.9\times10^{-5}$ s at the
+temperature maximum — six orders of magnitude faster. Through the whole burning
+episode the cycle is therefore **beta-limited**, its circulation time set by
+$^{14}$O and $^{15}$O, which hold 100% of the CNO material at peak temperature
+(77% in $^{15}$O, 23% in $^{14}$O) — the accumulation expected at a waiting
+point.
 
 ## 5. Sensitivity to the expansion timescale
 
