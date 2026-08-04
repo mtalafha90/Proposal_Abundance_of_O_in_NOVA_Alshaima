@@ -147,7 +147,8 @@ T₉ = 0.098–0.447. Using the reference flow alone would be worse — 14N(p,γ
 spikes sharply just before the peak while its target is being consumed, which is
 the 14N reservoir emptying, not circulation.
 
-**Result: the cycle does reach steady flow, briefly and genuinely.**
+**Result: the six principal links approach a common flow for a short interval
+after the temperature maximum.**
 
 | Criterion | Value |
 |---|---|
@@ -159,9 +160,53 @@ the 14N reservoir emptying, not circulation.
 
 Resolved at 0.04 s output spacing across the burning episode. Before the peak
 D ≈ 0.7–0.8 dex, rising to 2.2 dex during the 14N(p,γ) transient; afterwards it
-grows back to 1.3 dex. So the cycle enters steady flow abruptly, as the proton
-captures overtake the decays, and leaves it gradually as the material cools —
-a few seconds of steady flow out of a burning episode lasting tens of seconds.
+grows back to 1.3 dex. So the cycle enters this condition abruptly, as the proton
+captures overtake the decays, and leaves it gradually as the material cools.
+
+### 4a. Side branches: the agreement is not steady flow
+
+Equal flows around a loop are necessary for steady flow but not sufficient — a
+nuclide can also be fed or drained by reactions outside the loop. Each
+intermediate is therefore tested separately against the **whole** 68-nuclide
+network, using
+
+    f_side,i = sum|F_side,i| / (sum|F_principal,i| + sum|F_side,i|)
+
+evaluated from the stored abundances of all 68 species (`traj_ref_abundances.csv`),
+over the 2.73 s interval t = 103.86–106.59 s in which D < log10(2).
+
+| nuclide | median f_side | max f_side |
+|---|---|---|
+| ¹²C | 7.2e-04 | 3.9e-02 |
+| ¹³N | 1.5e-05 | 2.1e-05 |
+| ¹⁴O | 1.1e-03 | 2.6e-02 |
+| ¹⁴N | 4.3e-05 | 2.1e-01 |
+| **¹⁵O** | **9.6e-01** | **9.8e-01** |
+| ¹⁵N | 5.0e-05 | 5.2e-05 |
+
+Five of the six carry essentially no traffic outside the cycle. **¹⁵O does.**
+At t = 104.12 s (T₉ = 0.3954, ρ = 1987 g/cc):
+
+| reaction | flow | share of ¹⁵O turnover |
+|---|---|---|
+| ¹⁸F(p,α)¹⁵O | 1.222e-04 | 98.1% |
+| ¹⁵O(β⁺)¹⁵N | 1.151e-06 | 0.92% |
+| ¹⁴N(p,γ)¹⁵O | 1.132e-06 | 0.91% |
+
+¹⁸F(p,α)¹⁵O runs at **108×** the reference loop flow. Its source is
+¹⁸Ne(β⁺)¹⁸F at 1.223e-04, which supplies >99.9% of the ¹⁸F; the alternative
+¹⁷O(p,γ)¹⁸F contributes 9.7e-11, six orders of magnitude less. The path is the
+CNO-II/III chain
+
+    16O(p,g)17F(p,g)18Ne(b+)18F(p,a)15O
+
+and along this trajectory it is the dominant supply of ¹⁵O, not a minor branch.
+
+Consequently ¹⁵O is **not in balance**: production exceeds destruction by
+1.21e-04, and X(¹⁵O) duly rises from 2.63e-03 at the temperature maximum to
+3.04e-03 at t = 104.12 s, a rate that matches the imbalance to within a few per
+cent. The closed cycle is therefore not closed at ¹⁵O, and the agreement of the
+six links is **not** by itself evidence of a circulating steady state.
 
 **The limiting step changes with temperature**, so the classical CNO
 bottleneck does not hold throughout. The proton-capture timescale of
@@ -170,10 +215,22 @@ of $^{14}$O (101.9 s) and $^{15}$O (176.0 s), so $^{14}$N(p,$\gamma$) limits the
 flow during the quiescent phase. It drops below the $^{15}$O lifetime at
 $T_9 \simeq 0.10$ (t $\simeq$ 74 s) and reaches $3.9\times10^{-5}$ s at the
 temperature maximum — six orders of magnitude faster. Through the whole burning
-episode the cycle is therefore **beta-limited**, its circulation time set by
-$^{14}$O and $^{15}$O, which hold 100% of the CNO material at peak temperature
-(77% in $^{15}$O, 23% in $^{14}$O) — the accumulation expected at a waiting
-point.
+episode the cycle is therefore **beta-limited**.
+
+**There are three waiting points, and ¹⁵O is not the largest.** At the
+temperature maximum (t = 103.907 s, T₉ = 0.4467), 96% of the circulating
+material — C, N, O and F isotopes plus ¹⁸Ne and ¹⁹Ne — sits on three
+beta-unstable nuclei:
+
+| nuclide | X | share |
+|---|---|---|
+| ¹⁸Ne | 5.407e-03 | 56.3% |
+| ¹⁵O | 2.629e-03 | 27.4% |
+| ¹⁴O | 1.568e-03 | 16.3% |
+
+¹⁸Ne has a 2.4 s mean lifetime, and its decay is exactly what drives the ¹⁵O
+side flow above. Restricted to the four nuclei of the diagnostic ratio, the
+split is 63% ¹⁵O / 37% ¹⁴O, with the nitrogen isotopes negligible.
 
 ## 5. Sensitivity to the expansion timescale
 

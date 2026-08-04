@@ -231,6 +231,69 @@ def steady_flow_report(history: FlowHistory, t9: np.ndarray,
     return out
 
 
+#: The intermediate nuclides of the closed cycle, each with the two principal
+#: links that produce and destroy it.
+CYCLE_NUCLIDES = {
+    "c12": ("n15_pa_c12", "c12_pg_n13"),
+    "n13": ("c12_pg_n13", "n13_pg_o14"),
+    "o14": ("n13_pg_o14", "o14_bd_n14"),
+    "n14": ("o14_bd_n14", "n14_pg_o15"),
+    "o15": ("n14_pg_o15", "o15_bd_n15"),
+    "n15": ("o15_bd_n15", "n15_pa_c12"),
+}
+
+
+def side_flow_fractions(net: Network, time: np.ndarray, t9: np.ndarray,
+                        rho: np.ndarray, abundance_history: Dict[str, np.ndarray],
+                        species_order: Sequence[str]) -> Dict[str, np.ndarray]:
+    """Fraction of each cycle nuclide's turnover carried by non-cycle channels.
+
+    For nuclide ``i``,
+
+        f_side,i = sum |F_side,i| / (sum |F_principal,i| + sum |F_side,i|),
+
+    where the principal flows are the two links of the closed cycle that
+    produce and destroy it, and the side flows are every other reaction in the
+    network that touches it, weighted by its stoichiometric coefficient.
+
+    Equal flows around the six principal links do not by themselves establish
+    steady flow of the cycle: if a nuclide is also being fed or drained from
+    outside, the loop is not closed.  This quantity is what decides whether the
+    stronger statement is warranted, and it has to be computed over the whole
+    network rather than the tracked subset.
+    """
+    principal = {}
+    for name, reactants, products in CNO_REACTIONS:
+        reaction = find_reaction(net, reactants, products)
+        if reaction is not None:
+            principal[name] = reaction
+
+    # Every reaction that touches each cycle nuclide, with its stoichiometry.
+    touching = {nuc: [] for nuc in CYCLE_NUCLIDES}
+    for reaction in net.reactions.reactions:
+        stoichiometry = reaction.stoichiometry()
+        for nuc in CYCLE_NUCLIDES:
+            nu = stoichiometry.get(nuc, 0)
+            if nu:
+                touching[nuc].append((reaction, abs(nu)))
+
+    out = {nuc: np.zeros(len(time)) for nuc in CYCLE_NUCLIDES}
+    for step in range(len(time)):
+        y = {name: abundance_history[name][step] for name in species_order}
+        for nuc, (into, outof) in CYCLE_NUCLIDES.items():
+            principal_ids = {id(principal[k]) for k in (into, outof) if k in principal}
+            main = side = 0.0
+            for reaction, nu in touching[nuc]:
+                flux = nu * reaction.flux(y, t9=t9[step], rho=rho[step])
+                if id(reaction) in principal_ids:
+                    main += flux
+                else:
+                    side += flux
+            total = main + side
+            out[nuc][step] = side / total if total > 0.0 else 0.0
+    return out
+
+
 def flow_history_from_columns(columns: Dict[str, np.ndarray]) -> FlowHistory:
     """Rebuild a :class:`FlowHistory` from a stored ``*_flows.csv``.
 

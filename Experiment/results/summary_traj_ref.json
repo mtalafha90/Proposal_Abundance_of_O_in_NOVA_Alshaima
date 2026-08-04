@@ -6,7 +6,7 @@
  "reactions": 535,
  "solver_success": true,
  "solver_message": "The solver successfully reached the end of the integration interval.",
- "wall_time_s": 1264.3,
+ "wall_time_s": 1284.4,
  "t_end": 112967.67247604189,
  "reached_t_end": true,
  "t9_initial": 0.09128,
@@ -71,15 +71,17 @@
   "ne22": 0.00011615513428236175
  },
  "steady_flow": {
-  "flow_floor_fraction": 0.1,
-  "window_start_s": 101.69745640406174,
-  "window_end_s": 103.08386572750995,
-  "min_dispersion_dex": 1.1991836985920463,
-  "time_of_min_dispersion_s": 103.08386572750995,
-  "t9_at_min_dispersion": 0.18577563435578157,
-  "interval_within_factor_2_s": 0.0,
-  "interval_within_factor_3_s": 0.0,
-  "interval_within_factor_10_s": 0.0
+  "window_criterion": "cycle throughput > 0.1 of its maximum",
+  "window_start_s": 58.99511306721959,
+  "window_end_s": 126.04627014712086,
+  "min_dispersion_dex": 0.01265781053495523,
+  "min_dispersion_as_factor": 1.0295745779948249,
+  "time_of_min_dispersion_s": 104.1236727200961,
+  "t9_at_min_dispersion": 0.395440098214442,
+  "interval_within_factor_1p2_s": 0.43325291357756157,
+  "interval_within_factor_1p5_s": 1.0398069925861506,
+  "interval_within_factor_2_s": 2.7294933555386507,
+  "interval_within_factor_3_s": 13.647466777693282
  },
  "peak_energy_generation_erg_g_s": 8762759803179645.0,
  "dominant_flow_at_peak": "o16_pg_f17"

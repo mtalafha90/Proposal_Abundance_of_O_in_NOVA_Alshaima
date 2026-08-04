@@ -315,6 +315,14 @@ def execute(run: Run) -> dict:
     }
 
     if run.detailed:
+        # The complete abundance vector, so that any later question about the
+        # flows can be answered from stored output.  The tracked subset above
+        # holds only about 99.5 per cent of the mass during the burning
+        # episode, which is not enough to reconstruct a reaction rate.
+        _write_csv(RESULTS / f"{run.name}_abundances.csv",
+                   {"time": result.time, "t9": t9, "rho": rho,
+                    **{name: history[name] for name in sorted(index)}})
+
         flow = diagnostics.flow_history(net, result.time, t9, rho, history, list(index))
         flow_columns = {"time": result.time, "t9": t9, "rho": rho,
                         "eps_nuc_erg_g_s": flow.energy_generation}
@@ -328,6 +336,9 @@ def execute(run: Run) -> dict:
         for name, values in diagnostics.steady_flow_ratios(flow).items():
             flow_columns[f"Q_{name}"] = values
         flow_columns["steady_flow_dispersion_dex"] = diagnostics.steady_flow_dispersion(flow)
+        for nuc, values in diagnostics.side_flow_fractions(
+                net, result.time, t9, rho, history, list(index)).items():
+            flow_columns[f"fside_{nuc}"] = values
         _write_csv(RESULTS / f"{run.name}_flows.csv", flow_columns)
 
         summary["steady_flow"] = diagnostics.steady_flow_report(flow, t9)

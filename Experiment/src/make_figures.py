@@ -610,6 +610,58 @@ def table_tau(summary: dict) -> None:
     )
 
 
+def table_side_flow(run: str = "traj_ref") -> None:
+    """Side-flow fractions of the six cycle intermediates, over the interval in
+    which all six principal links agree to within a factor of two."""
+    path = RESULTS / f"{run}_flows.csv"
+    if not path.exists():
+        return
+    columns = read_csv(path.name)
+    if "fside_c12" not in columns:
+        return
+
+    dispersion = columns["steady_flow_dispersion_dex"]
+    inside = np.isfinite(dispersion) & (dispersion < np.log10(2.0))
+    if not inside.any():
+        return
+    time = columns["time"][inside]
+
+    labels = [
+        ("c12", "$^{12}\\mathrm{C}$"),
+        ("n13", "$^{13}\\mathrm{N}$"),
+        ("o14", "$^{14}\\mathrm{O}$"),
+        ("n14", "$^{14}\\mathrm{N}$"),
+        ("o15", "$^{15}\\mathrm{O}$"),
+        ("n15", "$^{15}\\mathrm{N}$"),
+    ]
+    def scientific(value: float) -> str:
+        mantissa, exponent = f"{value:.1e}".split("e")
+        return f"${mantissa}\\times10^{{{int(exponent)}}}$"
+
+    rows = []
+    for key, label in labels:
+        values = columns[f"fside_{key}"][inside]
+        rows.append(
+            f"{label} & {scientific(float(np.median(values)))} & "
+            f"{scientific(float(values.max()))} \\\\"
+        )
+
+    _table(
+        TABLES / "tab_side_flow.tex",
+        "Side-flow fraction $f_{\\mathrm{side},i}$ of each intermediate of the "
+        "closed hot-CNO cycle, over the interval "
+        f"$t={time[0]:.2f}$--${time[-1]:.2f}\\ \\mathrm{{s}}$ in which all six "
+        "principal links agree to within a factor of two. $f_{\\mathrm{side},i}$ "
+        "is the fraction of the total flow through nuclide $i$ that is carried by "
+        "reactions outside the cycle of Eq.~\\eqref{eq:closed_cycle}; values well "
+        "below unity mean the nuclide is fed and drained by the cycle alone.",
+        "tab:nucnetpy_side_flow",
+        "Nuclide & median $f_{\\mathrm{side},i}$ & max $f_{\\mathrm{side},i}$",
+        rows,
+        "lll",
+    )
+
+
 def main() -> None:
     style()
     summary = json.loads((RESULTS / "summary.json").read_text())
@@ -656,6 +708,7 @@ def main() -> None:
     table_network_size(summary)
     table_tau(summary)
     table_matched_control(summary)
+    table_side_flow()
 
 
 if __name__ == "__main__":
