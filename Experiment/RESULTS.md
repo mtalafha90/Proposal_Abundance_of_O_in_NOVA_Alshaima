@@ -1,40 +1,5 @@
 # Results
 
-> ### ⚠ PARTIAL STATE — write-up in progress
->
-> The thermodynamic trajectory was replaced with the synthetic S1-like benchmark
-> (see below). **All 16 original runs have now been recomputed on it**, all
-> succeeded, and the worst mass-conservation error is 1.7e-14. `summary.json`
-> has been rebuilt and is current.
->
-> One further run is being added: `exp_matched_exposure`, an exponential control
-> at tau = 17.352 s, which reproduces the trajectory's own exposure above
-> T9 = 0.2 (38.35 s) instead of interpolating between the tau = 7 s and
-> tau = 20 s members of the series. The suite becomes 17 runs.
->
-> **Still to do:** sections 6 and 7 below, and the summary-derived tables
-> `tab_comparison`, `tab_network_size`, `tab_tau`, `tab_matched_control`,
-> `tab_decomposition` and figures `fig16`-`fig18`, have not yet been rewritten
-> or regenerated and still show old-profile numbers.
->
-> What the completed runs already establish:
->
-> - The trajectory-to-exponential difference is a factor of **4.257**, not the
->   7.02 obtained with the old profile.
-> - The temperature and density terms are now **1.387** and **0.685**, combining
->   to **0.951**. That is below unity: matching the peak temperature and density
->   slightly *lowers* the final ratio, where on the old profile it raised it by
->   17%. Essentially the whole difference now rests on exposure and on whatever
->   the exponential family cannot reproduce, which together give 4.477.
-> - The order-dependence stands, and both orderings reconcile exactly on the
->   combined factor (0.9510 either way).
-> - Network convergence over 68 to 370 nuclides is **0.162%**, against 0.016%
->   before, almost all of it between 68 and 201 nuclides.
-> - The expansion-timescale series is **non-monotonic**, peaking at tau = 0.10 s.
->
-> This banner is removed once the full suite has been rerun.
-
-
 Every number below comes from the runs in `results/`, computed with NucNetPy.
 Figures are in `figures/`; the LaTeX versions of the tables are in
 `results/tables/`.
@@ -165,9 +130,9 @@ finish:
 
 | Element | Initial | Exponential | Trajectory ($Z\leq10$) | Trajectory ($Z\leq30$) |
 |---|---|---|---|---|
-| C | 2.30e-3 | 1.11e-4 (×0.05) | 1.04e-3 (×0.45) | 1.04e-3 (×0.45) |
-| N | 8.00e-4 | 2.27e-3 (×2.8) | 7.77e-3 (×9.7) | 7.74e-3 (×9.7) |
-| O | 5.79e-3 | 6.78e-3 (×1.2) | 4.28e-6 (×0.0007) | 1.24e-6 (×0.0002) |
+| C | 2.31e-3 | 1.11e-4 (×0.05) | 5.01e-4 (×0.22) | 4.98e-4 (×0.22) |
+| N | 8.03e-4 | 2.27e-3 (×2.8) | 8.36e-3 (×10.4) | 8.32e-3 (×10.4) |
+| O | 5.81e-3 | 6.78e-3 (×1.2) | 1.22e-5 (×2.1e-3) | 3.32e-7 (×5.7e-5) |
 
 **The two thermodynamic histories do opposite things to oxygen.** The
 exponential model, which never gets above $T_9 = 0.2$, leaves oxygen slightly
@@ -332,75 +297,93 @@ what was made. The largest enhancement comes from the intermediate case, and
 the whole range is only a factor of two wide — much smaller than the factor of
 seven between the exponential and trajectory models.
 
-## 6. Matched controls: what actually causes the factor of seven
+## 6. Matched controls: what actually causes the factor of four
 
 The two reference histories differ in **five** ways at once — the temperature
 maximum, the density at that maximum, presence of a heating phase, time spent
-hot, and the temperature–density relation. The τ-series in section 5 varies only the cooling
-rate inside the `T9_0 = 0.20` family, so it cannot say which of the five
-matters. A second series was run for that: exponential models pinned to the
-trajectory's conditions **at its temperature maximum** (`T9_0 = 0.4481`,
-`rho_0 = 4.07e3`), with the expansion timescale as the only free variable.
-Note `4.07e3` is the density *when the temperature peaks*, not the trajectory's
-highest density — that is `2.211e4`, near the start.
+hot, and the temperature–density relation. The τ-series in section 5 varies only
+the cooling rate inside the `T9_0 = 0.20` family, so it cannot say which of the
+five matters. A second series was run for that: exponential models pinned to the
+trajectory's conditions **at its temperature maximum** (`T9_0 = 0.418`,
+`rho_0 = 4.00e3`), with the expansion timescale as the only free variable.
+Note `4.00e3` is the density *when the temperature peaks*, not the trajectory's
+highest density — that is `2.200e4`, at the start.
 
 | τ (s) | t above T₉=0.2 (s) | R final | f_enh |
 |---|---|---|---|
-| 0.2 | 0.48 | 0.537 | 146 |
-| 0.7 | 1.69 | 1.343 | 365 |
-| 2.0 | 4.84 | 2.009 | 547 |
-| 7.0 | 16.94 | 1.951 | 531 |
-| 20.0 | 48.40 | 1.524 | 415 |
-| **trajectory** | **17.68** | **3.230** | **879** |
+| 0.20 | 0.44 | 0.437 | 119 |
+| 0.70 | 1.55 | 1.182 | 321 |
+| 2.00 | 4.42 | 1.998 | 544 |
+| 7.00 | 15.48 | 1.959 | 533 |
+| **17.35** | **38.37** | **1.603** | **436** |
+| 20.00 | 44.23 | 1.527 | 415 |
+| **trajectory** | **38.37** | **1.958** | **533** |
 
 Plus one further single-variable run, `exp_peakT_only`, which raises the peak
-temperature to 0.4481 while keeping the reference density and τ.
+temperature to 0.418 while keeping the reference density and τ.
+
+**The τ = 17.35 s row is constructed, not sampled — and it matters.** For the
+exponential law the time above a threshold is `3 τ ln(T9_0 / T9_t)`, so the
+timescale reproducing the trajectory's own exposure can be solved for exactly:
+τ = 17.352 s gives 38.37 s against the trajectory's 38.37 s. Without it the
+decomposition would have to interpolate across the τ = 7 → 20 s gap, a factor
+of three in exposure.
+
+It also defuses a trap. `exp_matched_tau7p0` returns **1.959** against the
+trajectory's **1.958** — agreement to 0.04%. Read naively that says the
+exponential family reproduces the trajectory exactly and the residual is 1.00.
+It does not: that run reaches the same value at **less than half** the
+trajectory's exposure. R is non-monotonic in exposure, peaking near τ = 2 s and
+declining after, so the family crosses the trajectory's value twice for reasons
+unconnected with matching. The comparison has to be made at equal exposure.
 
 **A sequential factorisation** — each row changes exactly one thing, *in the
 order listed*:
 
 | Change | R before | R after | Factor |
 |---|---|---|---|
-| Peak temperature, 0.200 → 0.448 | 0.460 | 0.697 | ×1.52 |
-| Density at T₉ max, 1.5e4 → 4.07e3 | 0.697 | 0.537 | ×0.77 |
-| Exposure, 0.48 → 16.9 s | 0.537 | 1.951 | ×3.64 |
-| Heating phase + T–ρ path | 1.951 | 3.230 | ×1.66 |
-| **Combined** | **0.460** | **3.230** | **×7.02** |
+| Peak temperature, 0.200 → 0.418 | 0.460 | 0.638 | ×1.39 |
+| Density at T₉ max, 1.5e4 → 4.00e3 | 0.638 | 0.437 | ×0.69 |
+| Exposure, 0.44 → 38.37 s | 0.437 | 1.603 | ×3.66 |
+| Heating phase + T–ρ path | 1.603 | 1.958 | ×1.22 |
+| **Combined** | **0.460** | **1.958** | **×4.26** |
 
-**The individual factors are order-dependent, and severely so.** The network is
-non-linear, so the temperature and density steps interact. Running them the
-other way round (`exp_rho_only`: density first, at the reference temperature):
+**The individual factors are order-dependent.** The network is non-linear, so
+the temperature and density steps interact. Running them the other way round
+(`exp_rho_only`: density first, at the reference temperature):
 
 | Order | temperature step | density step |
 |---|---|---|
-| T first, then ρ | ×1.52 | ×0.77 |
-| ρ first, then T | ×0.89 | ×1.31 |
+| T first, then ρ | ×1.39 | ×0.69 |
+| ρ first, then T | ×0.73 | ×1.30 |
 
-Both paths share their endpoints and their combined ×1.166 — they must. But the
-individual factors don't merely differ in size, they **reverse direction**:
-lowering the density *raises* R at T₉ = 0.20 and *lowers* it at T₉ = 0.448.
-So these are not independent contributions and cannot be recombined in another
-order. The exposure term is the largest under both orderings tested — note it
-is the final step in both, so this is not a test of every possible ordering —
-which is why the headline conclusion survives.
+Both paths share their endpoints and their combined ×0.951 — they must. But the
+individual factors **reverse direction**: lowering the density *raises* R at
+T₉ = 0.20 and *lowers* it at T₉ = 0.418. These are not independent contributions
+and cannot be recombined in another order. Exposure is the largest term under
+both orderings tested — note it is the final step in both, so this is not a test
+of every possible ordering.
 
 Three further things follow.
 
-**Exposure time is the largest single contribution** (×3.64), ahead of peak
-temperature (×1.52). The paper's thesis survives — but it needed this to be
-shown rather than asserted.
+**Peak temperature and density very nearly cancel.** Their combined factor is
+×0.951 — *below* unity. Matching the trajectory's peak conditions alone leaves
+the ratio slightly under the reference exponential model's. On the previous
+profile this combination gave ×1.166, so the sign has flipped. Essentially the
+entire factor of 4.26 now rests on exposure (×3.66) and the residual (×1.22).
 
 **Exposure alone does not explain it.** An exponential model matching the
-trajectory in temperature maximum, density at that maximum *and* exposure time reaches only
-1.951 against the trajectory's 3.230. The residual ×1.66 belongs to the two
-things an exponential prescription cannot reproduce: the heating phase, during
-which the composition is already partly processed before maximum temperature,
-and the trajectory's own T–ρ path, which is not the `T ∝ ρ^(1/3)` of the
-analytic law.
+trajectory in temperature maximum, density at that maximum *and* exposure time
+reaches only 1.603 against the trajectory's 1.958. The residual ×1.22 belongs to
+the two things an exponential prescription cannot reproduce: the heating phase,
+during which the composition is already partly processed before maximum
+temperature, and the trajectory's own T–ρ path, which is not the `T ∝ ρ^(1/3)`
+of the analytic law. The residual is smaller than the ×1.66 found with the
+previous profile, but it has not vanished.
 
-**The exposure dependence is non-monotonic here too**, peaking near 5 s. Past
-that, `15N(p,α)12C` keeps destroying A=15 material after production has
-stopped — the same mechanism as in the cooler τ-series, at a different scale.
+**The exposure dependence is non-monotonic**, peaking near 4–5 s. Past that,
+`15N(p,α)12C` keeps destroying A=15 material after production has stopped — the
+same mechanism as in the cooler τ-series, at a different scale.
 
 See `figures/fig18_matched_control.png`.
 
@@ -408,27 +391,65 @@ See `figures/fig18_matched_control.png`.
 
 | Network | Range | Nuclides | Reactions | $R^{\rm final}$ | $\Delta R$ |
 |---|---|---|---|---|---|
-| Small | $Z\leq10$ | 68 | 535 | 3.2299 | +0.016% |
-| Intermediate | $Z\leq20$ | 201 | 2119 | 3.2297 | +0.008% |
-| Large | $Z\leq30$ | 370 | 4172 | 3.2294 | — |
+| Small | $Z\leq10$ | 68 | 535 | 1.9584 | +0.162% |
+| Intermediate | $Z\leq20$ | 201 | 2119 | 1.9552 | −0.001% |
+| Large | $Z\leq30$ | 370 | 4172 | 1.9552 | — |
 
-**The diagnostic ratio is controlled entirely by local CNO cycling.** Going
-from 68 nuclides to 370 changes it by less than two parts in ten thousand.
-This settles the question the proposal poses: leakage into heavier reaction
-cycles does not affect the CNO isotopic outcome, and the small network is
-enough for this diagnostic.
+**The diagnostic ratio is controlled almost entirely by local CNO cycling.**
+Going from 68 nuclides to 370 changes it by 0.16%, so leakage into heavier
+reaction cycles does not affect the CNO isotopic outcome at the level that
+matters here, and the small network remains adequate for this diagnostic.
 
-That does not mean the heavier nuclei do nothing. The larger networks show
-real processing above neon during the burning phase — neon down to a tenth of
-its starting value, sodium up fourteenfold, sulphur up threefold, argon up
-sevenfold — which is the Ne-Na and Mg-Al cycling the proposal anticipates. Iron
-is untouched, as it must be at these temperatures. None of it feeds back on the
-$A=14$ and $A=15$ CNO isotopes: the flow runs one way, out of the CNO region and
-upwards, and it is far too small to affect the CNO abundances it leaves behind.
+**But the convergence is not uniform, and this is a change from the previous
+profile.** The two larger networks agree with each other to 0.001%, so
+essentially the whole 0.16% sits between 68 and 201 nuclides. On the previous
+profile the total spread was 0.016% — ten times smaller. The reason is the
+CNO-II/III path of section 4a: this trajectory drives a substantial flow through
+¹⁷F(p,γ)¹⁸Ne, and the `Z ≤ 10` boundary cuts exactly there, truncating the
+neon isotopes that carry it. The small network still gets the answer right to
+better than a part in five hundred, but it is no longer right to a part in
+six thousand.
+
+That does not mean the heavier nuclei do nothing — and on this profile they do
+a great deal more than on the previous one, because the material spends 38 s
+above $T_9 = 0.2$ instead of 18 s. Final-to-initial mass-fraction ratios from
+the $Z\leq30$ run:
+
+| element | initial | final | factor |
+|---|---|---|---|
+| Ne | 1.55e-3 | 6.29e-6 | ×0.004 |
+| Na | 3.40e-5 | 1.59e-5 | ×0.47 |
+| Mg | 6.50e-4 | 3.62e-6 | ×0.006 |
+| Al | 5.60e-5 | 1.24e-6 | ×0.02 |
+| Si | 6.70e-4 | 2.37e-5 | ×0.035 |
+| S | 3.40e-4 | 1.16e-4 | ×0.34 |
+| Ar | 8.70e-5 | 1.41e-4 | ×1.62 |
+| Ca | 6.40e-5 | 4.71e-3 | **×73.6** |
+| Fe | 1.30e-3 | 1.24e-3 | ×0.95 |
+
+This is much stronger than the Ne-Na and Mg-Al cycling the proposal anticipates:
+neon, magnesium, aluminium and silicon are almost entirely consumed and the
+material piles up on calcium, which gains 4.6e-3 in mass fraction — comparable
+to the whole CNO budget. The losses from Ne through S, roughly 3-4e-3, account
+for most of that gain, so the flow is a one-way run up the chain rather than
+cycling. Iron is essentially untouched (×0.95), as it must be at these
+temperatures.
+
+**Treat the calcium result with caution.** It is a single-zone calculation at
+constant composition with no convective mixing, run for 38 s above
+$T_9 = 0.2$, and a pile-up at the end of the reachable chain is exactly where
+truncating the network at $Z\leq30$ would show an artefact. It is reported
+because it is what the calculation gives, not because it is a prediction for
+nova ejecta.
+
+None of it feeds back on the $A=14$ and $A=15$ CNO isotopes at the level that
+matters: extending the network changes $R_{15/14}$ by 0.16%, and almost all of
+that comes from the CNO-II/III truncation at $Z\leq10$, not from the heavy-element
+flow.
 
 Practically, this means the small network is the one to use for the remaining
-work: it gives the same CNO answer roughly six times faster (1280 s against
-7545 s for one trajectory run). The larger networks are still worth running
+work: it gives the same CNO answer to 0.16% roughly six times faster (877 s against
+5731 s for one trajectory run). The larger networks are still worth running
 when the question is about Ne-Na or Mg-Al, where they are the whole point.
 
 ## 8. Numerical quality
@@ -441,9 +462,9 @@ when the question is about Ne-Na or Mg-Al, where they are the whole point.
 | Infinite or prompt rates in range | none |
 | Beta-decay rates vs measured half-lives | within 0.2% for $^{13}$N, $^{14}$O, $^{15}$O, $^{17}$F, $^{18}$F |
 | NucNetPy XML export vs the archive | identical counts, rates and masses |
-| $\sum_i A_i Y_i$ at the end of a run | 1 to within 2e-14, every run |
-| All nine runs | solver reported success and reached $t_{\rm end}$ |
-| Network-size convergence | 0.016% between the smallest and largest network |
+| $\sum_i A_i Y_i$ at the end of a run | 1 to within 1.7e-14, every run |
+| All seventeen runs | solver reported success and reached $t_{\rm end}$ |
+| Network-size convergence | 0.16% between the smallest and largest network |
 | Tolerance convergence | $R^{\rm final}$ stable to six figures between `rtol` 1e-6 and 1e-8 |
 
 Four repairs were needed to the network before it behaved:

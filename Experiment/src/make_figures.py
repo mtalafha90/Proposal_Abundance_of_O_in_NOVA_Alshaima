@@ -454,9 +454,17 @@ def figure_matched_control(summary: dict, name: str) -> None:
     fig, ax = plt.subplots(figsize=(5.4, 3.6))
     ax.plot([e[0] for e in entries], [e[1] for e in entries], color=PALETTE[0],
             marker="o", markersize=5, label="exponential, matched peak $T_9$ and $\\rho$")
+    # The two longest-exposure runs sit close together, and the trajectory point
+    # and its residual arrow occupy the space directly above them, so their
+    # labels are placed to the left rather than on top.
+    crowded = sorted(e[0] for e in entries)[-2:] if len(entries) > 2 else []
     for x, y in entries:
-        ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 8),
-                    ha="center", fontsize=8, color=INK)
+        if x in crowded:
+            ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points",
+                        xytext=(-7, -3), ha="right", fontsize=8, color=INK)
+        else:
+            ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 8),
+                        ha="center", fontsize=8, color=INK)
     if trajectory:
         tx = trajectory["time_above_t9_0p2_s"]
         ty = trajectory["r_final"]
@@ -464,10 +472,17 @@ def figure_matched_control(summary: dict, name: str) -> None:
                 linestyle="none", label="nova trajectory")
         ax.annotate(f"{ty:.2f}", (tx, ty), textcoords="offset points", xytext=(0, 9),
                     ha="center", fontsize=8, color=PALETTE[1])
-        ax.annotate("", xy=(tx, ty), xytext=(tx, 1.9514),
-                    arrowprops=dict(arrowstyle="<->", color=MUTED, linewidth=0.9))
-        ax.text(tx * 1.12, (ty * 1.9514) ** 0.5, "heating phase\n+ $T$--$\\rho$ path",
-                fontsize=8, color=MUTED, va="center")
+        # The residual is the gap at *equal exposure*, so it is anchored on the
+        # control built to reproduce the trajectory's own exposure rather than on
+        # whichever member of the series happens to come closest in value.  The
+        # curve is not monotonic in exposure, so those are not the same run.
+        matched = summary["runs"].get("exp_matched_exposure")
+        if matched is not None:
+            base = matched["r_final"]
+            ax.annotate("", xy=(tx, ty), xytext=(tx, base),
+                        arrowprops=dict(arrowstyle="<->", color=MUTED, linewidth=0.9))
+            ax.text(tx * 1.12, (ty * base) ** 0.5, "heating phase\n+ $T$--$\\rho$ path",
+                    fontsize=8, color=MUTED, va="center")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_xlabel(r"time spent above $T_9 = 0.2$ (s)")
@@ -563,18 +578,37 @@ def table_network_size(summary: dict) -> None:
     )
 
 
+def _peak_conditions(runs: dict):
+    """The trajectory's temperature maximum and the density at that moment.
+
+    Read from the matched controls, which are built from them, so that captions
+    and row labels cannot drift away from the trajectory actually used.
+    """
+    record = runs.get("exp_matched_tau0p2") or runs.get("exp_matched_exposure")
+    if record is None:
+        return None, None, ""
+    t9 = record["t9_0"]
+    rho = record["rho_0"]
+    exponent = int(np.floor(np.log10(abs(rho))))
+    mantissa = rho / 10.0 ** exponent
+    return t9, rho, f"{mantissa:.2f}\\times10^{{{exponent}}}"
+
+
 def table_matched_control(summary: dict) -> None:
     """The matched-control series, and the decomposition it makes possible."""
     runs = summary["runs"]
+    peak_t9, peak_rho, peak_rho_tex = _peak_conditions(runs)
     rows = []
     for name, record in sorted(runs.items(),
                                key=lambda kv: kv[1].get("tau", 0.0)):
         if not name.startswith("exp_matched_"):
             continue
-        rows.append(
-            f"{record['tau']:.1f} & {record['time_above_t9_0p2_s']:.2f} & "
-            f"{record['r_final']:.3f} & {record['enhancement']:.0f} \\\\"
-        )
+        bold = name == "exp_matched_exposure"
+        cells = [f"{record['tau']:.2f}", f"{record['time_above_t9_0p2_s']:.2f}",
+                 f"{record['r_final']:.3f}", f"{record['enhancement']:.0f}"]
+        if bold:
+            cells = [f"\\textbf{{{c}}}" for c in cells]
+        rows.append(" & ".join(cells) + " \\\\")
     trajectory = runs.get("traj_ref")
     if trajectory:
         rows.append("\\hline")
@@ -587,9 +621,11 @@ def table_matched_control(summary: dict) -> None:
     _table(
         TABLES / "tab_matched_control.tex",
         "Exponential models matched to the trajectory at its temperature "
-        "maximum ($T_{9,0} = 0.4481$, $\\rho_0 = 4.07\\times10^{3}$ "
+        f"maximum ($T_{{9,0}} = {peak_t9:.4f}$, $\\rho_0 = {peak_rho_tex}$ "
         "g\\,cm$^{-3}$), so that the exposure time is the only variable along "
-        "the series. The trajectory result is repeated for comparison.",
+        "the series. The row in bold is built to reproduce the trajectory's own "
+        "exposure above $T_9 = 0.2$ rather than to bracket it. The trajectory "
+        "result is repeated for comparison.",
         "tab:nucnetpy_matched_control",
         "$\\tau$ (s) & $t(T_9 > 0.2)$ (s) & $R^{\\mathrm{final}}_{15/14}$ & "
         "$f_{\\mathrm{enh}}$",
@@ -597,14 +633,21 @@ def table_matched_control(summary: dict) -> None:
         "llll",
     )
 
+    # Labels are built from the runs themselves.  They were once written out by
+    # hand, which left them quoting a previous trajectory's peak conditions after
+    # the profile was replaced.
+    exposure_run = "exp_matched_exposure" if "exp_matched_exposure" in runs else "exp_matched_tau7p0"
     steps = [
-        ("Peak temperature, $0.200 \\rightarrow 0.448$", "exp_ref", "exp_peakT_only"),
-        # Not "peak density": the trajectory's highest density is 2.211e4 near
-        # its start.  4.07e3 is the density when the temperature peaks.
-        ("Density at $T_{9,\\max}$, $1.5\\times10^{4} \\rightarrow 4.07\\times10^{3}$",
+        (f"Peak temperature, $0.200 \\rightarrow {peak_t9:.3f}$",
+         "exp_ref", "exp_peakT_only"),
+        # Not "peak density": the trajectory's highest density occurs near its
+        # start.  This is the density at the moment the temperature peaks.
+        (f"Density at $T_{{9,\\max}}$, $1.5\\times10^{{4}} \\rightarrow {peak_rho_tex}$",
          "exp_peakT_only", "exp_matched_tau0p2"),
-        ("Exposure, $0.48 \\rightarrow 16.9$ s", "exp_matched_tau0p2", "exp_matched_tau7p0"),
-        ("Heating phase and $T$--$\\rho$ path", "exp_matched_tau7p0", "traj_ref"),
+        (f"Exposure, ${runs['exp_matched_tau0p2']['time_above_t9_0p2_s']:.2f} \\rightarrow "
+         f"{runs[exposure_run]['time_above_t9_0p2_s']:.2f}$ s",
+         "exp_matched_tau0p2", exposure_run),
+        ("Heating phase and $T$--$\\rho$ path", exposure_run, "traj_ref"),
     ]
     rows, product = [], 1.0
     for label, before, after in steps:
