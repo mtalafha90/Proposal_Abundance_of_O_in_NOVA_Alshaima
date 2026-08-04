@@ -241,8 +241,9 @@ Both paths share their endpoints and their combined ×1.166 — they must. But t
 individual factors don't merely differ in size, they **reverse direction**:
 lowering the density *raises* R at T₉ = 0.20 and *lowers* it at T₉ = 0.448.
 So these are not independent contributions and cannot be recombined in another
-order. The exposure term is the largest either way, which is why the headline
-conclusion survives.
+order. The exposure term is the largest under both orderings tested — note it
+is the final step in both, so this is not a test of every possible ordering —
+which is why the headline conclusion survives.
 
 Three further things follow.
 
