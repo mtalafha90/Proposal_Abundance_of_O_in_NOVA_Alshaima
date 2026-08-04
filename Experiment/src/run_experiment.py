@@ -183,6 +183,32 @@ def build_runs() -> List[Run]:
             )
         )
 
+    # The member of the matched series that reproduces the trajectory's own
+    # high-temperature exposure, rather than merely bracketing it.  For the
+    # exponential law the time spent above a threshold T9_t is
+    # 3 tau ln(T9_0 / T9_t), so the timescale that matches the trajectory can be
+    # solved for directly instead of interpolated between the runs above.  This
+    # matters: the tau values of the series bracket the trajectory's exposure
+    # only within a factor of three, and reading a final ratio off that bracket
+    # would put a wholly interpolated number at the centre of the factorisation.
+    exposure = time_above(trajectory.thermo, float(trajectory.time[-1]), 0.2)
+    matched_tau = exposure / (3.0 * np.log(peak_t9 / 0.2))
+    runs.append(
+        Run(
+            name="exp_matched_exposure",
+            network="nova_z10",
+            description=(
+                f"Exponential model matched to the trajectory peak "
+                f"(T9_0={peak_t9:.4f}, rho_0={peak_rho:.3g}) and to its exposure "
+                f"above T9=0.2, tau = {matched_tau:.3f} s"
+            ),
+            thermo=th.exponential_thermo(t9_0=peak_t9, rho_0=peak_rho, tau=matched_tau),
+            t_start=1.0e-9,
+            t_end=1.0e4,
+            extra={"t9_0": peak_t9, "rho_0": peak_rho, "tau": matched_tau},
+        )
+    )
+
     # One further control, to separate peak temperature from peak density.
     # The matched series above changes both at once relative to the reference
     # exponential model (0.20 -> 0.418 in temperature, 1.5e4 -> 4.00e3 in
