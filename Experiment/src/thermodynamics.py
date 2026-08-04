@@ -17,14 +17,33 @@ here from :meth:`Trajectory.from_columns` instead, to follow the proposal.
 
 Trajectory model
 ----------------
-The nova trajectory is the tabulated temperature-density history of a zone in a
-typical nova explosion, ``data/trajectories/nova_profile_rescaled.txt``, read
-with :func:`nucnetpy.read_trajectory`.  It starts at ``T9 = 0.09128`` and
-``rho = 2.211e4 g/cm^3``, rises to ``T9 = 0.4481`` at ``t = 103.89 s``, and
-then cools and expands out to ``t = 1.13e5 s``, by which point ``T9`` has
-fallen to ``1.3e-7`` and the density to ``1.4e-12 g/cm^3``.  The temperature
-stays above ``T9 = 0.2`` for 17 s and above ``T9 = 0.1`` for 75 s, so the
-burning episode is a broad peak rather than a spike.
+The nova trajectory is
+``data/trajectories/iliadis2002_S1_synthetic_benchmark.txt``, read with
+:func:`nucnetpy.read_trajectory`.  It starts at ``T9 = 0.070`` and
+``rho = 2.200e4 g/cm^3``, rises to ``T9 = 0.418`` at ``t = 100.0 s``, where the
+density is ``4.000e3 g/cm^3``, and then cools and expands out to
+``t = 3000 s``.  The temperature stays above ``T9 = 0.2`` for 38.35 s and above
+``T9 = 0.1`` for 64.15 s, so the burning episode is a broad peak rather than a
+spike.
+
+What this file is, and is not
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It is a *literature-constrained synthetic benchmark*, not a hydrodynamic
+trajectory.  Only the global parameters are taken from the published S1 model
+of Iliadis et al. (2002, ApJS 142, 105): an ONe white dwarf of 1.35 solar
+masses, 50 per cent core-envelope mixing, and a peak temperature of 0.418 GK.
+Iliadis et al. do not tabulate the time series, so the *shape* of this profile
+-- the 100 s rise, the initial and peak densities, and the stretched-exponential
+cooling and expansion that follow -- is an analytic construction.  Those
+choices are documented in ``data/trajectories/provenance/``, which holds the
+generator script, its parameter summary and the upstream README.
+
+The consequence for this study is that both thermodynamic histories are now
+analytic.  The trajectory model is a more elaborate parameterisation than the
+exponential one -- it has a heating phase, a broad maximum and different
+cooling laws for temperature and density -- but it is not evidence of what a
+hydrodynamic calculation would do, and no result here should be described as
+one.  The published anchor is the peak temperature alone.
 
 If that file is ever missing, :func:`write_reference_trajectory` generates a
 crude analytic stand-in with the same start point, peak and peak time, so the
@@ -43,8 +62,15 @@ from nucnetpy import Trajectory, read_trajectory
 ROOT = Path(__file__).resolve().parent.parent
 TRAJECTORY_DIR = ROOT / "data" / "trajectories"
 
-#: The measured nova profile: time (s), T9, density (g/cm^3).
-NOVA_PROFILE = TRAJECTORY_DIR / "nova_profile_rescaled.txt"
+#: The nova profile in use: time (s), T9, density (g/cm^3).  See the module
+#: docstring -- this is a synthetic benchmark anchored to the published peak
+#: temperature of the Iliadis et al. (2002) S1 model, not a hydrodynamic run.
+NOVA_PROFILE = TRAJECTORY_DIR / "iliadis2002_S1_synthetic_benchmark.txt"
+
+#: The profile used before it.  Kept so that the earlier numbers remain
+#: reproducible; nothing reads it unless it is passed to
+#: :func:`nova_trajectory` explicitly.
+PREVIOUS_NOVA_PROFILE = TRAJECTORY_DIR / "nova_profile_rescaled.txt"
 
 #: Analytic stand-in, used only if the measured profile is missing.
 REFERENCE_TRAJECTORY = TRAJECTORY_DIR / "nova_reference.txt"
@@ -146,15 +172,15 @@ def write_reference_trajectory(path: Path = REFERENCE_TRAJECTORY, n: int = 4000)
 def nova_trajectory(path: Path | None = None) -> Trajectory:
     """Read the nova trajectory, floored so the rate fits stay in range.
 
-    The measured profile is used when it is there.  Only if it is missing does
-    the analytic stand-in get generated and used instead.
+    :data:`NOVA_PROFILE` is used when it is there.  Only if it is missing does
+    the crude analytic stand-in get generated and used instead.
 
-    The floor matters for a measured profile: this one cools to ``T9 = 1.3e-7``
-    and ``rho = 1.4e-12``, far below the range the ReacLib fits were made for.
-    Evaluated there, some of them diverge.  Everything nuclear has finished by
-    the time the floor takes effect -- ``T9`` first drops below 0.01 at
-    ``t = 344 s``, and the only reactions still running after that are beta
-    decays, which do not depend on temperature.
+    The floor matters: this profile ends at ``rho = 1e-12 g/cm^3``, far below
+    the range the ReacLib fits were made for, and evaluated there some of them
+    diverge.  Everything nuclear has finished by the time the floor takes
+    effect -- the tabulated ``T9`` reaches 0.01 at ``t = 322 s``, and the only
+    reactions still running after that are beta decays, which do not depend on
+    temperature.
     """
     if path is not None:
         trajectory = read_trajectory(path)
@@ -164,10 +190,21 @@ def nova_trajectory(path: Path | None = None) -> Trajectory:
         write_reference_trajectory(REFERENCE_TRAJECTORY)
         trajectory = read_trajectory(REFERENCE_TRAJECTORY)
 
+    # Drop repeated time rows.  The S1 benchmark file carries the temperature
+    # maximum twice, at t = 100 s, because its generator appends the peak time
+    # to a grid that already contains it and the two differ only below the
+    # precision the file is written with.  Interpolation is untroubled by that,
+    # and nothing in the production pipeline differentiates the table -- the
+    # thermodynamic timescales are taken on the output grid -- but a zero gap
+    # would give an infinite derivative to anything that did, including
+    # :func:`timescales` below.  Removing the duplicate leaves the interpolant
+    # unchanged.
+    keep = np.concatenate(([True], np.diff(trajectory.time) > 0.0))
+
     return Trajectory(
-        trajectory.time,
-        np.maximum(trajectory.t9, T9_FLOOR),
-        np.maximum(trajectory.rho, RHO_FLOOR),
+        trajectory.time[keep],
+        np.maximum(trajectory.t9[keep], T9_FLOOR),
+        np.maximum(trajectory.rho[keep], RHO_FLOOR),
     )
 
 

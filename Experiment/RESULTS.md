@@ -1,21 +1,64 @@
 # Results
 
+> ### ⚠ PARTIAL STATE — recalculation in progress
+>
+> The thermodynamic trajectory was replaced with the synthetic S1-like benchmark
+> (see below) and the suite is being recomputed. At this commit:
+>
+> | | status |
+> |---|---|
+> | `exp_ref`, `traj_ref`, `traj_z20` | **recomputed** on the new profile |
+> | `traj_z30` | running |
+> | 5 × `exp_tau*`, 5 × `exp_matched_tau*`, `exp_peakT_only`, `exp_rho_only` | **queued — still hold old-profile results** |
+> | `results/summary.json` | **stale**; rebuilt by `merge_summaries()` only after a full pass |
+>
+> Consequently sections 1–4 below are updated, but **section 6 (matched
+> controls) and section 7 (network size) still quote old-profile numbers**, as do
+> the summary-derived tables `tab_comparison`, `tab_network_size`, `tab_tau`,
+> `tab_matched_control`, `tab_decomposition` and figures `fig16`–`fig18`.
+> The matched controls are pinned to the trajectory's peak temperature and
+> density, so they change when the trajectory changes.
+>
+> This banner is removed once the full suite has been rerun.
+
+
 Every number below comes from the runs in `results/`, computed with NucNetPy.
 Figures are in `figures/`; the LaTeX versions of the tables are in
 `results/tables/`.
 
-The trajectory model uses the measured nova profile
-`data/trajectories/nova_profile_rescaled.txt`, which starts at
-$T_9 = 0.09128$, $\rho = 2.211\times10^4$ g cm$^{-3}$, peaks at
-$T_9 = 0.4481$ at $t = 103.89$ s, and is followed to the end of the file at
-$t = 1.13\times10^5$ s.
+The trajectory model uses
+`data/trajectories/iliadis2002_S1_synthetic_benchmark.txt`, which starts at
+$T_9 = 0.070$, $\rho = 2.200\times10^4$ g cm$^{-3}$, peaks at $T_9 = 0.418$ at
+$t = 100.0$ s where $\rho = 4.000\times10^3$ g cm$^{-3}$, and is followed to the
+end of the file at $t = 3000$ s.
+
+> **What this profile is.** It is a *literature-constrained synthetic
+> benchmark*, **not** a hydrodynamic trajectory. Only the peak temperature
+> (0.418 GK) and the model identity — ONe white dwarf, 1.35 M☉, 50% mixing,
+> model S1 of Iliadis et al. (2002, ApJS 142, 105) — are taken from the
+> literature. Iliadis et al. do not publish the time series, so the *shape* is
+> an analytic construction: a logistic rise to the peak at 100 s, density
+> falling log-linearly with the same rise function, then stretched-exponential
+> cooling ($\tau_T = 25$ s, $\alpha_T = 1.25$) and expansion ($\tau_\rho = 45$ s,
+> $\alpha_\rho = 0.9$). The generator, its parameter summary and the upstream
+> README are in `data/trajectories/provenance/`.
+>
+> **Consequence:** both thermodynamic histories in this study are now analytic.
+> The comparison is between a two-parameter expansion law and a richer
+> parameterisation, which is well posed, but nothing here is evidence of what a
+> multi-zone hydrodynamic calculation would give. Do not cite these results as
+> results of Iliadis et al. (2002) beyond the peak temperature anchor.
+
+The profile replaces `nova_profile_rescaled.txt`, which is kept in the same
+directory (and as `thermodynamics.PREVIOUS_NOVA_PROFILE`) so the earlier numbers
+remain reproducible.
 
 ## 1. The two reference calculations
 
 | Model | Thermodynamic behaviour | $R^{\rm initial}$ | $R^{\rm final}$ | $f_{\rm enh}$ | $t_{\rm fo}$ | $T_{9,\max}$ |
 |---|---|---|---|---|---|---|
 | Exponential | immediate cooling | 3.68e-3 | **0.460** | 125 | 0.23 s | 0.200 |
-| Trajectory | delayed temperature peak | 3.68e-3 | **3.230** | 879 | 155 s | 0.448 |
+| Trajectory | delayed temperature peak | 3.68e-3 | **1.958** | 533 | 144.5 s | 0.418 |
 
 Both agree with the values quoted in the proposal, which gives
 $R^{\rm final} \approx 0.4$–$0.5$ for the exponential model and "of order a
@@ -23,8 +66,8 @@ few" for the trajectory model. The shapes of the curves also match the
 proposal's figures: an early bump, a sharp dip, a long climb, an overshoot, and
 a flat freeze-out plateau (`figures/fig07_ratio_comparison.png`).
 
-The ratio peaks at 3.97 during the burning phase and settles at 3.23, so the
-trajectory model enhances $^{15}$N-rich material by a factor of 879 over the
+The ratio peaks at 2.49 during the burning phase and settles at 1.958, so the
+trajectory model enhances $^{15}$N-rich material by a factor of 533 over the
 solar starting composition, against 125 for the exponential model.
 
 **One point of bookkeeping.** The methodology chapter defines the ratio from
@@ -65,10 +108,10 @@ move $R$ do not stop together:
 
 | Reaction | crosses $\tau_T$ (trajectory) | (exponential) |
 |---|---|---|
-| $^{14}$N(p,γ) — feeds A=15 | 125.0 s (T₉ 0.178) | 0.14 s |
-| $^{12}$C(p,γ) — feeds the cycle | 128.6 s (T₉ 0.162) | 0.23 s |
-| $^{15}$N(p,α) — drains A=15 | 160.0 s (T₉ 0.083) | 0.59 s |
-| **numerical $t_{\rm fo}$** | **155.3 s** | **0.23 s** |
+| $^{14}$N(p,γ) — feeds A=15 | 128.1 s (T₉ 0.138) | 0.14 s |
+| $^{12}$C(p,γ) — feeds the cycle | 134.0 s (T₉ 0.104) | 0.23 s |
+| $^{15}$N(p,α) — drains A=15 | 147.2 s (T₉ 0.055) | 0.59 s |
+| **numerical $t_{\rm fo}$** | **144.5 s** | **0.23 s** |
 
 In both models $t_{\rm fo}$ falls inside the interval the crossings span, close
 to the last one — the reaction that keeps changing the ratio longest. That is
@@ -79,18 +122,25 @@ define it.
 the same thermo callable the solver uses, sampled at the output times; for the
 trajectory that is linear interpolation between table rows. No smoothing,
 anywhere. Derivatives are `numpy.gradient` — second-order central differences on
-the non-uniform grid, second-order one-sided at the ends. The table is finer
-than the output grid through the burning episode (0.018 s vs 0.043 s), so
-differentiating the interpolant is well-posed. $\tau_T$ diverges where
+the non-uniform grid, second-order one-sided at the ends. Through the burning
+episode the S1 table has 0.050 s spacing and the output grid 0.042 s, so the
+output is marginally the finer of the two and consecutive output points can
+fall inside one table interval, where the linear interpolant has constant
+slope. That makes d$T_9$/d$t$ mildly stepped at the 0.05 s scale. It does not
+affect the comparison used here, which is made on the cooling branch over tens
+of seconds, but it is the reason $\tau_T$ should not be read at the resolution
+of a single output point. (The S1 file also lists its peak row twice, at
+t = 100 s; `nova_trajectory` drops the repeat, which leaves the interpolant
+bit-identical and keeps any derivative of the table finite.) $\tau_T$ diverges where
 d$T_9$/d$t$ = 0 (at the peak and at minor stationary points); it is not
 regularised, is drawn with a ceiling in the figures, and the nuclear-versus-
 thermodynamic comparison is only used on the cooling branch where d$T_9$/d$t$ is
 large — which is where freeze-out happens anyway.
 
 **The trajectory produces more $^{15}$N because it burns hotter, for longer.**
-The peak temperature is 0.448 against 0.200, and the measured profile holds the
-material above $T_9 = 0.2$ for 17.7 seconds and above $T_9 = 0.1$ for 75 seconds
-rather than cooling away from the peak immediately. Those are two of the five
+The peak temperature is 0.418 against 0.200, and the profile holds the material
+above $T_9 = 0.2$ for 38.4 seconds and above $T_9 = 0.1$ for 64.2 seconds rather
+than cooling away from the peak immediately. Those are two of the five
 things that differ between the histories; section 6 separates them with matched
 controls and finds the exposure time to be the largest single contribution.
 
@@ -109,9 +159,9 @@ finish:
 **The two thermodynamic histories do opposite things to oxygen.** The
 exponential model, which never gets above $T_9 = 0.2$, leaves oxygen slightly
 enhanced: it burns carbon into nitrogen and a little oxygen, and then freezes.
-The trajectory model, which reaches $T_9 = 0.448$, destroys oxygen by a factor
-of 1350 and converts it into nitrogen, which ends up ten times its solar value.
-$^{16}$O falls from a mass fraction of 5.77e-3 to 2.96e-6.
+The trajectory model, which reaches $T_9 = 0.418$, destroys oxygen by a factor
+of 475 and converts it into nitrogen, which ends up ten times its solar value.
+$^{16}$O falls from a mass fraction of 5.79e-3 to 6.49e-6.
 
 The path is the hot-CNO one:
 $^{16}{\rm O}({\rm p},\gamma)^{17}{\rm F}(\beta^+)^{17}{\rm O}({\rm p},\alpha)^{14}{\rm N}$.

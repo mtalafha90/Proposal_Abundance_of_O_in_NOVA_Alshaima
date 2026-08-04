@@ -6,7 +6,7 @@
  "reactions": 535,
  "solver_success": true,
  "solver_message": "The solver successfully reached the end of the integration interval.",
- "wall_time_s": 117.5,
+ "wall_time_s": 114.5,
  "t_end": 100.0,
  "reached_t_end": true,
  "t9_initial": 0.2,

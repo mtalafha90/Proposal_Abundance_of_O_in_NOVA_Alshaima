@@ -185,7 +185,7 @@ def build_runs() -> List[Run]:
 
     # One further control, to separate peak temperature from peak density.
     # The matched series above changes both at once relative to the reference
-    # exponential model (0.20 -> 0.448 in temperature, 1.5e4 -> 4.07e3 in
+    # exponential model (0.20 -> 0.418 in temperature, 1.5e4 -> 4.00e3 in
     # density), and the two push the reaction flows in opposite directions.
     # This run raises only the temperature, holding the reference density and
     # expansion timescale, so the step from exp_ref to it is a single variable.
