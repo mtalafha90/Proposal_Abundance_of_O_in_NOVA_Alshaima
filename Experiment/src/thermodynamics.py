@@ -175,12 +175,19 @@ def nova_trajectory(path: Path | None = None) -> Trajectory:
     :data:`NOVA_PROFILE` is used when it is there.  Only if it is missing does
     the crude analytic stand-in get generated and used instead.
 
-    The floor matters: this profile ends at ``rho = 1e-12 g/cm^3``, far below
-    the range the ReacLib fits were made for, and evaluated there some of them
-    diverge.  Everything nuclear has finished by the time the floor takes
-    effect -- the tabulated ``T9`` reaches 0.01 at ``t = 322 s``, and the only
-    reactions still running after that are beta decays, which do not depend on
-    temperature.
+    The floors are a safeguard, and for the S1 benchmark they never bind.  That
+    profile is generated with the same ``T9 = 0.01`` floor and approaches it
+    asymptotically from above -- within 1e-5 of it by ``t = 250 s``, exactly
+    equal only from ``t = 406 s`` -- while its lowest density, ``1e-12
+    g/cm^3``, stays far above :data:`RHO_FLOOR`.  Clamping therefore changes
+    nothing here, as ``max(profile - floored profile)`` confirms: it is zero
+    for both columns.
+
+    The floors would matter for a profile that really did run below the range
+    the ReacLib fits were made for, where some of them diverge.  In that case
+    nothing physical is lost, because charged-particle reactions are long dead
+    at ``T9 = 0.01`` and the beta decays that still run do not depend on
+    temperature at all.
     """
     if path is not None:
         trajectory = read_trajectory(path)
