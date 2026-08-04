@@ -539,7 +539,9 @@ def table_matched_control(summary: dict) -> None:
 
     steps = [
         ("Peak temperature, $0.200 \\rightarrow 0.448$", "exp_ref", "exp_peakT_only"),
-        ("Peak density, $1.5\\times10^{4} \\rightarrow 4.07\\times10^{3}$",
+        # Not "peak density": the trajectory's highest density is 2.211e4 near
+        # its start.  4.07e3 is the density when the temperature peaks.
+        ("Density at $T_{9,\\max}$, $1.5\\times10^{4} \\rightarrow 4.07\\times10^{3}$",
          "exp_peakT_only", "exp_matched_tau0p2"),
         ("Exposure, $0.48 \\rightarrow 16.9$ s", "exp_matched_tau0p2", "exp_matched_tau7p0"),
         ("Heating phase and $T$--$\\rho$ path", "exp_matched_tau7p0", "traj_ref"),

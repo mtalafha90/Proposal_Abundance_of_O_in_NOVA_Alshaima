@@ -195,13 +195,15 @@ seven between the exponential and trajectory models.
 
 ## 6. Matched controls: what actually causes the factor of seven
 
-The two reference histories differ in **five** ways at once — peak temperature,
-peak density, presence of a heating phase, time spent hot, and the
-temperature–density relation. The τ-series in section 5 varies only the cooling
+The two reference histories differ in **five** ways at once — the temperature
+maximum, the density at that maximum, presence of a heating phase, time spent
+hot, and the temperature–density relation. The τ-series in section 5 varies only the cooling
 rate inside the `T9_0 = 0.20` family, so it cannot say which of the five
 matters. A second series was run for that: exponential models pinned to the
 trajectory's conditions **at its temperature maximum** (`T9_0 = 0.4481`,
 `rho_0 = 4.07e3`), with the expansion timescale as the only free variable.
+Note `4.07e3` is the density *when the temperature peaks*, not the trajectory's
+highest density — that is `2.211e4`, near the start.
 
 | τ (s) | t above T₉=0.2 (s) | R final | f_enh |
 |---|---|---|---|
@@ -221,7 +223,7 @@ order listed*:
 | Change | R before | R after | Factor |
 |---|---|---|---|
 | Peak temperature, 0.200 → 0.448 | 0.460 | 0.697 | ×1.52 |
-| Peak density, 1.5e4 → 4.07e3 | 0.697 | 0.537 | ×0.77 |
+| Density at T₉ max, 1.5e4 → 4.07e3 | 0.697 | 0.537 | ×0.77 |
 | Exposure, 0.48 → 16.9 s | 0.537 | 1.951 | ×3.64 |
 | Heating phase + T–ρ path | 1.951 | 3.230 | ×1.66 |
 | **Combined** | **0.460** | **3.230** | **×7.02** |
@@ -249,7 +251,7 @@ temperature (×1.52). The paper's thesis survives — but it needed this to be
 shown rather than asserted.
 
 **Exposure alone does not explain it.** An exponential model matching the
-trajectory in peak temperature, peak density *and* exposure time reaches only
+trajectory in temperature maximum, density at that maximum *and* exposure time reaches only
 1.951 against the trajectory's 3.230. The residual ×1.66 belongs to the two
 things an exponential prescription cannot reproduce: the heating phase, during
 which the composition is already partly processed before maximum temperature,

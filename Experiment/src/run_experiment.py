@@ -429,6 +429,15 @@ def merge_summaries() -> Path:
                            "jacobian": "analytic"},
                 "composition": "Bergemann, Lodders & Palme (2025) solar",
                 "rates": "JINA ReacLib snapshot 20180319default2",
+                # Recorded so that the run count quoted in the write-up can be
+                # checked against the output rather than remembered.
+                "n_runs": len(runs),
+                "all_runs_succeeded": all(
+                    r.get("solver_success") and r.get("reached_t_end") for r in runs.values()
+                ),
+                "worst_mass_conservation_error": max(
+                    abs(r["xsum_final"] - 1.0) for r in runs.values()
+                ) if runs else None,
                 "runs": runs,
             },
             indent=1,

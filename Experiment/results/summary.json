@@ -7,6 +7,9 @@
  },
  "composition": "Bergemann, Lodders & Palme (2025) solar",
  "rates": "JINA ReacLib snapshot 20180319default2",
+ "n_runs": 16,
+ "all_runs_succeeded": true,
+ "worst_mass_conservation_error": 1.84297022087776e-14,
  "runs": {
   "exp_matched_tau0p2": {
    "name": "exp_matched_tau0p2",
