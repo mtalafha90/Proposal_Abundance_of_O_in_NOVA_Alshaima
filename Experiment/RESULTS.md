@@ -3,21 +3,27 @@
 > ### ⚠ PARTIAL STATE — recalculation in progress
 >
 > The thermodynamic trajectory was replaced with the synthetic S1-like benchmark
-> (see below) and the suite is being recomputed. At this commit:
+> (see below) and the suite is being recomputed. 11 of 16 runs are done:
 >
 > | | status |
 > |---|---|
-> | `exp_ref`, `traj_ref`, `traj_z20` | **recomputed** on the new profile |
-> | `traj_z30` | running |
-> | 5 × `exp_tau*`, 5 × `exp_matched_tau*`, `exp_peakT_only`, `exp_rho_only` | **queued — still hold old-profile results** |
+> | `exp_ref`, `traj_ref`, `traj_z20`, `traj_z30` | **recomputed** |
+> | 5 × `exp_tau*`, `exp_matched_tau0p2` | **recomputed** |
+> | `exp_matched_tau0p7` | running |
+> | `exp_matched_tau2p0`, `tau7p0`, `tau20p0`, `exp_peakT_only`, `exp_rho_only` | **queued — still hold old-profile results** |
 > | `results/summary.json` | **stale**; rebuilt by `merge_summaries()` only after a full pass |
 >
-> Consequently sections 1–4 below are updated, but **section 6 (matched
-> controls) and section 7 (network size) still quote old-profile numbers**, as do
-> the summary-derived tables `tab_comparison`, `tab_network_size`, `tab_tau`,
-> `tab_matched_control`, `tab_decomposition` and figures `fig16`–`fig18`.
-> The matched controls are pinned to the trajectory's peak temperature and
-> density, so they change when the trajectory changes.
+> Sections 1–4 are updated. **Section 6 (matched controls) and section 7
+> (network size) still quote old-profile numbers**, as do the summary-derived
+> tables `tab_comparison`, `tab_network_size`, `tab_tau`, `tab_matched_control`,
+> `tab_decomposition` and figures `fig16`–`fig18`.
+>
+> Two results are already known to change materially once those sections are
+> rewritten. Network convergence over 68 → 370 nuclides is now **0.162%**,
+> against 0.016% on the old profile, and essentially all of it sits between 68
+> and 201 nuclides (201 and 370 agree to 0.001%). The expansion-timescale series
+> is **non-monotonic**, peaking at τ = 0.10 s (R = 0.609) rather than falling
+> throughout.
 >
 > This banner is removed once the full suite has been rerun.
 
