@@ -1,29 +1,36 @@
 # Results
 
-> ### ⚠ PARTIAL STATE — recalculation in progress
+> ### ⚠ PARTIAL STATE — write-up in progress
 >
 > The thermodynamic trajectory was replaced with the synthetic S1-like benchmark
-> (see below) and the suite is being recomputed. 11 of 16 runs are done:
+> (see below). **All 16 original runs have now been recomputed on it**, all
+> succeeded, and the worst mass-conservation error is 1.7e-14. `summary.json`
+> has been rebuilt and is current.
 >
-> | | status |
-> |---|---|
-> | `exp_ref`, `traj_ref`, `traj_z20`, `traj_z30` | **recomputed** |
-> | 5 × `exp_tau*`, `exp_matched_tau0p2` | **recomputed** |
-> | `exp_matched_tau0p7` | running |
-> | `exp_matched_tau2p0`, `tau7p0`, `tau20p0`, `exp_peakT_only`, `exp_rho_only` | **queued — still hold old-profile results** |
-> | `results/summary.json` | **stale**; rebuilt by `merge_summaries()` only after a full pass |
+> One further run is being added: `exp_matched_exposure`, an exponential control
+> at tau = 17.352 s, which reproduces the trajectory's own exposure above
+> T9 = 0.2 (38.35 s) instead of interpolating between the tau = 7 s and
+> tau = 20 s members of the series. The suite becomes 17 runs.
 >
-> Sections 1–4 are updated. **Section 6 (matched controls) and section 7
-> (network size) still quote old-profile numbers**, as do the summary-derived
-> tables `tab_comparison`, `tab_network_size`, `tab_tau`, `tab_matched_control`,
-> `tab_decomposition` and figures `fig16`–`fig18`.
+> **Still to do:** sections 6 and 7 below, and the summary-derived tables
+> `tab_comparison`, `tab_network_size`, `tab_tau`, `tab_matched_control`,
+> `tab_decomposition` and figures `fig16`-`fig18`, have not yet been rewritten
+> or regenerated and still show old-profile numbers.
 >
-> Two results are already known to change materially once those sections are
-> rewritten. Network convergence over 68 → 370 nuclides is now **0.162%**,
-> against 0.016% on the old profile, and essentially all of it sits between 68
-> and 201 nuclides (201 and 370 agree to 0.001%). The expansion-timescale series
-> is **non-monotonic**, peaking at τ = 0.10 s (R = 0.609) rather than falling
-> throughout.
+> What the completed runs already establish:
+>
+> - The trajectory-to-exponential difference is a factor of **4.257**, not the
+>   7.02 obtained with the old profile.
+> - The temperature and density terms are now **1.387** and **0.685**, combining
+>   to **0.951**. That is below unity: matching the peak temperature and density
+>   slightly *lowers* the final ratio, where on the old profile it raised it by
+>   17%. Essentially the whole difference now rests on exposure and on whatever
+>   the exponential family cannot reproduce, which together give 4.477.
+> - The order-dependence stands, and both orderings reconcile exactly on the
+>   combined factor (0.9510 either way).
+> - Network convergence over 68 to 370 nuclides is **0.162%**, against 0.016%
+>   before, almost all of it between 68 and 201 nuclides.
+> - The expansion-timescale series is **non-monotonic**, peaking at tau = 0.10 s.
 >
 > This banner is removed once the full suite has been rerun.
 
