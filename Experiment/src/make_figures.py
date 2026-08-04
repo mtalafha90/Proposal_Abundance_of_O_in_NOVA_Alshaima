@@ -317,6 +317,48 @@ def figure_tau_series(summary: dict, name: str) -> None:
     save(fig, name)
 
 
+def figure_matched_control(summary: dict, name: str) -> None:
+    """Final ratio against exposure time, at the trajectory's peak conditions.
+
+    Everything on the curve shares one peak temperature and one peak density,
+    so the only variable along it is how long the material stays hot.  The
+    trajectory result is drawn as a separate point at its own exposure time;
+    the gap between the two is what matching peak conditions and exposure
+    cannot account for.
+    """
+    entries = sorted(
+        (record["time_above_t9_0p2_s"], record["r_final"])
+        for run, record in summary["runs"].items() if run.startswith("exp_matched_")
+    )
+    if not entries:
+        return
+    trajectory = summary["runs"].get("traj_ref")
+    fig, ax = plt.subplots(figsize=(5.4, 3.6))
+    ax.plot([e[0] for e in entries], [e[1] for e in entries], color=PALETTE[0],
+            marker="o", markersize=5, label="exponential, matched peak $T_9$ and $\\rho$")
+    for x, y in entries:
+        ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 8),
+                    ha="center", fontsize=8, color=INK)
+    if trajectory:
+        tx = trajectory["time_above_t9_0p2_s"]
+        ty = trajectory["r_final"]
+        ax.plot([tx], [ty], color=PALETTE[1], marker="D", markersize=7,
+                linestyle="none", label="nova trajectory")
+        ax.annotate(f"{ty:.2f}", (tx, ty), textcoords="offset points", xytext=(0, 9),
+                    ha="center", fontsize=8, color=PALETTE[1])
+        ax.annotate("", xy=(tx, ty), xytext=(tx, 1.9514),
+                    arrowprops=dict(arrowstyle="<->", color=MUTED, linewidth=0.9))
+        ax.text(tx * 1.12, (ty * 1.9514) ** 0.5, "heating phase\n+ $T$--$\\rho$ path",
+                fontsize=8, color=MUTED, va="center")
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+    ax.set_xlabel(r"time spent above $T_9 = 0.2$ (s)")
+    ax.set_ylabel(r"final $R_{15/14}$")
+    ax.set_title("Exposure time at matched peak conditions", loc="left", color=INK)
+    ax.legend(loc="lower right")
+    save(fig, name)
+
+
 def figure_energy(run: str, name: str, title: str) -> None:
     data = read_csv(f"{run}_flows.csv")
     mask = positive(data["time"])
@@ -403,6 +445,75 @@ def table_network_size(summary: dict) -> None:
     )
 
 
+def table_matched_control(summary: dict) -> None:
+    """The matched-control series, and the decomposition it makes possible."""
+    runs = summary["runs"]
+    rows = []
+    for name, record in sorted(runs.items(),
+                               key=lambda kv: kv[1].get("tau", 0.0)):
+        if not name.startswith("exp_matched_"):
+            continue
+        rows.append(
+            f"{record['tau']:.1f} & {record['time_above_t9_0p2_s']:.2f} & "
+            f"{record['r_final']:.3f} & {record['enhancement']:.0f} \\\\"
+        )
+    trajectory = runs.get("traj_ref")
+    if trajectory:
+        rows.append("\\hline")
+        rows.append(
+            f"trajectory & {trajectory['time_above_t9_0p2_s']:.2f} & "
+            f"{trajectory['r_final']:.3f} & {trajectory['enhancement']:.0f} \\\\"
+        )
+    if not rows:
+        return
+    _table(
+        TABLES / "tab_matched_control.tex",
+        "Exponential models matched to the trajectory at its temperature "
+        "maximum ($T_{9,0} = 0.4481$, $\\rho_0 = 4.07\\times10^{3}$ "
+        "g\\,cm$^{-3}$), so that the exposure time is the only variable along "
+        "the series. The trajectory result is repeated for comparison.",
+        "tab:nucnetpy_matched_control",
+        "$\\tau$ (s) & $t(T_9 > 0.2)$ (s) & $R^{\\mathrm{final}}_{15/14}$ & "
+        "$f_{\\mathrm{enh}}$",
+        rows,
+        "llll",
+    )
+
+    steps = [
+        ("Peak temperature, $0.200 \\rightarrow 0.448$", "exp_ref", "exp_peakT_only"),
+        ("Peak density, $1.5\\times10^{4} \\rightarrow 4.07\\times10^{3}$",
+         "exp_peakT_only", "exp_matched_tau0p2"),
+        ("Exposure, $0.48 \\rightarrow 16.9$ s", "exp_matched_tau0p2", "exp_matched_tau7p0"),
+        ("Heating phase and $T$--$\\rho$ path", "exp_matched_tau7p0", "traj_ref"),
+    ]
+    rows, product = [], 1.0
+    for label, before, after in steps:
+        if before not in runs or after not in runs:
+            return
+        factor = runs[after]["r_final"] / runs[before]["r_final"]
+        product *= factor
+        rows.append(
+            f"{label} & {runs[before]['r_final']:.3f} & "
+            f"{runs[after]['r_final']:.3f} & {factor:.2f} \\\\"
+        )
+    rows.append("\\hline")
+    rows.append(
+        f"Combined & {runs['exp_ref']['r_final']:.3f} & "
+        f"{runs['traj_ref']['r_final']:.3f} & {product:.2f} \\\\"
+    )
+    _table(
+        TABLES / "tab_decomposition.tex",
+        "Decomposition of the difference between the reference exponential "
+        "model and the nova trajectory into single-variable steps. Each row "
+        "changes one property of the thermodynamic history; the last row is "
+        "the residual that the exponential family cannot reproduce.",
+        "tab:nucnetpy_decomposition",
+        "Change & $R$ before & $R$ after & Factor",
+        rows,
+        "llll",
+    )
+
+
 def table_tau(summary: dict) -> None:
     entries = sorted(
         (record["tau"], record) for run, record in summary["runs"].items()
@@ -467,10 +578,12 @@ def main() -> None:
 
     figure_network_size(summary, "fig16_network_size.png")
     figure_tau_series(summary, "fig17_tau_series.png")
+    figure_matched_control(summary, "fig18_matched_control.png")
 
     table_comparison(summary)
     table_network_size(summary)
     table_tau(summary)
+    table_matched_control(summary)
 
 
 if __name__ == "__main__":

@@ -144,6 +144,56 @@ def build_runs() -> List[Run]:
                 extra={"t9_0": 0.20, "rho_0": 1.5e4, "tau": tau},
             )
         )
+
+    # Matched controls.  The reference exponential model differs from the
+    # trajectory in five ways at once -- peak temperature, peak density, the
+    # presence of a heating phase, the time spent hot, and the temperature-
+    # density relation -- so the two cannot be used to separate those effects.
+    # This series pins the first two to the trajectory's values at its
+    # temperature maximum and varies only the expansion timescale, so that the
+    # duration of high-temperature exposure is the single free variable.  What
+    # it cannot reproduce is the heating phase and the trajectory's own
+    # temperature-density path, so any residual difference from the trajectory
+    # result is attributable to those.
+    peak_t9 = float(np.max(trajectory.t9))
+    peak_rho = float(trajectory.rho[int(np.argmax(trajectory.t9))])
+    for tau in (0.2, 0.7, 2.0, 7.0, 20.0):
+        runs.append(
+            Run(
+                name=f"exp_matched_tau{tau:.1f}".replace(".", "p"),
+                network="nova_z10",
+                description=(
+                    f"Exponential model matched to the trajectory peak "
+                    f"(T9_0={peak_t9:.4f}, rho_0={peak_rho:.3g}), tau = {tau:.1f} s"
+                ),
+                thermo=th.exponential_thermo(t9_0=peak_t9, rho_0=peak_rho, tau=tau),
+                t_start=1.0e-9,
+                t_end=1.0e4,
+                extra={"t9_0": peak_t9, "rho_0": peak_rho, "tau": tau},
+            )
+        )
+
+    # One further control, to separate peak temperature from peak density.
+    # The matched series above changes both at once relative to the reference
+    # exponential model (0.20 -> 0.448 in temperature, 1.5e4 -> 4.07e3 in
+    # density), and the two push the reaction flows in opposite directions.
+    # This run raises only the temperature, holding the reference density and
+    # expansion timescale, so the step from exp_ref to it is a single variable.
+    runs.append(
+        Run(
+            name="exp_peakT_only",
+            network="nova_z10",
+            description=(
+                f"Exponential model at the trajectory peak temperature "
+                f"(T9_0={peak_t9:.4f}) but the reference density "
+                f"(rho_0=1.5e4) and tau = 0.2 s"
+            ),
+            thermo=th.exponential_thermo(t9_0=peak_t9, rho_0=1.5e4, tau=0.2),
+            t_start=1.0e-9,
+            t_end=1.0e4,
+            extra={"t9_0": peak_t9, "rho_0": 1.5e4, "tau": 0.2},
+        )
+    )
     return runs
 
 
@@ -151,6 +201,20 @@ def peak_temperature(thermo: Callable, t_end: float) -> float:
     """Highest ``T9`` the history reaches, on a grid fine enough to catch a spike."""
     grid = np.concatenate(([0.0], np.logspace(-9.0, np.log10(t_end), 200000)))
     return float(np.max([thermo(t)[0] for t in grid]))
+
+
+def time_above(thermo: Callable, t_end: float, threshold: float) -> float:
+    """Total time the history spends above a temperature, by fine sampling.
+
+    This is the controlled variable of the matched-control series, so it is
+    measured from the history itself rather than assumed from its parameters.
+    """
+    grid = np.concatenate(([0.0], np.logspace(-6.0, np.log10(t_end), 400000)))
+    hot = np.array([thermo(t)[0] for t in grid]) > threshold
+    if not hot.any():
+        return 0.0
+    widths = np.diff(grid, prepend=grid[0])
+    return float(np.sum(widths[hot]))
 
 
 def execute(run: Run) -> dict:
@@ -190,6 +254,8 @@ def execute(run: Run) -> dict:
         # a linear one over 3e7 s steps straight over a 100 s temperature spike.
         "t9_peak": peak_temperature(run.thermo, times[-1]),
         "t9_peak_on_output_grid": float(np.max(t9)),
+        "time_above_t9_0p2_s": time_above(run.thermo, times[-1], 0.2),
+        "time_above_t9_0p1_s": time_above(run.thermo, times[-1], 0.1),
         "rho_initial": float(rho[0]),
         "r_initial": float(ratio[0]),
         "r_final": float(ratio[-1]),
@@ -300,6 +366,11 @@ def merge_summaries() -> Path:
         run = definitions.get(summary["name"])
         if run is not None:
             summary["t9_peak"] = peak_temperature(run.thermo, summary["t_end"])
+            # Backfilled here too, so that runs carried out before this
+            # diagnostic existed still report the controlled variable.
+            for threshold, key in ((0.2, "time_above_t9_0p2_s"),
+                                   (0.1, "time_above_t9_0p1_s")):
+                summary[key] = time_above(run.thermo, summary["t_end"], threshold)
         runs[summary["name"]] = summary
     summary_path = RESULTS / "summary.json"
     summary_path.write_text(
