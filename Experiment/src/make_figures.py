@@ -560,12 +560,15 @@ def table_network_size(summary: dict) -> None:
             delta = (record["r_final"] - reference["r_final"]) / reference["r_final"]
             # As a percentage: the differences between network sizes are far
             # too small to read off three decimal places of a bare fraction.
-            delta_text = f"{100.0 * delta:+.3f}\\%"
+            delta_text = f"{100.0 * delta:+.4f}\\%"
         else:
             delta_text = "--"
+        # Six decimals, so that the sign of the intermediate-to-large difference
+        # can be checked against the ratios themselves: at four decimals both
+        # round to the same number and the quoted sign looks unsupported.
         rows.append(
             f"{name} & {limit} & {record['species']} & {record['reactions']} & "
-            f"{record['r_final']:.4f} & {delta_text} \\\\"
+            f"{record['r_final']:.6f} & {delta_text} \\\\"
         )
     _table(
         TABLES / "tab_network_size.tex",
