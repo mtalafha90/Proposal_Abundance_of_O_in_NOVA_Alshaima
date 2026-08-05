@@ -22,8 +22,9 @@ end of the file at $t = 3000$ s.
 > README are in `data/trajectories/provenance/`.
 >
 > **Consequence:** both thermodynamic histories in this study are now analytic.
-> The comparison is between a two-parameter expansion law and a richer
-> parameterisation, which is well posed, but nothing here is evidence of what a
+> The comparison is between a simple exponential cooling and expansion
+> prescription and a richer parameterisation, which is well posed, but nothing
+> here is evidence of what a
 > multi-zone hydrodynamic calculation would give. Do not cite these results as
 > results of Iliadis et al. (2002) beyond the peak temperature anchor.
 
@@ -139,7 +140,8 @@ exponential model, which never gets above $T_9 = 0.2$, leaves oxygen slightly
 enhanced: it burns carbon into nitrogen and a little oxygen, and then freezes.
 The trajectory model, which reaches $T_9 = 0.418$, destroys oxygen by a factor
 of 475 and converts it into nitrogen, which ends up ten times its solar value.
-$^{16}$O falls from a mass fraction of 5.79e-3 to 6.49e-6.
+$^{16}$O falls from a mass fraction of 5.77e-3 to 6.49e-6 (the elemental total
+of 5.79e-3 includes $^{17}$O and $^{18}$O).
 
 The path is the hot-CNO one:
 $^{16}{\rm O}({\rm p},\gamma)^{17}{\rm F}(\beta^+)^{17}{\rm O}({\rm p},\alpha)^{14}{\rm N}$.
@@ -403,12 +405,23 @@ matters here, and the small network remains adequate for this diagnostic.
 **But the convergence is not uniform, and this is a change from the previous
 profile.** The two larger networks agree with each other to 0.001%, so
 essentially the whole 0.16% sits between 68 and 201 nuclides. On the previous
-profile the total spread was 0.016% — ten times smaller. The reason is the
-CNO-II/III path of section 4a: this trajectory drives a substantial flow through
-¹⁷F(p,γ)¹⁸Ne, and the `Z ≤ 10` boundary cuts exactly there, truncating the
-neon isotopes that carry it. The small network still gets the answer right to
-better than a part in five hundred, but it is no longer right to a part in
-six thousand.
+profile the total spread was 0.016% — ten times smaller.
+
+**The cause is not what it looks like.** It is *not* the CNO-II/III path of
+section 4a: every nuclide in that path has Z ≤ 10 and is present in all three
+networks. Nor is it direct leakage — the largest reaction flow leaving the
+`Z ≤ 10` network during the burning episode, integrated over t = 60–200 s, is
+6 orders of magnitude below the cycle throughput (3.9e-6 of it).
+
+It is an indirect effect through hydrogen. The `Z ≤ 10` network has no
+proton-capture product for ²⁰Ne, so ²⁰Ne survives at X = 1.4e-3 instead of
+being burnt to 6.3e-6 as it is in `Z ≤ 20`. The Ne–Na and Mg–Al processing that
+follows in the larger networks consumes an extra 3.8e-3 in hydrogen mass
+fraction — 0.53% of the total — building 5.85e-3 of material above neon, of
+which the small network has exactly none. The truncated network therefore burns
+at a slightly higher proton abundance, lifting every CNO abundance: A=15 by
+0.42%, A=14 by 0.25%. The two groups do not respond equally, so their ratio
+comes out 0.16% higher.
 
 That does not mean the heavier nuclei do nothing — and on this profile they do
 a great deal more than on the previous one, because the material spends 38 s
@@ -435,12 +448,16 @@ for most of that gain, so the flow is a one-way run up the chain rather than
 cycling. Iron is essentially untouched (×0.95), as it must be at these
 temperatures.
 
-**Treat the calcium result with caution.** It is a single-zone calculation at
-constant composition with no convective mixing, run for 38 s above
-$T_9 = 0.2$, and a pile-up at the end of the reachable chain is exactly where
-truncating the network at $Z\leq30$ would show an artefact. It is reported
-because it is what the calculation gives, not because it is a prediction for
-nova ejecta.
+**Treat the calcium result with caution — but not for the reason of network
+truncation.** Calcium sits at Z = 20, well inside the $Z\leq30$ network; the
+abundance falls away above it (Sc 1.7e-4, Ti 5.6e-4, V 1.5e-5, Cr 8.7e-6) and
+zinc at the network boundary is not populated at all, so the network edge is
+demonstrably not binding. What does warrant caution is that this is a single
+zone at fixed composition with no convective mixing, burnt for 38 s above
+$T_9 = 0.2$ — an exposure that is itself an analytic assumption — and that
+convergence against a network larger than $Z\leq30$ has not been tested. It is
+reported because it is what the calculation gives, not as a prediction for nova
+ejecta.
 
 None of it feeds back on the $A=14$ and $A=15$ CNO isotopes at the level that
 matters: extending the network changes $R_{15/14}$ by 0.16%, and almost all of
