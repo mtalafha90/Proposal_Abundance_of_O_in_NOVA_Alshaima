@@ -5,6 +5,13 @@ with [NucNetPy](https://github.com/mtalafha90/NucNetPy), the pure-Python nuclear
 reaction-network package. Nothing in the NucNetPy repository was changed: all
 the code here reads from its public interface.
 
+NucNetPy is a reimplementation, in Python, of the approach taken by the C/C++
+[NucNet Tools](https://sourceforge.net/projects/nucnet-tools/) of B. S. Meyer
+and the Webnucleo group at Clemson University, from which it inherits its data
+model and its JINA/libnucnet-compatible input formats. The earlier solar
+abundance studies from this group used NucNet Tools itself; this study is the
+first application of NucNetPy.
+
 ## What is calculated
 
 The computational plan of the methodology chapter, in order:
