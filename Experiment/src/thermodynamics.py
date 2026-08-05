@@ -175,13 +175,20 @@ def nova_trajectory(path: Path | None = None) -> Trajectory:
     :data:`NOVA_PROFILE` is used when it is there.  Only if it is missing does
     the crude analytic stand-in get generated and used instead.
 
-    The floors are a safeguard, and for the S1 benchmark they never bind.  That
-    profile is generated with the same ``T9 = 0.01`` floor and approaches it
-    asymptotically from above -- within 1e-5 of it by ``t = 250 s``, exactly
-    equal only from ``t = 406 s`` -- while its lowest density, ``1e-12
-    g/cm^3``, stays far above :data:`RHO_FLOOR`.  Clamping therefore changes
-    nothing here, as ``max(profile - floored profile)`` confirms: it is zero
-    for both columns.
+    The floors applied here are a safeguard, and for the S1 benchmark they never
+    bind.  That profile is generated with the same ``T9 = 0.01`` floor and
+    approaches it asymptotically from above -- within 1e-5 of it by
+    ``t = 250 s``, and equal to it in the stored file, which carries eight
+    significant figures, from ``t = 406 s``.  Its lowest density, ``1e-12
+    g/cm^3``, stays eighteen orders of magnitude above :data:`RHO_FLOOR`.
+    Clamping therefore changes nothing here, as
+    ``max(profile - floored profile)`` confirms: it is zero for both columns.
+
+    Do not confuse :data:`RHO_FLOOR` with the ``1e-12 g/cm^3`` lower bound that
+    the generator applies while *building* the profile.  That one does bind, for
+    the last 21 rows from ``t = 2511 s`` onwards, but it is part of the
+    definition of the trajectory rather than something imposed here, and it
+    takes effect long after the composition has frozen at ``t = 144.5 s``.
 
     The floors would matter for a profile that really did run below the range
     the ReacLib fits were made for, where some of them diverge.  In that case
