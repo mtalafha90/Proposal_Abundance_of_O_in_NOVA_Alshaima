@@ -129,6 +129,10 @@ The proposal is about oxygen in novae, so it is worth recording the elemental
 outcome as well as the isotopic ratio. Total elemental mass fractions, start to
 finish:
 
+(Initial values are the solar abundances after the renormalisation described in
+section 8 — removing species outside the network's charge range raises them by
+0.32% for `Z ≤ 10` — so they are what the runs actually started from.)
+
 | Element | Initial | Exponential | Trajectory ($Z\leq10$) | Trajectory ($Z\leq30$) |
 |---|---|---|---|---|
 | C | 2.31e-3 | 1.11e-4 (×0.05) | 5.01e-4 (×0.22) | 4.98e-4 (×0.22) |
