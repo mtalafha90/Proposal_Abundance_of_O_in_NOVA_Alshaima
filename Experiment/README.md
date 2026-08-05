@@ -12,7 +12,7 @@ The computational plan of the methodology chapter, in order:
 1. the reference exponential single-zone calculation,
    `T9_0 = 0.20`, `rho_0 = 1.5e4 g/cm^3`, `tau = 0.2 s`, followed to 100 s;
 2. the reference trajectory-based single-zone calculation, following the
-   measured nova profile to the end of its file at `1.13e5 s`;
+   nova profile to the end of its file at `3000 s`;
 3. the comparison of the two histories through the diagnostic ratio
    `R = (Y(15N) + Y(15O)) / (Y(14N) + Y(14O))`;
 4. the trajectory calculation repeated on three networks (`Z<=10`, `Z<=20`,
@@ -89,32 +89,31 @@ This step is not needed to repeat the calculations: the network archives in
 ## The trajectory file
 
 The nova temperature-density history is
-`data/trajectories/nova_profile_rescaled.txt`, the profile of a zone in a
-typical nova explosion: three columns of time (s), temperature (in units of
-`1e9 K`) and density (g cm^-3), read by `nucnetpy.read_trajectory`.
+`data/trajectories/iliadis2002_S1_synthetic_benchmark.txt`: three columns of
+time (s), temperature (in units of `1e9 K`) and density (g cm^-3), read by
+`nucnetpy.read_trajectory`. It is a literature-constrained synthetic benchmark
+anchored to the peak temperature of model S1 of Iliadis et al. (2002), not a
+hydrodynamic trajectory; the generator and its parameters are in
+`data/trajectories/provenance/`.
 
 ```
-t = 0          T9 = 0.09128   rho = 2.211e4 g/cm^3
-t = 103.89 s   T9 = 0.4481    rho = 4.07e3         <- hottest point
-t = 1.13e5 s   T9 = 1.3e-7    rho = 1.4e-12        <- last row
+t = 0          T9 = 0.070     rho = 2.200e4 g/cm^3
+t = 100.0 s    T9 = 0.418     rho = 4.000e3        <- hottest point
+t = 3000 s     T9 = 0.010     rho = 1.0e-12        <- last row
 ```
 
 The burning episode is a broad peak rather than a spike: the temperature stays
-above `T9 = 0.2` for 17 s and above `T9 = 0.1` for 75 s.
+above `T9 = 0.2` for 38.4 s and above `T9 = 0.1` for 64.2 s.
 
 Two things are worth knowing about how it is used.
 
-- **The runs stop where the file stops**, at `t = 1.13e5 s`, rather than at the
+- **The runs stop where the file stops**, at `t = 3000 s`, rather than at the
   `3.15e7 s` named in the proposal. Going further would mean holding the last
-  row's temperature and density fixed for two more decades of time, which is an
-  extrapolation rather than a result. Nothing is lost: the diagnostic ratio is
-  within one per cent of its final value by 155 s, and the longest-lived
-  species that matters, `18F`, is gone by `1e5 s`.
-- **The temperature is floored at `T9 = 0.01`**, which the profile reaches at
-  `t = 344 s`. ReacLib's fits are not made for temperatures below that and some
-  of them diverge if pushed there. By then only beta decays are still running,
-  and those do not depend on temperature.
-
-`src/thermodynamics.py` can also generate a crude analytic stand-in with the
-same start point and peak, used only if the measured profile is missing. No
-result here rests on it.
+  row's temperature and density fixed for four more decades of time, which is
+  an extrapolation rather than a result. Nothing is lost: the diagnostic ratio
+  is within one per cent of its final value by 144.5 s.
+- **The temperature is floored at `T9 = 0.01`** because ReacLib's fits are not
+  made for temperatures below that and some of them diverge if pushed there.
+  For this profile the floor never binds: the history is generated with the
+  same floor and approaches it asymptotically from above, so no tabulated value
+  is altered.

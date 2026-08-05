@@ -28,9 +28,6 @@ end of the file at $t = 3000$ s.
 > multi-zone hydrodynamic calculation would give. Do not cite these results as
 > results of Iliadis et al. (2002) beyond the peak temperature anchor.
 
-The profile replaces `nova_profile_rescaled.txt`, which is kept in the same
-directory (and as `thermodynamics.PREVIOUS_NOVA_PROFILE`) so the earlier numbers
-remain reproducible.
 
 ## 1. The two reference calculations
 
@@ -374,8 +371,7 @@ Three further things follow.
 
 **Peak temperature and density very nearly cancel.** Their combined factor is
 ×0.951 — *below* unity. Matching the trajectory's peak conditions alone leaves
-the ratio slightly under the reference exponential model's. On the previous
-profile this combination gave ×1.166, so the sign has flipped. Essentially the
+the ratio slightly under the reference exponential model's. Essentially the
 entire factor of 4.26 now rests on exposure (×3.66) and the residual (×1.22).
 
 **Exposure alone does not explain it.** An exponential model matching the
@@ -384,8 +380,8 @@ reaches only 1.603 against the trajectory's 1.958. The residual ×1.22 belongs t
 the two things an exponential prescription cannot reproduce: the heating phase,
 during which the composition is already partly processed before maximum
 temperature, and the trajectory's own T–ρ path, which is not the `T ∝ ρ^(1/3)`
-of the analytic law. The residual is smaller than the ×1.66 found with the
-previous profile, but it has not vanished.
+of the analytic law. It is much smaller than the exposure term, but it has not
+vanished.
 
 **The exposure dependence is non-monotonic**, peaking near 4–5 s. Past that,
 `15N(p,α)12C` keeps destroying A=15 material after production has stopped — the
@@ -412,10 +408,9 @@ matters here, and the small network remains adequate for this diagnostic.
 z10-to-z30 difference (1.6e-3) is 25000 times that, and even the z20-to-z30
 difference (1.2e-5) is 185 times it, so the sign of the latter is resolved.
 
-**The convergence is not uniform, and this is a change from the previous
-profile.** The two larger networks agree with each other to 0.001%, so
-essentially the whole 0.16% sits between 68 and 201 nuclides. On the previous
-profile the total spread was 0.016% — ten times smaller.
+**The convergence is not uniform.** The two larger networks agree with each
+other to 0.001%, so essentially the whole 0.16% sits between 68 and 201
+nuclides.
 
 **The cause is not what it looks like.** It is *not* the CNO-II/III path of
 section 4a: every nuclide in that path has Z ≤ 10 and is present in all three
@@ -434,8 +429,7 @@ at a slightly higher proton abundance, lifting every CNO abundance: A=15 by
 comes out 0.16% higher.
 
 That does not mean the heavier nuclei do nothing — and on this profile they do
-a great deal more than on the previous one, because the material spends 38 s
-above $T_9 = 0.2$ instead of 18 s. Final-to-initial mass-fraction ratios from
+a great deal, because the material spends 38 s above $T_9 = 0.2$. Final-to-initial mass-fraction ratios from
 the $Z\leq30$ run:
 
 | element | initial | final | factor |
@@ -533,17 +527,20 @@ fair to ask about.
 
 ## 9. What is a modelling assumption, not a result
 
-- **The trajectory is measured data; the integration span is a choice.** The
-  profile `data/trajectories/nova_profile_rescaled.txt` is used as given. The
-  runs stop at its last row, $t = 1.13\times10^5$ s, rather than the
-  $3.15\times10^7$ s named in the proposal, because continuing would mean
-  holding the final temperature and density fixed for two further decades of
-  time. That is an extrapolation, not a result, and nothing turns on it: the
-  ratio is within one per cent of its final value by 155 s and the last
-  relevant decay, $^{18}$F, is complete by $10^5$ s.
-- **The temperature is floored at $T_9 = 0.01$**, which the profile reaches at
-  $t = 344$ s, because ReacLib's fits are not made for lower temperatures. Only
-  beta decays are still running by then, and they do not depend on temperature.
+- **The trajectory is an input; the integration span is a choice.** The
+  profile `data/trajectories/iliadis2002_S1_synthetic_benchmark.txt` is used as
+  given, and it is a synthetic construction rather than hydrodynamic output —
+  see the note at the top of this file. The runs stop at its last row,
+  $t = 3000$ s, rather than the $3.15\times10^7$ s named in the proposal,
+  because continuing would mean holding the final temperature and density
+  fixed for four further decades of time. That is an extrapolation, not a
+  result, and nothing turns on it: the ratio is within one per cent of its
+  final value by 144.5 s.
+- **The temperature is floored at $T_9 = 0.01$** because ReacLib's fits are not
+  made for lower temperatures. For this profile the floor never binds: the
+  history is generated with the same floor and approaches it asymptotically
+  from above, so no tabulated value is altered. Only beta decays are still
+  running by then, and they do not depend on temperature.
 - **Deuterium is set to zero** in the initial composition. Material accreted
   from the companion has no primordial deuterium left; including the solar
   value puts a spurious spike on the energy generation in the first

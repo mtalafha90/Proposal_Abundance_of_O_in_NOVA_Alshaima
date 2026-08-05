@@ -44,11 +44,6 @@ exponential one -- it has a heating phase, a broad maximum and different
 cooling laws for temperature and density -- but it is not evidence of what a
 hydrodynamic calculation would do, and no result here should be described as
 one.  The published anchor is the peak temperature alone.
-
-If that file is ever missing, :func:`write_reference_trajectory` generates a
-crude analytic stand-in with the same start point, peak and peak time, so the
-rest of the code still runs.  It is not used when the measured profile is
-present, and no result in this study rests on it.
 """
 
 from __future__ import annotations
@@ -67,13 +62,6 @@ TRAJECTORY_DIR = ROOT / "data" / "trajectories"
 #: temperature of the Iliadis et al. (2002) S1 model, not a hydrodynamic run.
 NOVA_PROFILE = TRAJECTORY_DIR / "iliadis2002_S1_synthetic_benchmark.txt"
 
-#: The profile used before it.  Kept so that the earlier numbers remain
-#: reproducible; nothing reads it unless it is passed to
-#: :func:`nova_trajectory` explicitly.
-PREVIOUS_NOVA_PROFILE = TRAJECTORY_DIR / "nova_profile_rescaled.txt"
-
-#: Analytic stand-in, used only if the measured profile is missing.
-REFERENCE_TRAJECTORY = TRAJECTORY_DIR / "nova_reference.txt"
 
 #: Temperature floor applied to both histories.
 #:
@@ -90,14 +78,6 @@ T9_FLOOR = 1.0e-2
 #: enough to keep logarithms finite.
 RHO_FLOOR = 1.0e-30
 
-# Parameters of the reference nova trajectory.
-NOVA_T9_INITIAL = 0.091
-NOVA_RHO_INITIAL = 2.21e4
-NOVA_T9_PEAK = 0.447
-NOVA_T_PEAK = 100.0
-NOVA_RUNAWAY_INDEX = 12.0
-NOVA_EXPANSION_TIME = 30.0
-NOVA_T_END = 3.15e7
 
 
 def exponential_trajectory(
@@ -131,49 +111,11 @@ def exponential_thermo(t9_0: float = 0.20, rho_0: float = 1.5e4, tau: float = 0.
     return thermo
 
 
-def write_reference_trajectory(path: Path = REFERENCE_TRAJECTORY, n: int = 4000) -> Path:
-    """Generate the reference nova trajectory file described in the docstring."""
-    # Logarithmic overall, with a fine linear window across the runaway so that
-    # the peak is not softened by the linear interpolation between table rows.
-    time = np.unique(
-        np.concatenate((
-            [0.0],
-            np.logspace(-5.0, np.log10(NOVA_T_END), n - 1),
-            np.linspace(0.5 * NOVA_T_PEAK, 5.0 * NOVA_T_PEAK, 2000),
-        ))
-    )
-
-    rising = time <= NOVA_T_PEAK
-    fraction = (time[rising] / NOVA_T_PEAK) ** NOVA_RUNAWAY_INDEX
-    t9 = np.empty_like(time)
-    rho = np.empty_like(time)
-    t9[rising] = NOVA_T9_INITIAL + (NOVA_T9_PEAK - NOVA_T9_INITIAL) * fraction
-    rho[rising] = NOVA_RHO_INITIAL * (1.0 - 0.5 * fraction)
-
-    rho_peak = 0.5 * NOVA_RHO_INITIAL
-    expansion = 1.0 + (time[~rising] - NOVA_T_PEAK) / NOVA_EXPANSION_TIME
-    rho[~rising] = rho_peak * expansion ** -3.0
-    t9[~rising] = NOVA_T9_PEAK * expansion ** -2.0
-
-    t9 = np.maximum(t9, T9_FLOOR)
-    rho = np.maximum(rho, RHO_FLOOR)
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w") as handle:
-        handle.write("# Reference nova thermodynamic trajectory\n")
-        handle.write("# Reconstructed from the description in the proposal; see\n")
-        handle.write("# src/thermodynamics.py for the parameterisation.\n")
-        handle.write("# time[s]  T9  rho[g/cm^3]\n")
-        for t, temperature, density in zip(time, t9, rho):
-            handle.write(f"{t:.8e} {temperature:.8e} {density:.8e}\n")
-    return path
-
 
 def nova_trajectory(path: Path | None = None) -> Trajectory:
     """Read the nova trajectory, floored so the rate fits stay in range.
 
-    :data:`NOVA_PROFILE` is used when it is there.  Only if it is missing does
-    the crude analytic stand-in get generated and used instead.
+    :data:`NOVA_PROFILE` is read unless an explicit ``path`` is given.
 
     The floors applied here are a safeguard, and for the S1 benchmark they never
     bind.  That profile is generated with the same ``T9 = 0.01`` floor and
@@ -196,13 +138,14 @@ def nova_trajectory(path: Path | None = None) -> Trajectory:
     at ``T9 = 0.01`` and the beta decays that still run do not depend on
     temperature at all.
     """
-    if path is not None:
-        trajectory = read_trajectory(path)
-    elif NOVA_PROFILE.exists():
-        trajectory = read_trajectory(NOVA_PROFILE)
-    else:
-        write_reference_trajectory(REFERENCE_TRAJECTORY)
-        trajectory = read_trajectory(REFERENCE_TRAJECTORY)
+    source = path if path is not None else NOVA_PROFILE
+    if not source.exists():
+        raise FileNotFoundError(
+            f"nova profile not found: {source}.  The trajectory is data, not "
+            "something this module can synthesise; supply the file or pass an "
+            "explicit path."
+        )
+    trajectory = read_trajectory(source)
 
     # Drop repeated time rows.  The S1 benchmark file carries the temperature
     # maximum twice, at t = 100 s, because its generator appends the peak time
