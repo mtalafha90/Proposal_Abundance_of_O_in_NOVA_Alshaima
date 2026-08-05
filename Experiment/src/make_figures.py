@@ -453,7 +453,7 @@ def figure_matched_control(summary: dict, name: str) -> None:
     trajectory = summary["runs"].get("traj_ref")
     fig, ax = plt.subplots(figsize=(5.4, 3.6))
     ax.plot([e[0] for e in entries], [e[1] for e in entries], color=PALETTE[0],
-            marker="o", markersize=5, label="exponential, matched peak $T_9$ and $\\rho$")
+            marker="o", markersize=5, label="matched exponential series")
     # The two longest-exposure runs sit close together, and the trajectory point
     # and its residual arrow occupy the space directly above them, so their
     # labels are placed to the left rather than on top.
@@ -469,7 +469,7 @@ def figure_matched_control(summary: dict, name: str) -> None:
         tx = trajectory["time_above_t9_0p2_s"]
         ty = trajectory["r_final"]
         ax.plot([tx], [ty], color=PALETTE[1], marker="D", markersize=7,
-                linestyle="none", label="nova trajectory")
+                linestyle="none", label="S1-like trajectory")
         ax.annotate(f"{ty:.2f}", (tx, ty), textcoords="offset points", xytext=(0, 9),
                     ha="center", fontsize=8, color=PALETTE[1])
         # The residual is the gap at *equal exposure*, so it is anchored on the
