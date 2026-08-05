@@ -406,7 +406,13 @@ Going from 68 nuclides to 370 changes it by 0.16%, so leakage into heavier
 reaction cycles does not affect the CNO isotopic outcome at the level that
 matters here, and the small network remains adequate for this diagnostic.
 
-**But the convergence is not uniform, and this is a change from the previous
+**The 0.16% is far above numerical noise.** Repeating `traj_ref` at `rtol`
+1e-6 and 1e-7 gives 1.9584001529 and 1.9584000382 against the production
+1.9584000261, so the solver reproduces $R^{\rm final}$ to 6.5e-8 relative. The
+z10-to-z30 difference (1.6e-3) is 25000 times that, and even the z20-to-z30
+difference (1.2e-5) is 185 times it, so the sign of the latter is resolved.
+
+**The convergence is not uniform, and this is a change from the previous
 profile.** The two larger networks agree with each other to 0.001%, so
 essentially the whole 0.16% sits between 68 and 201 nuclides. On the previous
 profile the total spread was 0.016% — ten times smaller.
@@ -486,7 +492,7 @@ when the question is about Ne-Na or Mg-Al, where they are the whole point.
 | $\sum_i A_i Y_i$ at the end of a run | 1 to within 1.7e-14, every run |
 | All seventeen runs | solver reported success and reached $t_{\rm end}$ |
 | Network-size convergence | 0.16% between the smallest and largest network |
-| Tolerance convergence | $R^{\rm final}$ stable to six figures between `rtol` 1e-6 and 1e-8 |
+| Tolerance convergence | measured: $R^{\rm final}$ = 1.9584001529 / 1.9584000382 / 1.9584000261 at `rtol` 1e-6 / 1e-7 / 1e-8, i.e. reproducible to 6.5e-8 relative |
 
 Four repairs were needed to the network before it behaved:
 
